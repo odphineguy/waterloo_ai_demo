@@ -1,0 +1,238 @@
+{
+  "data": {
+    "markdown": "**Fill Out The Form Below To Schedule Your Free Onsite Estimate**\n\nName(Required)\n\nFirstLast\n\nEmail(Required)\n\nPhone(Required)\n\nStreet Address(Required)\n\nUnit, apartment, suite, etc.\n\nCity(Required)\n\nState(Required)\n\nZip Code(Required)\n\nWhere are you looking to install turf?(Required)\n\nFront Yard\n\nBack Yard\n\nSports Turf\n\nCommercial\n\nPutting Green\n\nOther\n\nTerms & Conditions\n\nBy checking this box, I consent to receive transactional messages related to my account, orders, or services I have requested. These messages may include appointment reminders, order confirmations, and account notifications among others. Message frequency may vary. Message and data rates may apply. Reply to +1 512-607-9335 HELP for help or STOP to opt out.\n[Privacy Policy](https://waterlooturf.com/privacy-policy/) \\| [Terms of Service](https://waterlooturf.com/terms-conditions/)\n\nNotifications",
+    "branding": {
+      "colorScheme": "light",
+      "fonts": [
+        {
+          "family": "Inter",
+          "role": "body"
+        },
+        {
+          "family": "Raleway",
+          "role": "heading"
+        }
+      ],
+      "colors": {
+        "primary": "#112337",
+        "secondary": "#173326",
+        "accent": "#2F7C54",
+        "background": "#FFFFFF",
+        "textPrimary": "#2F7C54",
+        "link": "#2F7C54"
+      },
+      "typography": {
+        "fontFamilies": {
+          "primary": "Inter",
+          "heading": "Raleway"
+        },
+        "fontStacks": {
+          "heading": [
+            "Inter",
+            "serif"
+          ],
+          "body": [
+            "Inter",
+            "serif"
+          ],
+          "paragraph": [
+            "Inter",
+            "serif"
+          ]
+        },
+        "fontSizes": {
+          "h1": "18px",
+          "h2": "18px",
+          "body": "18px"
+        }
+      },
+      "spacing": {
+        "baseUnit": 4,
+        "borderRadius": "10px"
+      },
+      "components": {
+        "input": {
+          "background": "#FFFFFF",
+          "textColor": "#112337",
+          "borderColor": "#686E77",
+          "borderRadius": "3px",
+          "borderRadiusCorners": {
+            "topLeft": "3px",
+            "topRight": "3px",
+            "bottomRight": "3px",
+            "bottomLeft": "3px"
+          },
+          "shadow": "rgba(18, 25, 97, 0.08) 0px 1px 4px 0px"
+        }
+      },
+      "images": {
+        "logo": "https://waterlooturf.com/wp-content/themes/waterloo-turf/img/logo.png",
+        "favicon": "https://waterlooturf.com/favicon.ico",
+        "ogImage": null,
+        "logoHref": "https://waterlooturf.com/",
+        "logoAlt": "Waterloo Turf logo"
+      },
+      "__llm_logo_reasoning": {
+        "selectedIndex": 0,
+        "reasoning": "Selected #0 because it is visible, located in the header, links to the homepage, and the alt text matches the brand name 'Waterloo Turf'.",
+        "confidence": 0.9,
+        "source": "llm"
+      },
+      "personality": {
+        "tone": "professional",
+        "energy": "medium",
+        "targetAudience": "homeowners and businesses looking for artificial turf solutions"
+      },
+      "designSystem": {
+        "framework": "custom",
+        "componentLibrary": ""
+      },
+      "confidence": {
+        "buttons": 0,
+        "colors": 0.95,
+        "overall": 0.475
+      },
+      "__llm_metadata": {
+        "logoSelection": {
+          "llmCalled": true,
+          "llmSucceeded": true,
+          "finalSource": "llm",
+          "rawLogoSelection": {
+            "selectedLogoIndex": 0,
+            "selectedLogoReasoning": "Selected #0 because it is visible, located in the header, links to the homepage, and the alt text matches the brand name 'Waterloo Turf'.",
+            "confidence": 0.9
+          }
+        },
+        "buttonClassification": {
+          "llmCalled": false,
+          "llmSucceeded": false
+        }
+      }
+    },
+    "metadata": {
+      "modifiedTime": "2025-12-11T10:25:01+00:00",
+      "ti-site-data": "eyJyIjoiMTowITc6MCEzMDowIiwibyI6Imh0dHBzOlwvXC93YXRlcmxvb3R1cmYuY29tXC93cC1hZG1pblwvYWRtaW4tYWpheC5waHA/YWN0aW9uPXRpX29ubGluZV91c2Vyc19nb29nbGUmYW1wO3A9JTJGZnJlZWVzdGltYXRlJTJGJmFtcDtfd3Bub25jZT1jMmU1MzVhYmExIn0=",
+      "title": "Free Artificial Turf Estimate | Waterloo Turf",
+      "description": "Get a free artificial turf estimate today! Waterloo Turf offers high-quality synthetic grass for residential & commercial projects. Call now!",
+      "article:modified_time": "2025-12-11T10:25:01+00:00",
+      "ogDescription": "Get a free artificial turf estimate today! Waterloo Turf offers high-quality synthetic grass for residential & commercial projects. Call now!",
+      "viewport": "width=device-width, initial-scale=1",
+      "og:site_name": "Waterloo Turf",
+      "ogSiteName": "Waterloo Turf",
+      "ogUrl": "https://waterlooturf.com/freeestimate/",
+      "ogTitle": "Free Artificial Turf Estimate | Waterloo Turf",
+      "ogLocale": "en_US",
+      "robots": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+      "og:locale": "en_US",
+      "og:type": "article",
+      "og:title": "Free Artificial Turf Estimate | Waterloo Turf",
+      "og:url": "https://waterlooturf.com/freeestimate/",
+      "twitter:card": "summary_large_image",
+      "keywords": "",
+      "og:description": "Get a free artificial turf estimate today! Waterloo Turf offers high-quality synthetic grass for residential & commercial projects. Call now!",
+      "language": "en-US",
+      "favicon": "https://waterlooturf.com/favicon.ico",
+      "scrapeId": "019ee7f9-6e13-7663-b63f-0dac3f7dc61a",
+      "sourceURL": "https://waterlooturf.com/freeestimate/",
+      "url": "https://waterlooturf.com/freeestimate/",
+      "statusCode": 200,
+      "contentType": "text/html; charset=UTF-8",
+      "timezone": "America/New_York",
+      "proxyUsed": "basic",
+      "indexId": "c53d776b-65c3-4546-b16d-e49857f0c13f",
+      "creditsUsed": 5,
+      "concurrencyLimited": false
+    },
+    "html": "<!DOCTYPE html><html lang=\"en-US\">\n<body class=\"wp-singular page-template page-template-templates page-template-template-flexible-content page-template-templatestemplate-flexible-content-php page page-id-1704 wp-theme-waterloo-turf no-sidebar\">\n\t\t\n\t<!-- Google Tag Manager (noscript) -->\n\t\n\t<!-- End Google Tag Manager (noscript) -->\t\n\t\n<div class=\"outer-wrap\">\n\n\t\n\n    <main>\n\n\t\n\t\n\n\n<section class=\"section inner-content\">\n\t <div class=\"wrapper\"> \t\t\n\t\t\t\t\n\t\t <div class=\"row justify-content-center  align-items-center\">  \n\t\t\n\t\t\t <div class=\"col-md-8\">  \n\t\t\t\n\t\t\t\t<p><strong>Fill Out The Form Below To Schedule Your Free Onsite Estimate</strong></p>\n\n\n                <div class=\"gf_browser_chrome gform_wrapper gform-theme gform-theme--foundation gform-theme--framework gform-theme--orbital\" data-form-theme=\"orbital\" data-form-index=\"0\" id=\"gform_wrapper_1\">\n                        <div class=\"gform_heading\">\n                            <p class=\"gform_description\"></p>\n                        </div><form method=\"post\" enctype=\"multipart/form-data\" id=\"gform_1\" action=\"https://waterlooturf.com/freeestimate/\" data-formid=\"1\" novalidate=\"\">\n                        <div class=\"gform-body gform_body\"><div id=\"gform_fields_1\" class=\"gform_fields top_label form_sublabel_below description_below validation_below\"><fieldset id=\"field_1_15\" class=\"gfield gfield--type-name gfield--input-type-name gfield--width-full gfield_contains_required field_sublabel_hidden_label gfield--no-description field_description_below hidden_label field_validation_below gfield_visibility_visible\"><legend class=\"gfield_label gform-field-label gfield_label_before_complex\">Name<span class=\"gfield_required\"><span class=\"gfield_required gfield_required_text\">(Required)</span></span></legend><div class=\"ginput_complex ginput_container ginput_container--name no_prefix has_first_name no_middle_name has_last_name no_suffix gf_name_has_2 ginput_container_name gform-grid-row\" id=\"input_1_15\">\n                            \n                            <span id=\"input_1_15_3_container\" class=\"name_first gform-grid-col gform-grid-col--size-auto\">\n                                                    <input type=\"text\" name=\"input_15.3\" id=\"input_1_15_3\" value=\"\" aria-required=\"true\" placeholder=\"First name\">\n                                                    <label for=\"input_1_15_3\" class=\"gform-field-label gform-field-label--type-sub hidden_sub_label screen-reader-text\">First</label>\n                                                </span>\n                            \n                            <span id=\"input_1_15_6_container\" class=\"name_last gform-grid-col gform-grid-col--size-auto\">\n                                                    <input type=\"text\" name=\"input_15.6\" id=\"input_1_15_6\" value=\"\" aria-required=\"true\" placeholder=\"Last name\">\n                                                    <label for=\"input_1_15_6\" class=\"gform-field-label gform-field-label--type-sub hidden_sub_label screen-reader-text\">Last</label>\n                                                </span>\n                            \n                        </div></fieldset><div id=\"field_1_16\" class=\"gfield gfield--type-email gfield--input-type-email gfield--width-half gfield_contains_required field_sublabel_below gfield--no-description field_description_below hidden_label field_validation_below gfield_visibility_visible\"><label class=\"gfield_label gform-field-label\" for=\"input_1_16\">Email<span class=\"gfield_required\"><span class=\"gfield_required gfield_required_text\">(Required)</span></span></label><div class=\"ginput_container ginput_container_email\">\n                            <input name=\"input_16\" id=\"input_1_16\" type=\"email\" value=\"\" class=\"large\" placeholder=\"Email\" aria-required=\"true\" aria-invalid=\"false\">\n                        </div></div><div id=\"field_1_18\" class=\"gfield gfield--type-phone gfield--input-type-phone gfield--width-half gfield_contains_required field_sublabel_below gfield--no-description field_description_below hidden_label field_validation_below gfield_visibility_visible\"><label class=\"gfield_label gform-field-label\" for=\"input_1_18\">Phone<span class=\"gfield_required\"><span class=\"gfield_required gfield_required_text\">(Required)</span></span></label><div class=\"ginput_container ginput_container_phone\"><input name=\"input_18\" id=\"input_1_18\" type=\"tel\" value=\"\" class=\"large\" placeholder=\"Phone\" aria-required=\"true\" aria-invalid=\"false\"></div></div><div id=\"field_1_30\" class=\"gfield gfield--type-text gfield--input-type-text gfield--width-half gfield_contains_required field_sublabel_below gfield--no-description field_description_below hidden_label field_validation_below gfield_visibility_visible\"><label class=\"gfield_label gform-field-label\" for=\"input_1_30\">Street Address<span class=\"gfield_required\"><span class=\"gfield_required gfield_required_text\">(Required)</span></span></label><div class=\"ginput_container ginput_container_text\"><input name=\"input_30\" id=\"input_1_30\" type=\"text\" value=\"\" class=\"large\" placeholder=\"Street Address\" aria-required=\"true\" aria-invalid=\"false\"></div></div><div id=\"field_1_31\" class=\"gfield gfield--type-text gfield--input-type-text gfield--width-half field_sublabel_below gfield--no-description field_description_below hidden_label field_validation_below gfield_visibility_visible\"><label class=\"gfield_label gform-field-label\" for=\"input_1_31\">Unit, apartment, suite, etc.</label><div class=\"ginput_container ginput_container_text\"><input name=\"input_31\" id=\"input_1_31\" type=\"text\" value=\"\" class=\"large\" placeholder=\"Unit, apartment, suite, etc.\" aria-invalid=\"false\"></div></div><div id=\"field_1_27\" class=\"gfield gfield--type-text gfield--input-type-text gfield--width-third gfield_contains_required field_sublabel_below gfield--no-description field_description_below hidden_label field_validation_below gfield_visibility_visible\"><label class=\"gfield_label gform-field-label\" for=\"input_1_27\">City<span class=\"gfield_required\"><span class=\"gfield_required gfield_required_text\">(Required)</span></span></label><div class=\"ginput_container ginput_container_text\"><input name=\"input_27\" id=\"input_1_27\" type=\"text\" value=\"\" class=\"large\" placeholder=\"City\" aria-required=\"true\" aria-invalid=\"false\"></div></div><div id=\"field_1_28\" class=\"gfield gfield--type-text gfield--input-type-text gfield--width-third gfield_contains_required field_sublabel_below gfield--no-description field_description_below hidden_label field_validation_below gfield_visibility_visible\"><label class=\"gfield_label gform-field-label\" for=\"input_1_28\">State<span class=\"gfield_required\"><span class=\"gfield_required gfield_required_text\">(Required)</span></span></label><div class=\"ginput_container ginput_container_text\"><input name=\"input_28\" id=\"input_1_28\" type=\"text\" value=\"\" class=\"large\" placeholder=\"State\" aria-required=\"true\" aria-invalid=\"false\"></div></div><div id=\"field_1_29\" class=\"gfield gfield--type-text gfield--input-type-text gfield--width-third gfield_contains_required field_sublabel_below gfield--no-description field_description_below hidden_label field_validation_below gfield_visibility_visible\"><label class=\"gfield_label gform-field-label\" for=\"input_1_29\">Zip Code<span class=\"gfield_required\"><span class=\"gfield_required gfield_required_text\">(Required)</span></span></label><div class=\"ginput_container ginput_container_text\"><input name=\"input_29\" id=\"input_1_29\" type=\"text\" value=\"\" class=\"large\" placeholder=\"Zip Code\" aria-required=\"true\" aria-invalid=\"false\"></div></div><fieldset id=\"field_1_24\" class=\"gfield gfield--type-multi_choice gfield--type-choice gfield--input-type-checkbox gfield--width-full gfield_contains_required field_sublabel_below gfield--no-description field_description_below field_validation_below gfield_visibility_visible gfield--choice-align-horizontal\"><legend class=\"gfield_label gform-field-label gfield_label_before_complex\">Where are you looking to install turf?<span class=\"gfield_required\"><span class=\"gfield_required gfield_required_text\">(Required)</span></span></legend><div class=\"ginput_container ginput_container_checkbox\"><div class=\"gfield_checkbox \" id=\"input_1_24\"><div class=\"gchoice gchoice_1_24_1\">\n\t\t\t\t\t\t\t\t<input class=\"gfield-choice-input\" name=\"input_24.1\" type=\"checkbox\" value=\"Front Yard\" id=\"choice_1_24_1\">\n\t\t\t\t\t\t\t\t<label for=\"choice_1_24_1\" id=\"label_1_24_1\" class=\"gform-field-label gform-field-label--type-inline\">Front Yard</label>\n\t\t\t\t\t\t\t</div><div class=\"gchoice gchoice_1_24_2\">\n\t\t\t\t\t\t\t\t<input class=\"gfield-choice-input\" name=\"input_24.2\" type=\"checkbox\" value=\"Back Yard\" id=\"choice_1_24_2\">\n\t\t\t\t\t\t\t\t<label for=\"choice_1_24_2\" id=\"label_1_24_2\" class=\"gform-field-label gform-field-label--type-inline\">Back Yard</label>\n\t\t\t\t\t\t\t</div><div class=\"gchoice gchoice_1_24_3\">\n\t\t\t\t\t\t\t\t<input class=\"gfield-choice-input\" name=\"input_24.3\" type=\"checkbox\" value=\"Sports Turf\" id=\"choice_1_24_3\">\n\t\t\t\t\t\t\t\t<label for=\"choice_1_24_3\" id=\"label_1_24_3\" class=\"gform-field-label gform-field-label--type-inline\">Sports Turf</label>\n\t\t\t\t\t\t\t</div><div class=\"gchoice gchoice_1_24_4\">\n\t\t\t\t\t\t\t\t<input class=\"gfield-choice-input\" name=\"input_24.4\" type=\"checkbox\" value=\"Commercial\" id=\"choice_1_24_4\">\n\t\t\t\t\t\t\t\t<label for=\"choice_1_24_4\" id=\"label_1_24_4\" class=\"gform-field-label gform-field-label--type-inline\">Commercial</label>\n\t\t\t\t\t\t\t</div><div class=\"gchoice gchoice_1_24_5\">\n\t\t\t\t\t\t\t\t<input class=\"gfield-choice-input\" name=\"input_24.5\" type=\"checkbox\" value=\"Putting Green\" id=\"choice_1_24_5\">\n\t\t\t\t\t\t\t\t<label for=\"choice_1_24_5\" id=\"label_1_24_5\" class=\"gform-field-label gform-field-label--type-inline\">Putting Green</label>\n\t\t\t\t\t\t\t</div><div class=\"gchoice gchoice_1_24_6\">\n\t\t\t\t\t\t\t\t<input class=\"gfield-choice-input\" name=\"input_24.6\" type=\"checkbox\" value=\"Other\" id=\"choice_1_24_6\">\n\t\t\t\t\t\t\t\t<label for=\"choice_1_24_6\" id=\"label_1_24_6\" class=\"gform-field-label gform-field-label--type-inline\">Other</label>\n\t\t\t\t\t\t\t</div></div></div></fieldset><div id=\"field_1_32\" class=\"gfield gfield--type-hidden gfield--input-type-hidden gfield--width-full gform_hidden field_sublabel_below gfield--no-description field_description_below field_validation_below gfield_visibility_visible\"><div class=\"ginput_container ginput_container_text\"></div></div><div id=\"field_1_37\" class=\"gfield gfield--type-hidden gfield--input-type-hidden gfield--width-full gform_hidden field_sublabel_below gfield--no-description field_description_below field_validation_below gfield_visibility_visible\"><div class=\"ginput_container ginput_container_text\"></div></div><div id=\"field_1_36\" class=\"gfield gfield--type-hidden gfield--input-type-hidden gfield--width-full gform_hidden field_sublabel_below gfield--no-description field_description_below field_validation_below gfield_visibility_visible\"><div class=\"ginput_container ginput_container_text\"></div></div><div id=\"field_1_35\" class=\"gfield gfield--type-hidden gfield--input-type-hidden gfield--width-full gform_hidden field_sublabel_below gfield--no-description field_description_below field_validation_below gfield_visibility_visible\"><div class=\"ginput_container ginput_container_text\"></div></div><div id=\"field_1_34\" class=\"gfield gfield--type-hidden gfield--input-type-hidden gfield--width-full gform_hidden field_sublabel_below gfield--no-description field_description_below field_validation_below gfield_visibility_visible\"><div class=\"ginput_container ginput_container_text\"></div></div><fieldset id=\"field_1_26\" class=\"gfield gfield--type-consent gfield--type-choice gfield--input-type-consent gfield--width-full field_sublabel_below gfield--no-description field_description_below field_validation_below gfield_visibility_visible\"><legend class=\"gfield_label gform-field-label gfield_label_before_complex\">Terms &amp; Conditions</legend><div class=\"ginput_container ginput_container_consent\"><input name=\"input_26.1\" id=\"input_1_26_1\" type=\"checkbox\" value=\"1\" aria-invalid=\"false\"> <label class=\"gform-field-label gform-field-label--type-inline gfield_consent_label\" for=\"input_1_26_1\">By checking this box, I consent to receive transactional messages related to my account, orders, or services I have requested. These messages may include appointment reminders, order confirmations, and account notifications among others. Message frequency may vary. Message and data rates may apply. Reply to +1 512-607-9335 HELP for help or STOP to opt out. <div style=\"display: flex; justify-content:center; margin: 10px 0px\"> <a style=\"padding-right:8px\" href=\"https://waterlooturf.com/privacy-policy/\">Privacy Policy</a> | <a style=\"padding-left:8px\" href=\"https://waterlooturf.com/terms-conditions/\">Terms of Service</a> </div></label></div></fieldset></div></div>\n        <div class=\"gform-footer gform_footer top_label\"> <input type=\"submit\" id=\"gform_submit_button_1\" class=\"gform_button button\" data-submission-type=\"submit\" value=\"Submit\"> \n            \n            \n            \n            \n            \n            \n            \n            \n            \n            \n            \n            \n            \n        </div>\n                        </form>\n                        </div>\n\n\n\t\t\t </div> <!-- /.column div --> \n\t\t\t\n\t\t </div> <!-- /.row -->  \t\t\n\t </div><!-- /.wrapper -->  \n</section>\n\n\n<!-- <div class=\"section quotebox\">\n\t <div class=\"wrapper\">\n\t\t <h2 class=\"section-title\">What Our Members Say</h2>\n\t\t \t\t</div>\n</div> -->\n\n\t\n\t\t\n\t\n\n\n\n\n </main>\n\t\n\n\n</div> <!-- .outer-wrap closing. Opened from header. -->\n\n \n\n        \n        <!-- Custom Feeds for Instagram JS -->\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<p id=\"a11y-speak-intro-text\" class=\"a11y-speak-intro-text\" style=\"position:absolute;margin:-1px;padding:0;height:1px;width:1px;overflow:hidden;clip-path:inset(50%);border:0;word-wrap:normal !important;\">Notifications</p><div id=\"a11y-speak-assertive\" class=\"a11y-speak-region\" style=\"position:absolute;margin:-1px;padding:0;height:1px;width:1px;overflow:hidden;clip-path:inset(50%);border:0;word-wrap:normal !important;\" aria-live=\"assertive\" aria-relevant=\"additions text\" aria-atomic=\"true\"></div><div id=\"a11y-speak-polite\" class=\"a11y-speak-region\" style=\"position:absolute;margin:-1px;padding:0;height:1px;width:1px;overflow:hidden;clip-path:inset(50%);border:0;word-wrap:normal !important;\" aria-live=\"polite\" aria-relevant=\"additions text\" aria-atomic=\"true\"></div></body></html>",
+    "json": {
+      "company_name": "Waterloo Turf",
+      "company_description": "A company that offers turf installation services, specializing in residential and commercial projects, including sports turf and putting greens."
+    }
+  },
+  "scrape_id": "019ee7f9-6e13-7663-b63f-0dac3f7dc61a",
+  "id": "KX8jqqhaGJMpwlIYDbKjg",
+  "startedAt": "2026-06-21T02:19:03.686Z",
+  "endedAt": "2026-06-21T02:19:12.660Z",
+  "endpoint": "scrape",
+  "formState": {
+    "parseFile": null,
+    "parseFileMeta": null,
+    "extractSetupCompleted": false,
+    "urls": [],
+    "extractSchema": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "company_mission": {
+          "type": "string"
+        },
+        "supports_sso": {
+          "type": "boolean"
+        },
+        "is_open_source": {
+          "type": "boolean"
+        },
+        "is_in_yc": {
+          "type": "boolean"
+        }
+      }
+    },
+    "extractPrompt": "Extract the company details, following the schema.",
+    "enableWebSearch": false,
+    "constrainUrls": false,
+    "options": {
+      "onlyMainContent": true,
+      "parsePDF": true,
+      "stealthMode": false,
+      "excludeTags": [],
+      "includeTags": [],
+      "waitFor": "",
+      "timeout": "",
+      "maxAge": "2 days",
+      "ignoreSitemap": false,
+      "crawlEntireDomain": false,
+      "sitemap": "include",
+      "limit": "10",
+      "maxDepth": "",
+      "excludePaths": [],
+      "includePaths": [],
+      "includeSubdomains": false,
+      "search": "",
+      "scrapeContentFromSearchResults": true,
+      "timeBasedSearch": "",
+      "location": "",
+      "prompt": ""
+    },
+    "formats": [
+      "markdown",
+      "branding",
+      "json",
+      "html"
+    ],
+    "sources": [
+      "web"
+    ],
+    "categories": [],
+    "jsonSchema": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "company_name": {
+          "type": "string"
+        },
+        "company_description": {
+          "type": "string"
+        }
+      }
+    },
+    "jsonPrompt": "",
+    "questionPrompt": "",
+    "highlightsQuery": "",
+    "agent": {},
+    "url": "waterlooturf.com/freeestimate/",
+    "endpoint": "scrape"
+  },
+  "status": "success",
+  "version": "QXRswo2IgrinccMPqZimv",
+  "isPreview": false
+}
