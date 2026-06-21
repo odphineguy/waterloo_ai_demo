@@ -1,6 +1,9 @@
 import {
+  Download,
   Loader2,
+  X,
 } from "lucide-react";
+import type { jsPDF as JsPDF } from "jspdf";
 import { useMemo, useState } from "react";
 import { generateYardPreview } from "./services/imageGeneration";
 import {
@@ -37,6 +40,69 @@ const fieldLabels: Record<keyof ContactInfo, string> = {
   zipCode: "Zip code",
 };
 
+type ExpandedImage = {
+  src: string;
+  alt: string;
+};
+
+function loadImageForCanvas(src: string) {
+  return new Promise<HTMLImageElement>((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = () => reject(new Error("Unable to load estimate image."));
+    image.src = src;
+  });
+}
+
+async function imageUrlToJpegDataUrl(src: string, maxDimension = 1000) {
+  const image = await loadImageForCanvas(src);
+  const scale = Math.min(
+    1,
+    maxDimension / Math.max(image.naturalWidth, image.naturalHeight),
+  );
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+  canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+  const context = canvas.getContext("2d");
+
+  if (!context) {
+    throw new Error("Unable to prepare estimate image.");
+  }
+
+  context.fillStyle = "#ffffff";
+  context.fillRect(0, 0, canvas.width, canvas.height);
+  context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+  return canvas.toDataURL("image/jpeg", 0.88);
+}
+
+function addImageContain(
+  doc: JsPDF,
+  dataUrl: string,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+) {
+  const properties = doc.getImageProperties(dataUrl);
+  const ratio = Math.min(width / properties.width, height / properties.height);
+  const renderedWidth = properties.width * ratio;
+  const renderedHeight = properties.height * ratio;
+
+  doc.addImage(
+    dataUrl,
+    "JPEG",
+    x + (width - renderedWidth) / 2,
+    y + (height - renderedHeight) / 2,
+    renderedWidth,
+    renderedHeight,
+  );
+}
+
+function safeFilename(value: string) {
+  return value.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
 function App() {
   const [contact, setContact] = useState<ContactInfo>(emptyContact);
   const [projectOptions, setProjectOptions] = useState<ProjectOption[]>([]);
@@ -46,6 +112,8 @@ function App() {
   const [previewStatus, setPreviewStatus] = useState<PreviewStatus>("idle");
   const [preview, setPreview] = useState<YardPreviewResult | null>(null);
   const [leadPacket, setLeadPacket] = useState<LeadPacket | null>(null);
+  const [expandedImage, setExpandedImage] = useState<ExpandedImage | null>(null);
+  const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
 
   const missingContactFields = useMemo(
     () =>
@@ -142,6 +210,103 @@ function App() {
     );
   }
 
+  async function handleDownloadEstimate() {
+    if (!preview) return;
+
+    setIsDownloadingPdf(true);
+    try {
+      const { jsPDF } = await import("jspdf");
+      const doc = new jsPDF({ orientation: "portrait", unit: "pt", format: "letter" });
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+      const margin = 42;
+      const clientName = `${contact.firstName} ${contact.lastName}`.trim();
+      const propertyAddress = `${contact.streetAddress}, ${contact.city}, ${contact.state} ${contact.zipCode}`;
+      const logo = await imageUrlToJpegDataUrl("/images/logo.png", 500);
+      const beforeImages = await Promise.all(
+        images.map((image) => imageUrlToJpegDataUrl(image.previewUrl)),
+      );
+      const afterImages = await Promise.all(
+        preview.imageUrls.map((imageUrl) => imageUrlToJpegDataUrl(imageUrl)),
+      );
+
+      addImageContain(doc, logo, margin, 28, 122, 62);
+      doc.setTextColor("#183820");
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(24);
+      doc.text("Waterloo Turf AI Visual Estimate", margin, 122);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(12);
+      doc.setTextColor("#38453b");
+      doc.text(`Prepared for: ${clientName || "Client"}`, margin, 150);
+      doc.text(`Property: ${propertyAddress}`, margin, 170, {
+        maxWidth: pageWidth - margin * 2,
+      });
+
+      doc.setDrawColor("#d5ddd1");
+      doc.line(margin, 194, pageWidth - margin, 194);
+
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(13);
+      doc.setTextColor("#183820");
+      doc.text("Before", margin, 224);
+      doc.text("After", pageWidth / 2 + 10, 224);
+
+      const imageWidth = (pageWidth - margin * 2 - 20) / 2;
+      const imageHeight = 132;
+      let y = 238;
+      const pairCount = Math.max(beforeImages.length, afterImages.length);
+
+      for (let index = 0; index < pairCount; index += 1) {
+        if (y + imageHeight > pageHeight - 150) {
+          doc.addPage();
+          y = margin;
+        }
+
+        doc.setFillColor("#f7f9f4");
+        doc.roundedRect(margin, y, imageWidth, imageHeight, 4, 4, "F");
+        doc.roundedRect(pageWidth / 2 + 10, y, imageWidth, imageHeight, 4, 4, "F");
+
+        if (beforeImages[index]) {
+          addImageContain(doc, beforeImages[index], margin, y, imageWidth, imageHeight);
+        }
+        if (afterImages[index]) {
+          addImageContain(doc, afterImages[index], pageWidth / 2 + 10, y, imageWidth, imageHeight);
+        }
+
+        y += imageHeight + 18;
+      }
+
+      if (y + 110 > pageHeight - margin) {
+        doc.addPage();
+        y = margin;
+      }
+
+      doc.setFillColor("#183820");
+      doc.roundedRect(margin, y + 8, pageWidth - margin * 2, 96, 6, 6, "F");
+      doc.setTextColor("#ffffff");
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(12);
+      doc.text("Estimated Project Range", margin + 18, y + 36);
+      doc.setFontSize(28);
+      doc.text(`${budgetRange.label}*`, margin + 18, y + 70);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(9);
+      doc.text(
+        "*Preliminary visual estimate only. Final design, measurements, and pricing are subject to onsite verification.",
+        margin + 18,
+        y + 91,
+        { maxWidth: pageWidth - margin * 2 - 36 },
+      );
+
+      doc.save(
+        `waterloo-turf-estimate-${safeFilename(clientName) || "client"}.pdf`,
+      );
+    } finally {
+      setIsDownloadingPdf(false);
+    }
+  }
+
   return (
     <main className="app-shell">
       <SiteHeader />
@@ -201,7 +366,11 @@ function App() {
 
         <aside className="results-panel">
           {(preview || previewStatus === "generating") && (
-            <AiPreviewSection preview={preview} status={previewStatus} />
+            <AiPreviewSection
+              preview={preview}
+              status={previewStatus}
+              onExpand={setExpandedImage}
+            />
           )}
           {preview && (
             <BudgetCard
@@ -209,9 +378,21 @@ function App() {
               requiresReview={budgetRange.kind === "review"}
             />
           )}
+          {preview && (
+            <EstimateDownloadCard
+              isDownloading={isDownloadingPdf}
+              onDownload={handleDownloadEstimate}
+            />
+          )}
           {leadPacket && <NextStepsCard requestReceived />}
         </aside>
       </section>
+      {expandedImage && (
+        <ImageLightbox
+          image={expandedImage}
+          onClose={() => setExpandedImage(null)}
+        />
+      )}
       <SiteFooter />
     </main>
   );
@@ -369,9 +550,11 @@ function PhotoUpload({
 function AiPreviewSection({
   preview,
   status,
+  onExpand,
 }: {
   preview: YardPreviewResult | null;
   status: PreviewStatus;
+  onExpand: (image: ExpandedImage) => void;
 }) {
   return (
     <section className="result-card preview-card">
@@ -402,13 +585,22 @@ function AiPreviewSection({
         )}
         {status !== "generating" && preview && (
           preview.imageUrls.map((imageUrl, index) => (
-            <div className="preview-frame" key={`${preview.id}-${index}`}>
+            <button
+              className="preview-frame preview-image-button"
+              key={`${preview.id}-${index}`}
+              type="button"
+              onClick={() =>
+                onExpand({
+                  src: imageUrl,
+                  alt: `AI yard concept preview ${index + 1}`,
+                })
+              }
+            >
               <img
                 src={imageUrl}
                 alt={`AI yard concept preview ${index + 1}`}
               />
-              <span className="mock-label">Preview {index + 1} ready</span>
-            </div>
+            </button>
           ))
         )}
         {status === "idle" && !preview && (
@@ -418,6 +610,62 @@ function AiPreviewSection({
         )}
       </div>
     </section>
+  );
+}
+
+function EstimateDownloadCard({
+  isDownloading,
+  onDownload,
+}: {
+  isDownloading: boolean;
+  onDownload: () => void;
+}) {
+  return (
+    <section className="result-card download-card">
+      <div>
+        <h2>Client Estimate PDF</h2>
+        <p>Download a branded before-and-after visual estimate.</p>
+      </div>
+      <button
+        className="download-button"
+        type="button"
+        disabled={isDownloading}
+        onClick={onDownload}
+      >
+        {isDownloading ? <Loader2 className="spin" size={18} /> : <Download size={18} />}
+        {isDownloading ? "Preparing PDF" : "Download PDF"}
+      </button>
+    </section>
+  );
+}
+
+function ImageLightbox({
+  image,
+  onClose,
+}: {
+  image: ExpandedImage;
+  onClose: () => void;
+}) {
+  return (
+    <div className="lightbox" role="dialog" aria-modal="true">
+      <button
+        className="lightbox-backdrop"
+        type="button"
+        aria-label="Close expanded preview"
+        onClick={onClose}
+      />
+      <div className="lightbox-content">
+        <button
+          className="lightbox-close"
+          type="button"
+          aria-label="Close expanded preview"
+          onClick={onClose}
+        >
+          <X size={22} />
+        </button>
+        <img src={image.src} alt={image.alt} />
+      </div>
+    </div>
   );
 }
 
