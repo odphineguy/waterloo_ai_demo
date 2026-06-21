@@ -99,29 +99,6 @@ function addImageContain(
   );
 }
 
-function addImageCover(
-  doc: JsPDF,
-  dataUrl: string,
-  x: number,
-  y: number,
-  width: number,
-  height: number,
-) {
-  const properties = doc.getImageProperties(dataUrl);
-  const ratio = Math.max(width / properties.width, height / properties.height);
-  const renderedWidth = properties.width * ratio;
-  const renderedHeight = properties.height * ratio;
-
-  doc.addImage(
-    dataUrl,
-    "JPEG",
-    x + (width - renderedWidth) / 2,
-    y + (height - renderedHeight) / 2,
-    renderedWidth,
-    renderedHeight,
-  );
-}
-
 function formatDate(value = new Date()) {
   return new Intl.DateTimeFormat("en-US", {
     month: "long",
@@ -327,12 +304,12 @@ function App() {
       doc.text("After Image(s)", pageWidth / 2 + 10, y);
 
       const imageWidth = (pageWidth - margin * 2 - 20) / 2;
-      const imageHeight = 104;
+      const imageHeight = 118;
       y += 12;
       const pairCount = Math.max(beforeImages.length, afterImages.length);
 
       for (let index = 0; index < pairCount; index += 1) {
-        if (y + imageHeight > pageHeight - 205) {
+        if (y + imageHeight > pageHeight - 220) {
           doc.addPage();
           y = 56;
         }
@@ -343,21 +320,35 @@ function App() {
         doc.roundedRect(pageWidth / 2 + 10, y, imageWidth, imageHeight, 3, 3, "FD");
 
         if (beforeImages[index]) {
-          addImageCover(doc, beforeImages[index], margin, y, imageWidth, imageHeight);
+          addImageContain(
+            doc,
+            beforeImages[index],
+            margin + 5,
+            y + 5,
+            imageWidth - 10,
+            imageHeight - 10,
+          );
         }
         if (afterImages[index]) {
-          addImageCover(doc, afterImages[index], pageWidth / 2 + 10, y, imageWidth, imageHeight);
+          addImageContain(
+            doc,
+            afterImages[index],
+            pageWidth / 2 + 15,
+            y + 5,
+            imageWidth - 10,
+            imageHeight - 10,
+          );
         }
 
-        y += imageHeight + 12;
+        y += imageHeight + 14;
       }
 
-      if (y + 170 > pageHeight - margin) {
+      if (y + 178 > pageHeight - margin) {
         doc.addPage();
         y = 56;
       }
 
-      y += 10;
+      y += 18;
       const termsX = margin;
       const totalX = pageWidth - margin - 205;
 
@@ -373,8 +364,8 @@ function App() {
         "Final design, measurements, and pricing require onsite verification.",
         "Project scope may change based on drainage, access, and material needs.",
       ].forEach((term, index) => {
-        doc.text(`• ${term}`, termsX + 8, y + 32 + index * 15, {
-          maxWidth: 305,
+        doc.text(`- ${term}`, termsX + 8, y + 32 + index * 15, {
+          maxWidth: totalX - termsX - 24,
         });
       });
 
@@ -382,13 +373,13 @@ function App() {
       doc.rect(totalX, y, 205, 58, "F");
       doc.setTextColor("#ffffff");
       doc.setFont("helvetica", "normal");
-      doc.setFontSize(12);
-      doc.text("Estimated Range", totalX + 16, y + 35);
+      doc.setFontSize(10);
+      doc.text("Estimated Project Range", totalX + 16, y + 20);
       doc.setFont("helvetica", "bold");
-      doc.setFontSize(15);
-      doc.text(budgetRange.label, totalX + 132, y + 35, {
+      doc.setFontSize(18);
+      doc.text(budgetRange.label, totalX + 102.5, y + 44, {
         align: "center",
-        maxWidth: 120,
+        maxWidth: 174,
       });
 
       y += 102;
