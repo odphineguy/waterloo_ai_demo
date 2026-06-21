@@ -378,10 +378,22 @@ function AiPreviewSection({
       <div className="result-heading">
         <div>
           <h2>Your Yard Preview</h2>
-          <p>{preview ? "Preview is ready" : "Waiting for yard photos"}</p>
+          <p>
+            {preview
+              ? `${preview.imageUrls.length} preview${
+                  preview.imageUrls.length === 1 ? "" : "s"
+                } ready`
+              : "Waiting for yard photos"}
+          </p>
         </div>
       </div>
-      <div className="preview-frame">
+      <div
+        className={
+          preview && preview.imageUrls.length > 1
+            ? "preview-list preview-grid"
+            : "preview-list"
+        }
+      >
         {status === "generating" && (
           <div className="preview-empty">
             <Loader2 className="spin" size={30} />
@@ -389,10 +401,15 @@ function AiPreviewSection({
           </div>
         )}
         {status !== "generating" && preview && (
-          <>
-            <img src={preview.imageUrl} alt="AI yard concept preview" />
-            <span className="mock-label">Preview ready</span>
-          </>
+          preview.imageUrls.map((imageUrl, index) => (
+            <div className="preview-frame" key={`${preview.id}-${index}`}>
+              <img
+                src={imageUrl}
+                alt={`AI yard concept preview ${index + 1}`}
+              />
+              <span className="mock-label">Preview {index + 1} ready</span>
+            </div>
+          ))
         )}
         {status === "idle" && !preview && (
           <div className="preview-empty">

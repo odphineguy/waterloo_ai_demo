@@ -27,6 +27,7 @@ export const config = {
 };
 
 const OPENAI_IMAGE_MODEL = process.env.OPENAI_IMAGE_MODEL || "gpt-image-1.5";
+const supportsInputFidelity = OPENAI_IMAGE_MODEL !== "gpt-image-2";
 
 function parseJsonBody(req: VercelRequest): Promise<PreviewRequestBody> {
   if (req.body && typeof req.body === "object") {
@@ -80,10 +81,24 @@ async function callOpenAiImageApi(body: PreviewRequestBody) {
   const images = (body.images || []).slice(0, 4);
   const hasImages = images.length > 0;
 
-  const response = hasImages
-    ? await createEditedImage(apiKey, prompt, images)
-    : await createGeneratedImage(apiKey, prompt);
+  if (!hasImages) {
+    const response = await createGeneratedImage(apiKey, prompt);
+    return [await readImageResponse(response)];
+  }
 
+  return Promise.all(
+    images.map(async (image, index) => {
+      const response = await createEditedImage(
+        apiKey,
+        `${prompt}\n\nRender this submitted yard photo as preview ${index + 1} of ${images.length}. Use only this photo's camera angle and fixed property details as the visual reference.`,
+        [image],
+      );
+      return readImageResponse(response);
+    }),
+  );
+}
+
+async function readImageResponse(response: Response) {
   const data = (await response.json()) as unknown;
   if (!response.ok) {
     const message =
@@ -128,20 +143,22 @@ async function createEditedImage(
   prompt: string,
   images: RequestImage[],
 ) {
+  const requestBody = {
+    model: OPENAI_IMAGE_MODEL,
+    prompt,
+    images: images.map((image) => ({ image_url: image.dataUrl })),
+    size: "1536x1024",
+    quality: "low",
+    ...(supportsInputFidelity ? { input_fidelity: "high" } : {}),
+  };
+
   return fetch("https://api.openai.com/v1/images/edits", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      model: OPENAI_IMAGE_MODEL,
-      prompt,
-      images: images.map((image) => ({ image_url: image.dataUrl })),
-      size: "1536x1024",
-      quality: "low",
-      input_fidelity: "high",
-    }),
+    body: JSON.stringify(requestBody),
   });
 }
 
@@ -154,10 +171,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const body = await parseJsonBody(req);
-    const imageUrl = await callOpenAiImageApi(body);
+    const imageUrls = await callOpenAiImageApi(body);
 
     res.status(200).json({
-      imageUrl,
+      imageUrl: imageUrls[0],
+      imageUrls,
       model: OPENAI_IMAGE_MODEL,
       status: "generated",
     });

@@ -3,6 +3,7 @@ import { buildYardPreviewPrompt } from "../utils/promptBuilder";
 
 type ApiPreviewResponse = {
   imageUrl?: string;
+  imageUrls?: string[];
   status?: "generated";
   error?: string;
 };
@@ -109,11 +110,13 @@ async function callPreviewEndpoint(
   });
   const data = (await response.json()) as ApiPreviewResponse;
 
-  if (!response.ok || !data.imageUrl) {
+  const imageUrls = data.imageUrls ?? (data.imageUrl ? [data.imageUrl] : []);
+
+  if (!response.ok || imageUrls.length === 0) {
     throw new Error(data.error || "Unable to generate preview.");
   }
 
-  return data.imageUrl;
+  return imageUrls;
 }
 
 export async function generateYardPreview({
@@ -127,10 +130,10 @@ export async function generateYardPreview({
     import.meta.env.VITE_AI_PREVIEW_ENDPOINT || "/api/generate-yard-preview";
 
   try {
-    const imageUrl = await callPreviewEndpoint(previewEndpoint, request, prompt);
+    const imageUrls = await callPreviewEndpoint(previewEndpoint, request, prompt);
     return {
       id: crypto.randomUUID(),
-      imageUrl,
+      imageUrls,
       prompt,
       status: "generated",
       createdAt: new Date().toISOString(),
@@ -143,7 +146,10 @@ export async function generateYardPreview({
 
   return {
     id: crypto.randomUUID(),
-    imageUrl: createMockPreviewImage(projectOptions, uploadedImages.length),
+    imageUrls: Array.from(
+      { length: Math.max(1, Math.min(uploadedImages.length, 4)) },
+      (_, index) => createMockPreviewImage(projectOptions, index + 1),
+    ),
     prompt,
     status: "mock",
     createdAt: new Date().toISOString(),

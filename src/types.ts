@@ -36,7 +36,7 @@ export type YardPreviewRequest = {
 
 export type YardPreviewResult = {
   id: string;
-  imageUrl: string;
+  imageUrls: string[];
   prompt: string;
   status: "mock" | "generated";
   createdAt: string;

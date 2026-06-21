@@ -419,12 +419,30 @@ textarea {
   position: static;
 }
 
+.preview-list {
+  position: relative;
+}
+
 .preview-frame {
   background: linear-gradient(135deg, rgba(24, 56, 32, 0.92), rgba(47, 115, 57, 0.58));
   border-radius: 8px;
   min-height: 330px;
   overflow: hidden;
   position: relative;
+}
+
+.preview-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.preview-grid .preview-frame {
+  min-height: 240px;
+}
+
+.preview-grid .preview-frame img {
+  min-height: 240px;
 }
 
 .preview-frame img {
