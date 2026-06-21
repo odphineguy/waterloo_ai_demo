@@ -99,6 +99,46 @@ function addImageContain(
   );
 }
 
+function addImageCover(
+  doc: JsPDF,
+  dataUrl: string,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+) {
+  const properties = doc.getImageProperties(dataUrl);
+  const ratio = Math.max(width / properties.width, height / properties.height);
+  const renderedWidth = properties.width * ratio;
+  const renderedHeight = properties.height * ratio;
+
+  doc.addImage(
+    dataUrl,
+    "JPEG",
+    x + (width - renderedWidth) / 2,
+    y + (height - renderedHeight) / 2,
+    renderedWidth,
+    renderedHeight,
+  );
+}
+
+function formatDate(value = new Date()) {
+  return new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  }).format(value);
+}
+
+function getEstimateNumber(value = new Date()) {
+  const datePart = [
+    value.getFullYear(),
+    String(value.getMonth() + 1).padStart(2, "0"),
+    String(value.getDate()).padStart(2, "0"),
+  ].join("");
+  return `WT-${datePart}`;
+}
+
 function safeFilename(value: string) {
   return value.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
@@ -219,7 +259,12 @@ function App() {
       const doc = new jsPDF({ orientation: "portrait", unit: "pt", format: "letter" });
       const pageWidth = doc.internal.pageSize.getWidth();
       const pageHeight = doc.internal.pageSize.getHeight();
-      const margin = 42;
+      const margin = 46;
+      const green = "#05896f";
+      const darkGreen = "#183820";
+      const ink = "#171f1a";
+      const muted = "#4f5b53";
+      const line = "#d7e0d8";
       const clientName = `${contact.firstName} ${contact.lastName}`.trim();
       const propertyAddress = `${contact.streetAddress}, ${contact.city}, ${contact.state} ${contact.zipCode}`;
       const logo = await imageUrlToJpegDataUrl("/images/logo.png", 500);
@@ -230,74 +275,152 @@ function App() {
         preview.imageUrls.map((imageUrl) => imageUrlToJpegDataUrl(imageUrl)),
       );
 
-      addImageContain(doc, logo, margin, 28, 122, 62);
-      doc.setTextColor("#183820");
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(24);
-      doc.text("Waterloo Turf AI Visual Estimate", margin, 122);
+      doc.setFillColor("#ffffff");
+      doc.rect(0, 0, pageWidth, pageHeight, "F");
+
+      doc.setTextColor(ink);
       doc.setFont("helvetica", "normal");
-      doc.setFontSize(12);
-      doc.setTextColor("#38453b");
-      doc.text(`Prepared for: ${clientName || "Client"}`, margin, 150);
-      doc.text(`Property: ${propertyAddress}`, margin, 170, {
-        maxWidth: pageWidth - margin * 2,
+      doc.setFontSize(28);
+      doc.text("WATERLOO TURF", margin, 64);
+      doc.text("AI VISUAL ESTIMATE", margin, 96);
+
+      addImageContain(doc, logo, pageWidth - margin - 145, 42, 145, 72);
+
+      doc.setFontSize(9);
+      doc.setTextColor(muted);
+      doc.text("Estimate Number", margin, 142);
+      doc.text("Estimate Date", margin, 178);
+      doc.setTextColor(ink);
+      doc.setFontSize(10);
+      doc.text(getEstimateNumber(), margin, 158);
+      doc.text(formatDate(), margin, 194);
+
+      const infoX = pageWidth - margin - 210;
+      doc.setFontSize(9);
+      doc.setTextColor(muted);
+      doc.text("Customer Information", infoX, 142);
+      doc.setTextColor(ink);
+      doc.setFontSize(10);
+      doc.text(clientName || "Client", infoX, 160);
+      doc.text(propertyAddress, infoX, 178, { maxWidth: 210 });
+      doc.text(contact.phone || contact.email || "Contact pending", infoX, 210, {
+        maxWidth: 210,
       });
 
-      doc.setDrawColor("#d5ddd1");
-      doc.line(margin, 194, pageWidth - margin, 194);
+      let y = 242;
+      doc.setFillColor(green);
+      doc.rect(margin, y, pageWidth - margin * 2, 34, "F");
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(9);
+      doc.setTextColor("#ffffff");
+      doc.text("Visual Preview", margin + 10, y + 21);
+      doc.text("Project Type", pageWidth - margin - 230, y + 21);
+      doc.text(projectOptions.join(", ") || "Artificial Turf", pageWidth - margin - 150, y + 21, {
+        maxWidth: 140,
+      });
 
+      y += 54;
       doc.setFont("helvetica", "bold");
-      doc.setFontSize(13);
-      doc.setTextColor("#183820");
-      doc.text("Before", margin, 224);
-      doc.text("After", pageWidth / 2 + 10, 224);
+      doc.setFontSize(10);
+      doc.setTextColor(darkGreen);
+      doc.text("Before Image(s)", margin, y);
+      doc.text("After Image(s)", pageWidth / 2 + 10, y);
 
       const imageWidth = (pageWidth - margin * 2 - 20) / 2;
-      const imageHeight = 132;
-      let y = 238;
+      const imageHeight = 104;
+      y += 12;
       const pairCount = Math.max(beforeImages.length, afterImages.length);
 
       for (let index = 0; index < pairCount; index += 1) {
-        if (y + imageHeight > pageHeight - 150) {
+        if (y + imageHeight > pageHeight - 205) {
           doc.addPage();
-          y = margin;
+          y = 56;
         }
 
-        doc.setFillColor("#f7f9f4");
-        doc.roundedRect(margin, y, imageWidth, imageHeight, 4, 4, "F");
-        doc.roundedRect(pageWidth / 2 + 10, y, imageWidth, imageHeight, 4, 4, "F");
+        doc.setFillColor("#f7f9f5");
+        doc.setDrawColor(line);
+        doc.roundedRect(margin, y, imageWidth, imageHeight, 3, 3, "FD");
+        doc.roundedRect(pageWidth / 2 + 10, y, imageWidth, imageHeight, 3, 3, "FD");
 
         if (beforeImages[index]) {
-          addImageContain(doc, beforeImages[index], margin, y, imageWidth, imageHeight);
+          addImageCover(doc, beforeImages[index], margin, y, imageWidth, imageHeight);
         }
         if (afterImages[index]) {
-          addImageContain(doc, afterImages[index], pageWidth / 2 + 10, y, imageWidth, imageHeight);
+          addImageCover(doc, afterImages[index], pageWidth / 2 + 10, y, imageWidth, imageHeight);
         }
 
-        y += imageHeight + 18;
+        y += imageHeight + 12;
       }
 
-      if (y + 110 > pageHeight - margin) {
+      if (y + 170 > pageHeight - margin) {
         doc.addPage();
-        y = margin;
+        y = 56;
       }
 
-      doc.setFillColor("#183820");
-      doc.roundedRect(margin, y + 8, pageWidth - margin * 2, 96, 6, 6, "F");
-      doc.setTextColor("#ffffff");
+      y += 10;
+      const termsX = margin;
+      const totalX = pageWidth - margin - 205;
+
       doc.setFont("helvetica", "bold");
-      doc.setFontSize(12);
-      doc.text("Estimated Project Range", margin + 18, y + 36);
-      doc.setFontSize(28);
-      doc.text(`${budgetRange.label}*`, margin + 18, y + 70);
+      doc.setFontSize(10);
+      doc.setTextColor(ink);
+      doc.text("Terms and Conditions", termsX, y + 12);
       doc.setFont("helvetica", "normal");
       doc.setFontSize(9);
-      doc.text(
-        "*Preliminary visual estimate only. Final design, measurements, and pricing are subject to onsite verification.",
-        margin + 18,
-        y + 91,
-        { maxWidth: pageWidth - margin * 2 - 36 },
-      );
+      doc.setTextColor(ink);
+      [
+        "This estimate is a preliminary AI visual range.",
+        "Final design, measurements, and pricing require onsite verification.",
+        "Project scope may change based on drainage, access, and material needs.",
+      ].forEach((term, index) => {
+        doc.text(`• ${term}`, termsX + 8, y + 32 + index * 15, {
+          maxWidth: 305,
+        });
+      });
+
+      doc.setFillColor(green);
+      doc.rect(totalX, y, 205, 58, "F");
+      doc.setTextColor("#ffffff");
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(12);
+      doc.text("Estimated Range", totalX + 16, y + 35);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(15);
+      doc.text(budgetRange.label, totalX + 132, y + 35, {
+        align: "center",
+        maxWidth: 120,
+      });
+
+      y += 102;
+      doc.setDrawColor(green);
+      doc.setLineWidth(1.2);
+      doc.line(margin, y, pageWidth - margin, y);
+
+      y += 34;
+      doc.setTextColor(ink);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(9);
+      doc.text("Thank you for choosing Waterloo Turf.", margin, y);
+      doc.text("Waterloo Turf", margin, y + 34);
+      doc.text("Artificial Turf Specialists", margin, y + 49);
+
+      const footerX = pageWidth - margin - 210;
+      const contactRows = [
+        ["Phone", "(512) 607-9335"],
+        ["Email", "info@waterlooturf.com"],
+        ["Web", "waterlooturf.com"],
+      ];
+      contactRows.forEach(([label, value], index) => {
+        const rowY = y + index * 18;
+        doc.setFillColor(green);
+        doc.rect(footerX, rowY - 8, 11, 11, "F");
+        doc.setTextColor("#ffffff");
+        doc.setFontSize(6);
+        doc.text(label[0], footerX + 5.5, rowY, { align: "center" });
+        doc.setTextColor(ink);
+        doc.setFontSize(9);
+        doc.text(value, footerX + 22, rowY);
+      });
 
       doc.save(
         `waterloo-turf-estimate-${safeFilename(clientName) || "client"}.pdf`,
