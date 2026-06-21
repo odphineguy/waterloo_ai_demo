@@ -1,6 +1,12 @@
 import type { YardPreviewRequest, YardPreviewResult } from "../types";
 import { buildYardPreviewPrompt } from "../utils/promptBuilder";
 
+type ApiPreviewResponse = {
+  imageUrl?: string;
+  status?: "generated";
+  error?: string;
+};
+
 function createMockPreviewImage(projectOptions: string[], photoCount: number) {
   const optionLabel = projectOptions.join(" + ") || "Artificial Turf";
   const photoLabel = `${photoCount} photo${photoCount === 1 ? "" : "s"} received`;
@@ -37,21 +43,103 @@ function createMockPreviewImage(projectOptions: string[], photoCount: number) {
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 }
 
+function loadImage(file: File) {
+  return new Promise<HTMLImageElement>((resolve, reject) => {
+    const image = new Image();
+    const url = URL.createObjectURL(file);
+
+    image.onload = () => {
+      URL.revokeObjectURL(url);
+      resolve(image);
+    };
+    image.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error(`Unable to read ${file.name}.`));
+    };
+    image.src = url;
+  });
+}
+
+async function fileToCompressedDataUrl(file: File) {
+  const image = await loadImage(file);
+  const maxDimension = 1024;
+  const scale = Math.min(
+    1,
+    maxDimension / Math.max(image.naturalWidth, image.naturalHeight),
+  );
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+  canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+
+  const context = canvas.getContext("2d");
+  if (!context) {
+    throw new Error("Unable to prepare image for upload.");
+  }
+
+  context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+  return canvas.toDataURL("image/jpeg", 0.82);
+}
+
+async function buildApiImages(uploadedImages: YardPreviewRequest["uploadedImages"]) {
+  return Promise.all(
+    uploadedImages.slice(0, 4).map(async (image, index) => ({
+      dataUrl: await fileToCompressedDataUrl(image.file),
+      filename: image.file.name || `yard-photo-${index + 1}.jpg`,
+    })),
+  );
+}
+
+async function callPreviewEndpoint(
+  endpoint: string,
+  request: YardPreviewRequest,
+  prompt: string,
+) {
+  const response = await fetch(endpoint, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      prompt,
+      projectOptions: request.projectOptions,
+      notes: request.notes,
+      images: await buildApiImages(request.uploadedImages),
+    }),
+  });
+  const data = (await response.json()) as ApiPreviewResponse;
+
+  if (!response.ok || !data.imageUrl) {
+    throw new Error(data.error || "Unable to generate preview.");
+  }
+
+  return data.imageUrl;
+}
+
 export async function generateYardPreview({
   projectOptions,
   notes,
   uploadedImages,
 }: YardPreviewRequest): Promise<YardPreviewResult> {
   const prompt = buildYardPreviewPrompt({ projectOptions, notes });
-  const previewEndpoint = import.meta.env.VITE_AI_PREVIEW_ENDPOINT;
+  const request = { projectOptions, notes, uploadedImages };
+  const previewEndpoint =
+    import.meta.env.VITE_AI_PREVIEW_ENDPOINT || "/api/generate-yard-preview";
 
-  await new Promise((resolve) => window.setTimeout(resolve, 1200));
-
-  if (previewEndpoint) {
-    // TODO: Plug in the future server-side image generation endpoint here.
-    // Keep API keys off the client in production; call a Vercel serverless
-    // function that uses the OpenAI Images API and returns a hosted preview URL.
+  try {
+    const imageUrl = await callPreviewEndpoint(previewEndpoint, request, prompt);
+    return {
+      id: crypto.randomUUID(),
+      imageUrl,
+      prompt,
+      status: "generated",
+      createdAt: new Date().toISOString(),
+    };
+  } catch (error) {
+    console.warn("Falling back to mock yard preview.", error);
   }
+
+  await new Promise((resolve) => window.setTimeout(resolve, 600));
 
   return {
     id: crypto.randomUUID(),

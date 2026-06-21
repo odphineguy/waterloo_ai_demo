@@ -32,6 +32,7 @@ The app runs without API keys. For future AI image generation work, use a server
 ```bash
 OPENAI_API_KEY=
 VITE_AI_PREVIEW_ENDPOINT=/api/generate-yard-preview
+OPENAI_IMAGE_MODEL=gpt-image-1.5
 ```
 
 For production, keep image generation behind a server-side Vercel function so API keys are never exposed to the browser. The current `generateYardPreview` service is intentionally structured so a real OpenAI Images API endpoint can be plugged in later.
