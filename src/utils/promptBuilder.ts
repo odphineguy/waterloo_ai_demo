@@ -1,7 +1,8 @@
-import type { ProjectOption } from "../types";
+import type { ClientConfig, ProjectOption } from "../types";
 
-const baseInstruction =
-  "Create a photorealistic concept rendering of the provided yard photo for an artificial turf sales preview. Preserve the original camera angle, perspective, house structure, walls, fencing, gates, hardscape layout, and major fixed elements unless a better turf concept requires minor landscape layout cleanup. Redesign the landscape area into a realistic artificial turf concept based on the selected project options. The result should look like a believable after-image of the customer's actual property, suitable for a visual estimate preview.";
+function getBaseInstruction(client: ClientConfig) {
+  return `Create a photorealistic concept rendering of the provided yard photo for a ${client.serviceLabel.toLowerCase()} sales preview. Preserve the original camera angle, perspective, house structure, walls, fencing, gates, hardscape layout, and major fixed elements unless a better concept requires minor landscape layout cleanup. Redesign the landscape area into a realistic project concept based on the selected project options. The result should look like a believable after-image of the customer's actual property, suitable for a visual estimate preview for ${client.companyName}.`;
+}
 
 const constraints = [
   "Preserve the home, walls, fences, windows, doors, gates, and major fixed structures.",
@@ -12,36 +13,57 @@ const constraints = [
   "Treat the output as a sales concept preview, not a final construction design.",
 ];
 
-const optionInstructions: Record<ProjectOption, string> = {
-  "Front Yard":
-    "This is a front yard turf concept. Emphasize curb appeal, clean edges, and a neat professional appearance.",
-  "Back Yard":
-    "This is a backyard turf concept. Emphasize usable outdoor space, comfort, and a clean functional layout.",
-  "Sports Turf":
-    "Include a realistic sports turf concept suitable for recreation, keeping the design proportional and practical.",
-  Commercial:
-    "This is a commercial turf concept. Emphasize durability, clean presentation, and professional appearance.",
-  "Putting Green":
-    "Include a realistic residential putting green integrated naturally into the available yard space. Keep it proportional and buildable.",
-  Other:
-    "Use the customer notes to guide the design while keeping the concept realistic and turf-focused.",
-};
+function getOptionInstruction(option: ProjectOption, client: ClientConfig) {
+  const normalized = option.toLowerCase();
+
+  if (normalized.includes("front")) {
+    return `This is a front yard ${client.serviceLabel.toLowerCase()} concept. Emphasize curb appeal, clean edges, and a neat professional appearance.`;
+  }
+  if (normalized.includes("back")) {
+    return `This is a backyard ${client.serviceLabel.toLowerCase()} concept. Emphasize usable outdoor space, comfort, and a clean functional layout.`;
+  }
+  if (normalized.includes("sport") || normalized.includes("pickleball")) {
+    return "Include a realistic recreational surface concept, keeping the design proportional and practical.";
+  }
+  if (normalized.includes("commercial")) {
+    return "This is a commercial concept. Emphasize durability, clean presentation, and professional appearance.";
+  }
+  if (normalized.includes("putting")) {
+    return "Include a realistic residential putting green integrated naturally into the available yard space. Keep it proportional and buildable.";
+  }
+  if (normalized.includes("pet")) {
+    return "Include a clean, pet-friendly turf concept with practical drainage-aware layout choices.";
+  }
+  if (normalized.includes("paver") || normalized.includes("patio")) {
+    return "Include realistic paver or patio hardscape elements that fit the existing yard and stay buildable.";
+  }
+  if (normalized.includes("rock")) {
+    return "Include decorative rock areas with clean borders and realistic low-maintenance landscape detailing.";
+  }
+  if (normalized.includes("other")) {
+    return `Use the customer notes to guide the design while keeping the concept realistic and aligned with ${client.companyName}'s services.`;
+  }
+
+  return `Include a realistic ${option.toLowerCase()} concept that feels buildable and aligned with ${client.companyName}'s services.`;
+}
 
 type BuildPromptInput = {
+  client: ClientConfig;
   projectOptions: ProjectOption[];
   notes: string;
 };
 
 export function buildYardPreviewPrompt({
+  client,
   projectOptions,
   notes,
 }: BuildPromptInput) {
   const selectedLogic = projectOptions
-    .map((option) => optionInstructions[option])
+    .map((option) => getOptionInstruction(option, client))
     .join("\n");
 
   return [
-    baseInstruction,
+    getBaseInstruction(client),
     "",
     "Selected project options:",
     projectOptions.join(", "),

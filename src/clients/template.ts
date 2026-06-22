@@ -1,0 +1,68 @@
+import type { ClientConfig } from "../types";
+
+export const templateClient: ClientConfig = {
+  slug: "template",
+  companyName: "Your Turf Company",
+  brandName: "YOUR TURF COMPANY",
+  legalName: "Your Turf Company",
+  serviceLabel: "Outdoor Living",
+  positioning: "Instant outdoor project previews and preliminary estimates.",
+  website: "#",
+  logoPath: "/images/template-logo.svg",
+  footerImagePath: "/images/footer-turf-premium.png",
+  phone: "(555) 123-4567",
+  email: "hello@example.com",
+  navLinks: ["Services", "Gallery", "Reviews", "Contact"],
+  quickLinks: ["Home", "Services", "Gallery", "Reviews", "Contact", "Financing"],
+  services: [
+    "Artificial Turf",
+    "Pet Turf",
+    "Putting Greens",
+    "Pavers",
+    "Decorative Rock",
+    "Backyard Remodels",
+  ],
+  projectOptions: [
+    "Artificial Turf",
+    "Pet Turf",
+    "Putting Green",
+    "Pavers",
+    "Decorative Rock",
+    "Full Backyard Remodel",
+    "Other",
+  ],
+  estimateRanges: {
+    "Artificial Turf": [5000, 14000],
+    "Pet Turf": [5500, 15000],
+    "Putting Green": [3500, 9000],
+    Pavers: [6000, 18000],
+    "Decorative Rock": [2500, 8000],
+    "Full Backyard Remodel": "review",
+    Other: "review",
+  },
+  estimatePrefix: "YT",
+  colors: {
+    primary: "#256f55",
+    primaryDark: "#17362c",
+    primarySoft: "#e6f1ec",
+    accent: "#d8b24a",
+    accentDark: "#9b7922",
+  },
+  copy: {
+    pageTitle: "Get Your Instant Outdoor Project Preview",
+    contactPrompt: "Where should we prepare this preview?",
+    notesPlaceholder:
+      "Tell us anything helpful about access, timing, pets, drainage, materials, or the look you want.",
+    generateButton: "Generate Preview and Estimate",
+    pdfTitle: "AI VISUAL ESTIMATE",
+    pdfThanks: "Thank you for requesting your project preview.",
+    specialistLabel: "Outdoor Project Specialists",
+    reviewRequired:
+      "This selection needs a specialist review before a range is shown.",
+    nextSteps: [
+      "We review your photos and selected project options",
+      "Your visual concept and preliminary range are prepared",
+      "A specialist follows up to schedule measurements and final pricing",
+    ],
+  },
+};

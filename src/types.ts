@@ -1,13 +1,44 @@
-export const PROJECT_OPTIONS = [
-  "Front Yard",
-  "Back Yard",
-  "Sports Turf",
-  "Commercial",
-  "Putting Green",
-  "Other",
-] as const;
+export type ProjectOption = string;
 
-export type ProjectOption = (typeof PROJECT_OPTIONS)[number];
+export type EstimateRange = [number, number] | "review";
+
+export type ClientConfig = {
+  slug: string;
+  companyName: string;
+  brandName: string;
+  legalName: string;
+  serviceLabel: string;
+  positioning: string;
+  website: string;
+  logoPath: string;
+  footerImagePath: string;
+  phone: string;
+  email: string;
+  navLinks: string[];
+  quickLinks: string[];
+  services: string[];
+  projectOptions: ProjectOption[];
+  estimateRanges: Record<ProjectOption, EstimateRange>;
+  estimatePrefix: string;
+  colors: {
+    primary: string;
+    primaryDark: string;
+    primarySoft: string;
+    accent: string;
+    accentDark: string;
+  };
+  copy: {
+    pageTitle: string;
+    contactPrompt: string;
+    notesPlaceholder: string;
+    generateButton: string;
+    pdfTitle: string;
+    pdfThanks: string;
+    specialistLabel: string;
+    reviewRequired: string;
+    nextSteps: string[];
+  };
+};
 
 export type ContactInfo = {
   firstName: string;

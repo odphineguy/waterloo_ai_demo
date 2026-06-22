@@ -4,13 +4,14 @@ import {
   X,
 } from "lucide-react";
 import type { jsPDF as JsPDF } from "jspdf";
-import { useMemo, useState } from "react";
+import { CSSProperties, useMemo, useState } from "react";
+import { getActiveClient } from "./config/activeClient";
 import { generateYardPreview } from "./services/imageGeneration";
 import {
+  ClientConfig,
   ContactInfo,
   LeadPacket,
   PreviewStatus,
-  PROJECT_OPTIONS,
   ProjectOption,
   UploadedImage,
   YardPreviewResult,
@@ -107,13 +108,13 @@ function formatDate(value = new Date()) {
   }).format(value);
 }
 
-function getEstimateNumber(value = new Date()) {
+function getEstimateNumber(prefix: string, value = new Date()) {
   const datePart = [
     value.getFullYear(),
     String(value.getMonth() + 1).padStart(2, "0"),
     String(value.getDate()).padStart(2, "0"),
   ].join("");
-  return `WT-${datePart}`;
+  return `${prefix}-${datePart}`;
 }
 
 function safeFilename(value: string) {
@@ -121,6 +122,7 @@ function safeFilename(value: string) {
 }
 
 function App() {
+  const client = useMemo(() => getActiveClient(), []);
   const [contact, setContact] = useState<ContactInfo>(emptyContact);
   const [projectOptions, setProjectOptions] = useState<ProjectOption[]>([]);
   const [images, setImages] = useState<UploadedImage[]>([]);
@@ -141,8 +143,8 @@ function App() {
   );
 
   const budgetRange = useMemo(
-    () => calculateBudgetRange(projectOptions),
-    [projectOptions],
+    () => calculateBudgetRange(projectOptions, client.estimateRanges),
+    [client.estimateRanges, projectOptions],
   );
 
   const canGeneratePreview =
@@ -209,6 +211,7 @@ function App() {
 
     setPreviewStatus("generating");
     const result = await generateYardPreview({
+      client,
       projectOptions,
       notes,
       uploadedImages: images,
@@ -237,14 +240,14 @@ function App() {
       const pageWidth = doc.internal.pageSize.getWidth();
       const pageHeight = doc.internal.pageSize.getHeight();
       const margin = 46;
-      const green = "#05896f";
-      const darkGreen = "#183820";
+      const green = client.colors.primary;
+      const darkGreen = client.colors.primaryDark;
       const ink = "#171f1a";
       const muted = "#4f5b53";
       const line = "#d7e0d8";
       const clientName = `${contact.firstName} ${contact.lastName}`.trim();
       const propertyAddress = `${contact.streetAddress}, ${contact.city}, ${contact.state} ${contact.zipCode}`;
-      const logo = await imageUrlToJpegDataUrl("/images/logo.png", 500);
+      const logo = await imageUrlToJpegDataUrl(client.logoPath, 500);
       const beforeImages = await Promise.all(
         images.map((image) => imageUrlToJpegDataUrl(image.previewUrl)),
       );
@@ -258,8 +261,8 @@ function App() {
       doc.setTextColor(ink);
       doc.setFont("helvetica", "normal");
       doc.setFontSize(28);
-      doc.text("WATERLOO TURF", margin, 64);
-      doc.text("AI VISUAL ESTIMATE", margin, 96);
+      doc.text(client.brandName, margin, 64, { maxWidth: 320 });
+      doc.text(client.copy.pdfTitle, margin, 96, { maxWidth: 320 });
 
       addImageContain(doc, logo, pageWidth - margin - 145, 42, 145, 72);
 
@@ -269,7 +272,7 @@ function App() {
       doc.text("Estimate Date", margin, 178);
       doc.setTextColor(ink);
       doc.setFontSize(10);
-      doc.text(getEstimateNumber(), margin, 158);
+      doc.text(getEstimateNumber(client.estimatePrefix), margin, 158);
       doc.text(formatDate(), margin, 194);
 
       const infoX = pageWidth - margin - 210;
@@ -292,7 +295,7 @@ function App() {
       doc.setTextColor("#ffffff");
       doc.text("Visual Preview", margin + 10, y + 21);
       doc.text("Project Type", pageWidth - margin - 230, y + 21);
-      doc.text(projectOptions.join(", ") || "Artificial Turf", pageWidth - margin - 150, y + 21, {
+      doc.text(projectOptions.join(", ") || client.serviceLabel, pageWidth - margin - 150, y + 21, {
         maxWidth: 140,
       });
 
@@ -391,15 +394,15 @@ function App() {
       doc.setTextColor(ink);
       doc.setFont("helvetica", "normal");
       doc.setFontSize(9);
-      doc.text("Thank you for choosing Waterloo Turf.", margin, y);
-      doc.text("Waterloo Turf", margin, y + 34);
-      doc.text("Artificial Turf Specialists", margin, y + 49);
+      doc.text(client.copy.pdfThanks, margin, y);
+      doc.text(client.companyName, margin, y + 34);
+      doc.text(client.copy.specialistLabel, margin, y + 49);
 
       const footerX = pageWidth - margin - 210;
       const contactRows = [
-        ["Phone", "(512) 607-9335"],
-        ["Email", "info@waterlooturf.com"],
-        ["Web", "waterlooturf.com"],
+        ["Phone", client.phone],
+        ["Email", client.email],
+        ["Web", client.website.replace(/^https?:\/\//, "").replace(/\/$/, "")],
       ];
       contactRows.forEach(([label, value], index) => {
         const rowY = y + index * 18;
@@ -414,7 +417,9 @@ function App() {
       });
 
       doc.save(
-        `waterloo-turf-estimate-${safeFilename(clientName) || "client"}.pdf`,
+        `${safeFilename(client.companyName) || "visual"}-estimate-${
+          safeFilename(clientName) || "client"
+        }.pdf`,
       );
     } finally {
       setIsDownloadingPdf(false);
@@ -422,13 +427,26 @@ function App() {
   }
 
   return (
-    <main className="app-shell">
-      <SiteHeader />
+    <main
+      className={`app-shell client-${client.slug}`}
+      style={
+        {
+          "--green-900": client.colors.primaryDark,
+          "--green-800": client.colors.primaryDark,
+          "--green-700": client.colors.primary,
+          "--green-100": client.colors.primarySoft,
+          "--gold": client.colors.accent,
+          "--gold-dark": client.colors.accentDark,
+          "--footer-image": `url("${client.footerImagePath}")`,
+        } as CSSProperties
+      }
+    >
+      <SiteHeader client={client} />
 
       <section className="estimate-layout" id="estimate">
         <div className="form-panel">
           <h1 className="page-title">
-            Fill Out The Form Below To Schedule Your Free Onsite Estimate
+            {client.copy.pageTitle}
           </h1>
 
           {validationMessages.length > 0 && (
@@ -443,8 +461,9 @@ function App() {
             id="estimate-request-form"
             onSubmit={(event) => event.preventDefault()}
           >
-            <ContactForm contact={contact} onChange={updateContact} />
+            <ContactForm client={client} contact={contact} onChange={updateContact} />
             <ProjectOptions
+              client={client}
               selectedOptions={projectOptions}
               onToggle={toggleProjectOption}
             />
@@ -461,7 +480,7 @@ function App() {
                 id="notes"
                 value={notes}
                 onChange={(event) => setNotes(event.target.value)}
-                placeholder="Tell us anything helpful about access, timing, slope, drainage, or the look you want."
+                placeholder={client.copy.notesPlaceholder}
               />
             </section>
             <button
@@ -473,7 +492,7 @@ function App() {
               {previewStatus === "generating" ? (
                 <Loader2 className="spin" size={19} />
               ) : null}
-              Generate AI Yard Preview
+              {client.copy.generateButton}
             </button>
           </form>
         </div>
@@ -488,6 +507,7 @@ function App() {
           )}
           {preview && (
             <BudgetCard
+              client={client}
               label={budgetRange.label}
               requiresReview={budgetRange.kind === "review"}
             />
@@ -498,7 +518,7 @@ function App() {
               onDownload={handleDownloadEstimate}
             />
           )}
-          {leadPacket && <NextStepsCard requestReceived />}
+          {leadPacket && <NextStepsCard client={client} requestReceived />}
         </aside>
       </section>
       {expandedImage && (
@@ -507,35 +527,27 @@ function App() {
           onClose={() => setExpandedImage(null)}
         />
       )}
-      <SiteFooter />
+      <SiteFooter client={client} />
     </main>
   );
 }
 
-function SiteHeader() {
-  const links = [
-    "About Us",
-    "Services",
-    "Gallery",
-    "Blog",
-    "Merch",
-    "Own a Franchise",
-  ];
-
+function SiteHeader({ client }: { client: ClientConfig }) {
+  const phoneHref = `tel:${client.phone.replace(/[^\d+]/g, "")}`;
   return (
     <header className="site-header">
-      <a className="site-logo-link" href="https://waterlooturf.com/">
-        <img src="/images/logo.png" alt="Waterloo Turf" className="site-logo" />
+      <a className="site-logo-link" href={client.website}>
+        <img src={client.logoPath} alt={client.companyName} className="site-logo" />
       </a>
       <nav className="site-nav" aria-label="Primary navigation">
-        {links.map((link) => (
+        {client.navLinks.map((link) => (
           <a key={link} href="#">
             {link}
           </a>
         ))}
       </nav>
       <div className="header-actions">
-        <a className="call-cta" href="tel:+15126079335">
+        <a className="call-cta" href={phoneHref}>
           Call Now
         </a>
         <a className="header-cta" href="#estimate">
@@ -547,9 +559,11 @@ function SiteHeader() {
 }
 
 function ContactForm({
+  client,
   contact,
   onChange,
 }: {
+  client: ClientConfig;
   contact: ContactInfo;
   onChange: (key: keyof ContactInfo, value: string) => void;
 }) {
@@ -558,7 +572,7 @@ function ContactForm({
       <div className="card-heading">
         <div>
           <h2>Contact and property</h2>
-          <p>Where should Waterloo Turf prepare this preview?</p>
+          <p>{client.copy.contactPrompt}</p>
         </div>
       </div>
       <div className="field-grid">
@@ -580,9 +594,11 @@ function ContactForm({
 }
 
 function ProjectOptions({
+  client,
   selectedOptions,
   onToggle,
 }: {
+  client: ClientConfig;
   selectedOptions: ProjectOption[];
   onToggle: (option: ProjectOption) => void;
 }) {
@@ -597,7 +613,7 @@ function ProjectOptions({
         </div>
       </div>
       <div className="option-grid">
-        {PROJECT_OPTIONS.map((option) => (
+        {client.projectOptions.map((option) => (
           <label
             key={option}
             className={
@@ -784,9 +800,11 @@ function ImageLightbox({
 }
 
 function BudgetCard({
+  client,
   label,
   requiresReview,
 }: {
+  client: ClientConfig;
   label: string;
   requiresReview: boolean;
 }) {
@@ -796,14 +814,20 @@ function BudgetCard({
       <strong>{label}</strong>
       <p>
         {requiresReview
-          ? "This selection needs a Waterloo Turf review before a range is shown."
+          ? client.copy.reviewRequired
           : "This is a preliminary visual estimate only. Final design, measurements, and pricing are subject to onsite verification."}
       </p>
     </section>
   );
 }
 
-function NextStepsCard({ requestReceived }: { requestReceived: boolean }) {
+function NextStepsCard({
+  client,
+  requestReceived,
+}: {
+  client: ClientConfig;
+  requestReceived: boolean;
+}) {
   return (
     <section className="result-card next-card">
       <div className="result-heading">
@@ -818,38 +842,26 @@ function NextStepsCard({ requestReceived }: { requestReceived: boolean }) {
       </div>
       {requestReceived ? (
         <div className="received-message">
-          Your yard preview request has been submitted. A Waterloo Turf specialist
+          Your yard preview request has been submitted. A {client.companyName} specialist
           will review your photos, selected project options, and property details.
         </div>
       ) : (
         <ol className="next-list">
-          <li>We review your photos and project details</li>
-          <li>Your AI concept preview is prepared</li>
-          <li>Waterloo Turf follows up with next steps and pricing</li>
+          {client.copy.nextSteps.map((step) => (
+            <li key={step}>{step}</li>
+          ))}
         </ol>
       )}
     </section>
   );
 }
 
-function SiteFooter() {
-  const quickLinks = [
-    ["Home", "Locations"],
-    ["About Us", "Gallery"],
-    ["Blog", "Franchise"],
-    ["Merch", "Terms & Conditions"],
-  ];
-  const services = [
-    ["Front & Back Yards", "Pet Turf"],
-    ["Putting Greens", "Playground Turf"],
-    ["Commercial", "Sports Turf"],
-  ];
-
+function SiteFooter({ client }: { client: ClientConfig }) {
   return (
     <footer className="site-footer">
       <div className="footer-inner">
         <div className="footer-brand">
-          <img src="/images/logo.png" alt="Waterloo Turf" />
+          <img src={client.logoPath} alt={client.companyName} />
           <div className="social-row" aria-label="Social links">
             {["f", "▶", "◎", "✣", "G"].map((item) => (
               <a href="#" key={item}>
@@ -861,7 +873,7 @@ function SiteFooter() {
         <div className="footer-column">
           <h2>Quick Links</h2>
           <div className="footer-link-grid">
-            {quickLinks.flat().map((link) => (
+            {client.quickLinks.map((link) => (
               <a href="#" key={link}>
                 {link}
               </a>
@@ -871,7 +883,7 @@ function SiteFooter() {
         <div className="footer-column">
           <h2>Services</h2>
           <div className="footer-link-grid services-grid">
-            {services.flat().map((link) => (
+            {client.services.map((link) => (
               <a href="#" key={link}>
                 {link}
               </a>
@@ -880,9 +892,9 @@ function SiteFooter() {
         </div>
       </div>
       <div className="footer-bottom">
-        <p>Waterloo Turf Franchising Co, LLC.</p>
+        <p>{client.legalName}</p>
         <p>
-          Copyright © 2026 Waterloo Turf. <a href="#">Privacy Policy</a> |{" "}
+          Copyright © 2026 {client.companyName}. <a href="#">Privacy Policy</a> |{" "}
           <a href="#">Terms & Conditions</a> | Powered by <a href="#">ClickTecs</a>
         </p>
       </div>

@@ -1,0 +1,157 @@
+[
+  {
+    "company_name": "Always Green Turf",
+    "website": "https://alwaysgreenturfaz.com/",
+    "logo_url": "https://alwaysgreenturfaz.com/logo.webp",
+    "phone": "480-530-5476",
+    "email": "john@email.com",
+    "positioning": "Artificial turf installation in Arizona.",
+    "services": [
+      "artificial turf installation"
+    ],
+    "notes_for_demo": "Simple turf-focused pitch. Good candidate for a stripped-down AI estimate demo."
+  },
+  {
+    "company_name": "Platinum Outdoors",
+    "website": "https://platinumoutdoorsaz.com/",
+    "logo_url": "https://platinumoutdoorsaz.com/wp-content/uploads/2025/06/logo.webp",
+    "phone": "(480) 856-5252",
+    "email": "austin@platinumoutdoorsaz.com",
+    "positioning": "Outdoor living contractor in Phoenix and the Valley with financing.",
+    "services": [
+      "backyard remodels",
+      "outdoor living",
+      "landscaping"
+    ],
+    "notes_for_demo": "More outdoor-living than pure turf. Demo could lean into full backyard transformation."
+  },
+  {
+    "company_name": "Better Life Landscape",
+    "website": "https://www.betterlifelandscape.com/",
+    "logo_url": "https://images.squarespace-cdn.com/content/v1/63adc252c7e8f9445e1bdada/bf03daad-0b38-4c77-bcbb-67ca616f9381/Better+Life+Landscape+Logo%2C+Wide.png?format=1500w",
+    "phone": "602-587-9939",
+    "email": "sales@betterlifelandscape.com",
+    "positioning": "Phoenix Valley landscaping for residential and commercial properties.",
+    "services": [
+      "turf",
+      "pavers",
+      "rocks",
+      "fire pits",
+      "commercial landscaping"
+    ],
+    "notes_for_demo": "Already sells design/build value. AI estimate angle should focus on instant visualization and faster lead qualification."
+  },
+  {
+    "company_name": "Pristine Green LLC",
+    "website": "https://pristinegreenaz.com/",
+    "logo_url": "https://pristinegreenaz.com/logo.svg",
+    "phone": "(480) 620-9154",
+    "email": "admin@pristinegreenaz.com",
+    "positioning": "Premier East Valley landscaping with strong review positioning.",
+    "services": [
+      "turf",
+      "pavers",
+      "irrigation",
+      "lighting"
+    ],
+    "notes_for_demo": "Solid brand fit for a polished homeowner-facing estimate PDF."
+  },
+  {
+    "company_name": "White Rhino Turf",
+    "website": "https://whiterhinoturf.com/",
+    "logo_url": "https://whiterhinoturf.com/wp-content/uploads/2025/09/logo.png",
+    "phone": "(602) 694-7873",
+    "email": "oscar@whiterhinoturf.com",
+    "positioning": "Phoenix outdoor living experts with two-week installs, financing, and warranty messaging.",
+    "services": [
+      "artificial turf",
+      "pet turf",
+      "putting greens",
+      "pavers",
+      "irrigation",
+      "lighting",
+      "full landscaping"
+    ],
+    "notes_for_demo": "Very conversion-focused site. Good model for urgency, speed, and financing language."
+  },
+  {
+    "company_name": "Turf Masters",
+    "website": "https://azturfmasters.com/",
+    "logo_url": "https://azturfmasters.com/application/themes/turfmasters/images/az-turfmasters-logo-2025.png",
+    "phone": "(480) 751-4343",
+    "email": null,
+    "positioning": "Artificial grass and synthetic turf installer serving the Phoenix metro area.",
+    "services": [
+      "artificial turf",
+      "putting greens",
+      "synthetic grass"
+    ],
+    "notes_for_demo": "Pure turf angle. Easy fit for a clean AI estimate template."
+  },
+  {
+    "company_name": "Turf Monsters",
+    "website": "https://turfmonstersaz.com/",
+    "logo_url": null,
+    "phone": "(623) 780-7535",
+    "email": null,
+    "positioning": "Award-winning artificial turf installation and landscaping with financing.",
+    "services": [
+      "artificial turf",
+      "custom putting greens",
+      "landscaping",
+      "landscape lighting",
+      "trees and plants",
+      "pavers and patios",
+      "pergolas",
+      "pickleball courts",
+      "fire pits and grills",
+      "turf care"
+    ],
+    "notes_for_demo": "Cloudflare blocked direct logo extraction on the quick pass, but the service mix and tone are useful."
+  },
+  {
+    "company_name": "Paradise Greens",
+    "website": "https://www.paradisegreens.com/",
+    "logo_url": "https://www.paradisegreens.com/wp-content/uploads/Frame-1000002331.png",
+    "phone": "(480) 586-0655",
+    "email": "info@paradisegreens.com",
+    "positioning": "Arizona's top-rated artificial grass experts with strong credibility and partner branding.",
+    "services": [
+      "artificial grass",
+      "pet and dog grass",
+      "putting greens",
+      "playground turf",
+      "commercial turf",
+      "artificial lawns"
+    ],
+    "notes_for_demo": "National-brand feel. Good reference for authority, awards, and partnership positioning."
+  },
+  {
+    "company_name": "Apex Turf",
+    "website": "https://apexturfaz.com/",
+    "logo_url": "https://apexturfaz.com/wp-content/uploads/2025/03/apex-turf-logo-wide.png",
+    "phone": "(480) 935-6228",
+    "email": null,
+    "positioning": "Phoenix-area artificial turf installer with free quotes.",
+    "services": [
+      "artificial grass",
+      "pet turf",
+      "putting greens",
+      "pavers"
+    ],
+    "notes_for_demo": "Straightforward turf-and-hardscape company. Good for a no-frills, high-conversion mockup."
+  },
+  {
+    "company_name": "Arizona Artificial Lawns",
+    "website": "https://www.arizonaartificiallawns.com/",
+    "logo_url": "https://www.arizonaartificiallawns.com/wp-content/uploads/2025/10/AZAL_logo-light.png",
+    "phone": "(623) 584-1456",
+    "email": null,
+    "positioning": "Maintenance-free synthetic turf brand serving Phoenix with long-tenure trust messaging.",
+    "services": [
+      "artificial grass installation",
+      "synthetic turf"
+    ],
+    "notes_for_demo": "Feels stable and established. Demo can lean into premium trust and low-maintenance value."
+  }
+]
