@@ -1,0 +1,77 @@
+import type { ClientConfig } from "../types";
+
+export const whiteRhinoTurfClient: ClientConfig = {
+  slug: "white-rhino-turf",
+  companyName: "White Rhino Turf",
+  brandName: "WHITE RHINO TURF",
+  legalName: "White Rhino Turf",
+  serviceLabel: "Outdoor Living",
+  positioning:
+    "Phoenix outdoor living experts with fast installs, financing, and warranty-focused messaging.",
+  website: "https://whiterhinoturf.com/",
+  logoPath: "/images/white-rhino-turf-logo.png",
+  footerImagePath: "/images/footer-turf-premium.png",
+  phone: "(602) 694-7873",
+  email: "oscar@whiterhinoturf.com",
+  navLinks: ["Artificial Turf", "Pet Turf", "Putting Greens", "Pavers", "Contact"],
+  quickLinks: ["Home", "Services", "Gallery", "Reviews", "Financing", "Contact"],
+  services: [
+    "Artificial Turf",
+    "Pet Turf",
+    "Putting Greens",
+    "Pavers",
+    "Irrigation",
+    "Lighting",
+    "Full Landscaping",
+  ],
+  projectOptions: [
+    "Artificial Turf",
+    "Pet Turf",
+    "Putting Green",
+    "Pavers",
+    "Irrigation",
+    "Lighting",
+    "Full Landscaping",
+    "Other",
+  ],
+  estimateRanges: {
+    "Artificial Turf": [5000, 14500],
+    "Pet Turf": [5500, 15500],
+    "Putting Green": [4000, 11000],
+    Pavers: [6500, 19000],
+    Irrigation: [2500, 8500],
+    Lighting: [2200, 7500],
+    "Full Landscaping": "review",
+    Other: "review",
+  },
+  estimatePrefix: "WRT",
+  colors: {
+    primary: "#2e7d3f",
+    primaryDark: "#153820",
+    primarySoft: "#e7f1e8",
+    accent: "#d8b33f",
+    accentDark: "#9a771b",
+  },
+  pdfLogo: {
+    background: "none",
+    width: 118,
+    height: 78,
+  },
+  copy: {
+    pageTitle: "Get Your Instant Outdoor Project Preview",
+    contactPrompt: "Where should White Rhino Turf prepare this preview?",
+    notesPlaceholder:
+      "Tell us anything helpful about pets, drainage, timing, financing, pavers, lighting, irrigation, or the look you want.",
+    generateButton: "Generate Outdoor Project Preview",
+    pdfTitle: "AI VISUAL ESTIMATE",
+    pdfThanks: "Thank you for choosing White Rhino Turf.",
+    specialistLabel: "Outdoor Living Specialists",
+    reviewRequired:
+      "This selection needs a White Rhino Turf review before a range is shown.",
+    nextSteps: [
+      "We review your photos and selected project options",
+      "Your outdoor project concept preview is prepared",
+      "White Rhino Turf follows up with measurements, options, and final pricing",
+    ],
+  },
+};
