@@ -87,6 +87,33 @@ a {
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
 }
 
+.client-turf-masters .site-header {
+  background:
+    linear-gradient(rgba(10, 47, 28, 0.62), rgba(10, 47, 28, 0.72)),
+    var(--footer-image, url("/images/footer-turf-premium.png")) center / cover;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+}
+
+.client-turf-masters .site-logo {
+  height: 130px;
+  width: 360px;
+}
+
+.client-turf-masters .site-nav a {
+  color: #ffffff;
+  text-shadow: 0 1px 9px rgba(0, 0, 0, 0.32);
+}
+
+.client-turf-masters .call-cta {
+  background: rgba(255, 255, 255, 0.94);
+  border-color: #ffffff;
+}
+
+.client-turf-masters .header-cta {
+  background: var(--gold);
+  color: var(--green-900);
+}
+
 .client-pristine-green .site-logo {
   height: 138px;
   width: 360px;
@@ -771,6 +798,11 @@ pre {
   width: 360px;
 }
 
+.client-turf-masters .footer-brand img {
+  height: 126px;
+  width: 340px;
+}
+
 .social-row {
   display: flex;
   gap: 9px;
@@ -865,6 +897,11 @@ pre {
     width: min(340px, 82vw);
   }
 
+  .client-turf-masters .site-logo {
+    height: 108px;
+    width: min(340px, 82vw);
+  }
+
   .site-nav {
     flex-wrap: wrap;
     justify-content: center;
@@ -930,6 +967,11 @@ pre {
   .client-pristine-green .footer-brand img {
     height: 112px;
     width: min(320px, 84vw);
+  }
+
+  .client-turf-masters .footer-brand img {
+    height: 108px;
+    width: min(310px, 84vw);
   }
 
   .download-card {
