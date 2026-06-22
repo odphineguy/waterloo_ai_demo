@@ -49,6 +49,11 @@ export const paradiseGreensClient: ClientConfig = {
     accent: "#d6b24d",
     accentDark: "#9b7721",
   },
+  pdfLogo: {
+    background: "dark",
+    width: 185,
+    height: 62,
+  },
   copy: {
     pageTitle: "Get Your Instant Artificial Grass Project Preview",
     contactPrompt: "Where should Paradise Greens prepare this preview?",

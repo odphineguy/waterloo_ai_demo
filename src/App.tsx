@@ -77,6 +77,26 @@ async function imageUrlToJpegDataUrl(src: string, maxDimension = 1000) {
   return canvas.toDataURL("image/jpeg", 0.88);
 }
 
+async function imageUrlToPngDataUrl(src: string, maxDimension = 1000) {
+  const image = await loadImageForCanvas(src);
+  const scale = Math.min(
+    1,
+    maxDimension / Math.max(image.naturalWidth, image.naturalHeight),
+  );
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+  canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+  const context = canvas.getContext("2d");
+
+  if (!context) {
+    throw new Error("Unable to prepare estimate logo.");
+  }
+
+  context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+  return canvas.toDataURL("image/png");
+}
+
 function addImageContain(
   doc: JsPDF,
   dataUrl: string,
@@ -84,6 +104,7 @@ function addImageContain(
   y: number,
   width: number,
   height: number,
+  format: "JPEG" | "PNG" = "JPEG",
 ) {
   const properties = doc.getImageProperties(dataUrl);
   const ratio = Math.min(width / properties.width, height / properties.height);
@@ -92,7 +113,7 @@ function addImageContain(
 
   doc.addImage(
     dataUrl,
-    "JPEG",
+    format,
     x + (width - renderedWidth) / 2,
     y + (height - renderedHeight) / 2,
     renderedWidth,
@@ -259,7 +280,7 @@ function App() {
       const line = "#d7e0d8";
       const clientName = `${contact.firstName} ${contact.lastName}`.trim();
       const propertyAddress = `${contact.streetAddress}, ${contact.city}, ${contact.state} ${contact.zipCode}`;
-      const logo = await imageUrlToJpegDataUrl(client.logoPath, 500);
+      const logo = await imageUrlToPngDataUrl(client.logoPath, 900);
       const beforeImages = await Promise.all(
         images.map((image) => imageUrlToJpegDataUrl(image.previewUrl)),
       );
@@ -276,7 +297,36 @@ function App() {
       doc.text(client.brandName, margin, 64, { maxWidth: 320 });
       doc.text(client.copy.pdfTitle, margin, 96, { maxWidth: 320 });
 
-      addImageContain(doc, logo, pageWidth - margin - 145, 42, 145, 72);
+      const pdfLogo = client.pdfLogo ?? {
+        background: "none" as const,
+        width: 145,
+        height: 72,
+      };
+      const logoX = pageWidth - margin - pdfLogo.width;
+      const logoY = 42;
+
+      if (pdfLogo.background === "dark") {
+        doc.setFillColor(darkGreen);
+        doc.roundedRect(
+          logoX - 12,
+          logoY - 8,
+          pdfLogo.width + 24,
+          pdfLogo.height + 16,
+          5,
+          5,
+          "F",
+        );
+      }
+
+      addImageContain(
+        doc,
+        logo,
+        logoX,
+        logoY,
+        pdfLogo.width,
+        pdfLogo.height,
+        "PNG",
+      );
 
       doc.setFontSize(9);
       doc.setTextColor(muted);

@@ -27,6 +27,11 @@ export type ClientConfig = {
     accent: string;
     accentDark: string;
   };
+  pdfLogo?: {
+    background: "dark" | "none";
+    width: number;
+    height: number;
+  };
   copy: {
     pageTitle: string;
     contactPrompt: string;
