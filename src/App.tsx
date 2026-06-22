@@ -293,9 +293,18 @@ function App() {
 
       doc.setTextColor(ink);
       doc.setFont("helvetica", "normal");
-      doc.setFontSize(28);
-      doc.text(client.brandName, margin, 64, { maxWidth: 320 });
-      doc.text(client.copy.pdfTitle, margin, 96, { maxWidth: 320 });
+      // Shrink the brand name to fit one line so long names (e.g. "ARIZONA
+      // ARTIFICIAL LAWNS") don't wrap and collide with the title below it.
+      const brandMaxWidth = 320;
+      let brandFontSize = 28;
+      doc.setFontSize(brandFontSize);
+      while (brandFontSize > 17 && doc.getTextWidth(client.brandName) > brandMaxWidth) {
+        brandFontSize -= 1;
+        doc.setFontSize(brandFontSize);
+      }
+      doc.text(client.brandName, margin, 64, { maxWidth: brandMaxWidth });
+      doc.setFontSize(18);
+      doc.text(client.copy.pdfTitle, margin, 92, { maxWidth: brandMaxWidth });
 
       const pdfLogo = client.pdfLogo ?? {
         background: "none" as const,
