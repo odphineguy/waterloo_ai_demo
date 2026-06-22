@@ -1,3 +1,8 @@
+/// <reference types="node" />
+// ^ Pins Node's global types (e.g. `process`) for Vercel's standalone
+// serverless-function type-check, which uses the root tsconfig (no node types).
+// Local `tsc -b` already covers this via tsconfig.node.json.
+
 type RequestImage = {
   dataUrl: string;
   filename: string;
