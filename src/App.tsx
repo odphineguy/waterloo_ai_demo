@@ -121,6 +121,72 @@ function addImageContain(
   );
 }
 
+// Draws a rounded green badge with a simple white vector glyph (phone /
+// envelope / globe) for the PDF footer contact rows, matching the reference.
+function drawContactBadge(
+  doc: JsPDF,
+  kind: "phone" | "email" | "web",
+  x: number,
+  y: number,
+  size: number,
+  bg: string,
+) {
+  doc.setFillColor(bg);
+  doc.roundedRect(x, y, size, size, 3, 3, "F");
+  doc.setDrawColor("#ffffff");
+  doc.setFillColor("#ffffff");
+  doc.setLineWidth(0.9);
+  const cx = x + size / 2;
+  const cy = y + size / 2;
+
+  if (kind === "phone") {
+    // Mobile handset: rounded body with a speaker dot near the bottom.
+    doc.roundedRect(cx - 2.4, cy - 4, 4.8, 8, 1, 1, "S");
+    doc.circle(cx, cy + 2.4, 0.5, "F");
+  } else if (kind === "email") {
+    // Envelope: body rectangle plus the V-shaped flap.
+    doc.rect(cx - 4, cy - 2.6, 8, 5.2, "S");
+    doc.lines([[4, 3], [4, -3]], cx - 4, cy - 2.6, [1, 1], "S");
+  } else {
+    // Globe: outer circle, meridian ellipse, equator line.
+    doc.circle(cx, cy, 4, "S");
+    doc.ellipse(cx, cy, 1.7, 4, "S");
+    doc.line(cx - 4, cy, cx + 4, cy);
+  }
+}
+
+// Like addImageContain, but scales the image to *fill* the box (cropping the
+// overflow) so the frame is edge-to-edge with no letterbox bars, matching the
+// large before/after look of the reference estimate.
+function addImageCover(
+  doc: JsPDF,
+  dataUrl: string,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  format: "JPEG" | "PNG" = "JPEG",
+) {
+  const properties = doc.getImageProperties(dataUrl);
+  const ratio = Math.max(width / properties.width, height / properties.height);
+  const renderedWidth = properties.width * ratio;
+  const renderedHeight = properties.height * ratio;
+
+  doc.saveGraphicsState();
+  // rect with a null style is added to the path but not painted, then used as
+  // the clip region so the oversized image is cropped to the box.
+  doc.rect(x, y, width, height, null).clip().discardPath();
+  doc.addImage(
+    dataUrl,
+    format,
+    x + (width - renderedWidth) / 2,
+    y + (height - renderedHeight) / 2,
+    renderedWidth,
+    renderedHeight,
+  );
+  doc.restoreGraphicsState();
+}
+
 function formatDate(value = new Date()) {
   return new Intl.DateTimeFormat("en-US", {
     month: "long",
@@ -378,7 +444,7 @@ function App() {
       doc.text("After Image(s)", pageWidth / 2 + 10, y);
 
       const imageWidth = (pageWidth - margin * 2 - 20) / 2;
-      const imageHeight = 118;
+      const imageHeight = 172;
       y += 12;
       const pairCount = Math.max(beforeImages.length, afterImages.length);
 
@@ -394,7 +460,7 @@ function App() {
         doc.roundedRect(pageWidth / 2 + 10, y, imageWidth, imageHeight, 3, 3, "FD");
 
         if (beforeImages[index]) {
-          addImageContain(
+          addImageCover(
             doc,
             beforeImages[index],
             margin + 5,
@@ -404,7 +470,7 @@ function App() {
           );
         }
         if (afterImages[index]) {
-          addImageContain(
+          addImageCover(
             doc,
             afterImages[index],
             pageWidth / 2 + 15,
@@ -429,7 +495,7 @@ function App() {
       doc.setFont("helvetica", "bold");
       doc.setFontSize(10);
       doc.setTextColor(ink);
-      doc.text("Terms and Conditions", termsX, y + 12);
+      doc.text("Project Notes & Terms", termsX, y + 12);
       doc.setFont("helvetica", "normal");
       doc.setFontSize(9);
       doc.setTextColor(ink);
@@ -470,21 +536,18 @@ function App() {
       doc.text(client.copy.specialistLabel, margin, y + 49);
 
       const footerX = pageWidth - margin - 210;
-      const contactRows = [
-        ["Phone", client.phone],
-        ["Email", client.email],
-        ["Web", client.website.replace(/^https?:\/\//, "").replace(/\/$/, "")],
+      const badgeSize = 14;
+      const contactRows: Array<["phone" | "email" | "web", string]> = [
+        ["phone", client.phone],
+        ["email", client.email],
+        ["web", client.website.replace(/^https?:\/\//, "").replace(/\/$/, "")],
       ];
-      contactRows.forEach(([label, value], index) => {
-        const rowY = y + index * 18;
-        doc.setFillColor(green);
-        doc.rect(footerX, rowY - 8, 11, 11, "F");
-        doc.setTextColor("#ffffff");
-        doc.setFontSize(6);
-        doc.text(label[0], footerX + 5.5, rowY, { align: "center" });
+      contactRows.forEach(([kind, value], index) => {
+        const rowY = y + index * 20;
+        drawContactBadge(doc, kind, footerX, rowY - 10, badgeSize, green);
         doc.setTextColor(ink);
         doc.setFontSize(9);
-        doc.text(value, footerX + 22, rowY);
+        doc.text(value, footerX + badgeSize + 8, rowY);
       });
 
       doc.save(
