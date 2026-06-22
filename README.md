@@ -8,7 +8,7 @@ React + TypeScript MVP for an AI-powered visual estimate funnel. The app now sup
 - Lets customers select only the approved project options
 - Uploads 1-4 yard photos with previews
 - Builds a reusable AI image prompt from project options and notes
-- Generates a mock yard preview with an API-ready service structure
+- Generates real AI yard previews through the server-side Vercel API route
 - Shows a preliminary budget range
 - Creates a hidden request object ready for future email, webhook, Supabase, or Google Sheets integration
 
@@ -50,7 +50,7 @@ npm run build
 
 ## Environment Variables
 
-The app runs without API keys. For future AI image generation work, use a server-side Vercel function with:
+The app requires a server-side Vercel function with:
 
 ```bash
 OPENAI_API_KEY=
@@ -59,6 +59,12 @@ OPENAI_IMAGE_MODEL=gpt-image-1.5
 ```
 
 For production, keep image generation behind a server-side Vercel function so API keys are never exposed to the browser. The current `generateYardPreview` service is intentionally structured so a real OpenAI Images API endpoint can be plugged in later.
+
+For local testing of image generation, use the normal Vite dev server. The repo includes a dev-only adapter for `/api/generate-yard-preview`:
+
+```bash
+npm run dev
+```
 
 ## Project Options
 

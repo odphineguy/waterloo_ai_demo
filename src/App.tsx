@@ -210,24 +210,36 @@ function App() {
     if (messages.length > 0) return;
 
     setPreviewStatus("generating");
-    const result = await generateYardPreview({
-      client,
-      projectOptions,
-      notes,
-      uploadedImages: images,
-    });
-    setPreview(result);
-    setPreviewStatus("ready");
-    setLeadPacket(
-      createLeadPacket({
-        contact,
+    setPreview(null);
+    setLeadPacket(null);
+
+    try {
+      const result = await generateYardPreview({
+        client,
         projectOptions,
         notes,
-        photoCount: images.length,
-        preview: result,
-        budgetRange,
-      }),
-    );
+        uploadedImages: images,
+      });
+      setPreview(result);
+      setPreviewStatus("ready");
+      setLeadPacket(
+        createLeadPacket({
+          contact,
+          projectOptions,
+          notes,
+          photoCount: images.length,
+          preview: result,
+          budgetRange,
+        }),
+      );
+    } catch (error) {
+      setPreviewStatus("idle");
+      setValidationMessages([
+        error instanceof Error
+          ? error.message
+          : "Unable to generate the AI yard preview. Please try again.",
+      ]);
+    }
   }
 
   async function handleDownloadEstimate() {

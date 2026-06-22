@@ -1,5 +1,3 @@
-import type { IncomingMessage, ServerResponse } from "node:http";
-
 type RequestImage = {
   dataUrl: string;
   filename: string;
@@ -12,12 +10,14 @@ type PreviewRequestBody = {
   images?: RequestImage[];
 };
 
-type VercelRequest = IncomingMessage & {
+type VercelRequest = {
   body?: unknown;
   method?: string;
+  on: (event: "data" | "end" | "error", listener: (...args: unknown[]) => void) => void;
 };
 
-type VercelResponse = ServerResponse & {
+type VercelResponse = {
+  setHeader: (name: string, value: string) => void;
   status: (statusCode: number) => VercelResponse;
   json: (body: unknown) => void;
 };
@@ -26,7 +26,12 @@ export const config = {
   maxDuration: 60,
 };
 
-const OPENAI_IMAGE_MODEL = process.env.OPENAI_IMAGE_MODEL || "gpt-image-1.5";
+function getEnvValue(name: string, fallback: string) {
+  const value = process.env[name]?.trim();
+  return value && value !== "undefined" ? value : fallback;
+}
+
+const OPENAI_IMAGE_MODEL = getEnvValue("OPENAI_IMAGE_MODEL", "gpt-image-1.5");
 const supportsInputFidelity = OPENAI_IMAGE_MODEL !== "gpt-image-2";
 
 function parseJsonBody(req: VercelRequest): Promise<PreviewRequestBody> {

@@ -32,9 +32,7 @@ export function createLeadPacket({
     selectedProjectOptions: projectOptions,
     notes: notes.trim() || "No notes provided.",
     uploadedPhotoCount: photoCount,
-    aiPreviewStatus: preview
-      ? `${preview.status === "mock" ? "Mock preview ready" : "Generated preview ready"}`
-      : "Not generated",
+    aiPreviewStatus: preview ? "Generated preview ready" : "Not generated",
     aiPrompt: preview?.prompt ?? "",
     generatedPreview: preview,
     preliminaryBudgetRange: budgetRange.label,

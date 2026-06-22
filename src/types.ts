@@ -69,7 +69,7 @@ export type YardPreviewResult = {
   id: string;
   imageUrls: string[];
   prompt: string;
-  status: "mock" | "generated";
+  status: "generated";
   createdAt: string;
 };
 
