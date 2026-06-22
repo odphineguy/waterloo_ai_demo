@@ -1,0 +1,77 @@
+import type { ClientConfig } from "../types";
+
+export const turfMonstersClient: ClientConfig = {
+  slug: "turf-monsters",
+  companyName: "Turf Monsters",
+  brandName: "TURF MONSTERS",
+  legalName: "Turf Monsters",
+  serviceLabel: "Artificial Turf",
+  positioning:
+    "Award-winning artificial turf installation and full-service landscaping with financing.",
+  website: "https://turfmonstersaz.com/",
+  logoPath: "/images/turf-monsters-logo.webp",
+  footerImagePath: "/images/footer-turf-premium.png",
+  phone: "(623) 780-7535",
+  email: "info@turfmonstersaz.com",
+  navLinks: ["Artificial Turf", "Putting Greens", "Pavers", "Landscaping", "Contact"],
+  quickLinks: ["Home", "Services", "Gallery", "Reviews", "Financing", "Contact"],
+  services: [
+    "Artificial Turf",
+    "Custom Putting Greens",
+    "Pavers and Patios",
+    "Landscape Lighting",
+    "Pergolas",
+    "Pickleball Courts",
+    "Fire Pits and Grills",
+    "Trees and Plants",
+    "Turf Care",
+  ],
+  projectOptions: [
+    "Artificial Turf",
+    "Putting Green",
+    "Pavers and Patios",
+    "Fire Pit",
+    "Pickleball Court",
+    "Full Landscaping",
+    "Other",
+  ],
+  estimateRanges: {
+    "Artificial Turf": [5000, 14500],
+    "Putting Green": [4000, 11000],
+    "Pavers and Patios": [6500, 19000],
+    "Fire Pit": [4500, 14000],
+    "Pickleball Court": "review",
+    "Full Landscaping": "review",
+    Other: "review",
+  },
+  estimatePrefix: "TMN",
+  colors: {
+    primary: "#2f7d43",
+    primaryDark: "#173820",
+    primarySoft: "#e7f1e8",
+    accent: "#d7ad3b",
+    accentDark: "#92711c",
+  },
+  pdfLogo: {
+    background: "dark",
+    width: 168,
+    height: 59,
+  },
+  copy: {
+    pageTitle: "Get Your Instant Outdoor Project Preview",
+    contactPrompt: "Where should Turf Monsters prepare this preview?",
+    notesPlaceholder:
+      "Tell us anything helpful about turf, putting greens, pavers, fire features, pickleball, drainage, access, timing, or the look you want.",
+    generateButton: "Generate Outdoor Project Preview",
+    pdfTitle: "AI VISUAL ESTIMATE",
+    pdfThanks: "Thank you for choosing Turf Monsters.",
+    specialistLabel: "Artificial Turf & Landscape Specialists",
+    reviewRequired:
+      "This selection needs a Turf Monsters review before a range is shown.",
+    nextSteps: [
+      "We review your photos and selected project options",
+      "Your outdoor project concept preview is prepared",
+      "Turf Monsters follows up with measurements, options, and final pricing",
+    ],
+  },
+};

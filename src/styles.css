@@ -114,6 +114,11 @@ a {
   color: var(--green-900);
 }
 
+.client-turf-monsters .site-logo {
+  height: 104px;
+  width: 300px;
+}
+
 .client-pristine-green .site-logo {
   height: 138px;
   width: 360px;
@@ -803,6 +808,12 @@ pre {
   width: 340px;
 }
 
+.client-turf-monsters .footer-brand img {
+  height: 104px;
+  width: 300px;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.55));
+}
+
 .social-row {
   display: flex;
   gap: 9px;
@@ -902,6 +913,11 @@ pre {
     width: min(340px, 82vw);
   }
 
+  .client-turf-monsters .site-logo {
+    height: 92px;
+    width: min(300px, 82vw);
+  }
+
   .site-nav {
     flex-wrap: wrap;
     justify-content: center;
@@ -972,6 +988,11 @@ pre {
   .client-turf-masters .footer-brand img {
     height: 108px;
     width: min(310px, 84vw);
+  }
+
+  .client-turf-monsters .footer-brand img {
+    height: 96px;
+    width: min(290px, 84vw);
   }
 
   .download-card {
