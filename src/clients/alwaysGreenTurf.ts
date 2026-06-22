@@ -1,0 +1,70 @@
+import type { ClientConfig } from "../types";
+
+export const alwaysGreenTurfClient: ClientConfig = {
+  slug: "always-green-turf",
+  companyName: "Always Green Turf",
+  brandName: "ALWAYS GREEN TURF",
+  legalName: "Always Green Turf",
+  serviceLabel: "Artificial Turf",
+  positioning: "Artificial turf installation across Arizona.",
+  website: "https://alwaysgreenturfaz.com/",
+  logoPath: "/images/always-green-turf-logo.webp",
+  footerImagePath: "/images/footer-turf-premium.png",
+  phone: "(480) 530-5476",
+  email: "info@alwaysgreenturfaz.com",
+  navLinks: ["Artificial Turf", "Pet Turf", "Putting Greens", "Gallery", "Contact"],
+  quickLinks: ["Home", "Services", "Gallery", "Reviews", "Free Estimate", "Contact"],
+  services: [
+    "Artificial Turf",
+    "Pet Turf",
+    "Putting Greens",
+    "Front Yard Turf",
+    "Back Yard Turf",
+  ],
+  projectOptions: [
+    "Artificial Turf",
+    "Pet Turf",
+    "Putting Green",
+    "Front Yard",
+    "Back Yard",
+    "Other",
+  ],
+  estimateRanges: {
+    "Artificial Turf": [5000, 14500],
+    "Pet Turf": [5500, 15500],
+    "Putting Green": [4000, 11000],
+    "Front Yard": [4500, 13000],
+    "Back Yard": [5500, 15000],
+    Other: "review",
+  },
+  estimatePrefix: "AGT",
+  colors: {
+    primary: "#2f7d43",
+    primaryDark: "#173820",
+    primarySoft: "#e7f1e8",
+    accent: "#d7ad3b",
+    accentDark: "#92711c",
+  },
+  pdfLogo: {
+    background: "dark",
+    width: 96,
+    height: 65,
+  },
+  copy: {
+    pageTitle: "Get Your Instant Artificial Turf Project Preview",
+    contactPrompt: "Where should Always Green Turf prepare this preview?",
+    notesPlaceholder:
+      "Tell us anything helpful about pets, putting greens, front yard, back yard, drainage, access, timing, or the look you want.",
+    generateButton: "Generate Turf Project Preview",
+    pdfTitle: "AI VISUAL ESTIMATE",
+    pdfThanks: "Thank you for choosing Always Green Turf.",
+    specialistLabel: "Artificial Turf Specialists",
+    reviewRequired:
+      "This selection needs an Always Green Turf review before a range is shown.",
+    nextSteps: [
+      "We review your photos and selected turf options",
+      "Your artificial turf concept preview is prepared",
+      "Always Green Turf follows up with measurements, options, and final pricing",
+    ],
+  },
+};
