@@ -51,7 +51,7 @@ export const paradiseGreensClient: ClientConfig = {
   },
   pdfLogo: {
     background: "dark",
-    width: 185,
+    width: 167,
     height: 62,
   },
   copy: {
