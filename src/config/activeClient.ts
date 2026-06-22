@@ -3,11 +3,13 @@ import { waterlooClient } from "../clients/waterloo";
 import { paradiseGreensClient } from "../clients/paradiseGreens";
 import { whiteRhinoTurfClient } from "../clients/whiteRhinoTurf";
 import { betterLifeLandscapeClient } from "../clients/betterLifeLandscape";
+import { pristineGreenClient } from "../clients/pristineGreen";
 import type { ClientConfig } from "../types";
 
 export const clients: Record<string, ClientConfig> = {
   [betterLifeLandscapeClient.slug]: betterLifeLandscapeClient,
   [paradiseGreensClient.slug]: paradiseGreensClient,
+  [pristineGreenClient.slug]: pristineGreenClient,
   [whiteRhinoTurfClient.slug]: whiteRhinoTurfClient,
   [waterlooClient.slug]: waterlooClient,
   [templateClient.slug]: templateClient,

@@ -1,0 +1,71 @@
+import type { ClientConfig } from "../types";
+
+export const pristineGreenClient: ClientConfig = {
+  slug: "pristine-green",
+  companyName: "Pristine Green LLC",
+  brandName: "PRISTINE GREEN",
+  legalName: "Pristine Green LLC",
+  serviceLabel: "Landscape Design",
+  positioning: "Premier East Valley landscaping with strong review positioning.",
+  website: "https://pristinegreenaz.com/",
+  logoPath: "/images/pristine-green-logo.svg",
+  footerImagePath: "/images/footer-turf-premium.png",
+  phone: "(480) 620-9154",
+  email: "admin@pristinegreenaz.com",
+  navLinks: ["Turf", "Pavers", "Irrigation", "Lighting", "Contact"],
+  quickLinks: ["Home", "Services", "Gallery", "Reviews", "Estimate", "Contact"],
+  services: [
+    "Artificial Turf",
+    "Pavers",
+    "Irrigation",
+    "Landscape Lighting",
+    "Residential Landscaping",
+    "Outdoor Upgrades",
+  ],
+  projectOptions: [
+    "Artificial Turf",
+    "Pavers",
+    "Irrigation",
+    "Landscape Lighting",
+    "Residential Landscaping",
+    "Other",
+  ],
+  estimateRanges: {
+    "Artificial Turf": [5000, 14500],
+    Pavers: [6500, 19000],
+    Irrigation: [2500, 8500],
+    "Landscape Lighting": [2200, 7500],
+    "Residential Landscaping": "review",
+    Other: "review",
+  },
+  estimatePrefix: "PG",
+  colors: {
+    primary: "#51b94a",
+    primaryDark: "#173d26",
+    primarySoft: "#e8f5e6",
+    accent: "#d7ad3b",
+    accentDark: "#92711c",
+  },
+  pdfLogo: {
+    background: "dark",
+    width: 178,
+    height: 54,
+  },
+  copy: {
+    pageTitle: "Get Your Instant Landscape Project Preview",
+    contactPrompt: "Where should Pristine Green prepare this preview?",
+    notesPlaceholder:
+      "Tell us anything helpful about turf, pavers, irrigation, lighting, drainage, access, timing, or the look you want.",
+    generateButton: "Generate Landscape Preview",
+    pdfTitle: "AI VISUAL ESTIMATE",
+    pdfThanks: "Thank you for choosing Pristine Green.",
+    specialistLabel: "Landscape Design Specialists",
+    reviewRequired:
+      "This selection needs a Pristine Green review before a range is shown.",
+    nextSteps: [
+      "We review your photos and selected project details",
+      "Your landscape concept preview is prepared",
+      "Pristine Green follows up with measurements, options, and final pricing",
+    ],
+  },
+};
