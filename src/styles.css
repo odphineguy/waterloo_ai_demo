@@ -146,6 +146,33 @@ a {
   color: var(--green-900);
 }
 
+.client-arizona-artificial-lawns .site-header {
+  background:
+    linear-gradient(rgba(8, 47, 29, 0.52), rgba(8, 47, 29, 0.64)),
+    var(--footer-image, url("/images/footer-turf-premium.png")) center / cover;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+}
+
+.client-arizona-artificial-lawns .site-logo {
+  height: 92px;
+  width: 304px;
+}
+
+.client-arizona-artificial-lawns .site-nav a {
+  color: #ffffff;
+  text-shadow: 0 1px 9px rgba(0, 0, 0, 0.32);
+}
+
+.client-arizona-artificial-lawns .call-cta {
+  background: rgba(255, 255, 255, 0.94);
+  border-color: #ffffff;
+}
+
+.client-arizona-artificial-lawns .header-cta {
+  background: var(--gold);
+  color: var(--green-900);
+}
+
 .client-pristine-green .site-logo {
   height: 138px;
   width: 360px;
@@ -846,6 +873,11 @@ pre {
   width: 200px;
 }
 
+.client-arizona-artificial-lawns .footer-brand img {
+  height: 92px;
+  width: 304px;
+}
+
 .social-row {
   display: flex;
   gap: 9px;
@@ -955,6 +987,11 @@ pre {
     width: min(190px, 60vw);
   }
 
+  .client-arizona-artificial-lawns .site-logo {
+    height: 80px;
+    width: min(300px, 84vw);
+  }
+
   .site-nav {
     flex-wrap: wrap;
     justify-content: center;
@@ -1035,6 +1072,11 @@ pre {
   .client-platinum-outdoors .footer-brand img {
     height: 108px;
     width: min(180px, 60vw);
+  }
+
+  .client-arizona-artificial-lawns .footer-brand img {
+    height: 82px;
+    width: min(290px, 84vw);
   }
 
   .download-card {

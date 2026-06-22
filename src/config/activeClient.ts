@@ -8,10 +8,12 @@ import { apexTurfClient } from "../clients/apexTurf";
 import { turfMastersClient } from "../clients/turfMasters";
 import { turfMonstersClient } from "../clients/turfMonsters";
 import { platinumOutdoorsClient } from "../clients/platinumOutdoors";
+import { arizonaArtificialLawnsClient } from "../clients/arizonaArtificialLawns";
 import type { ClientConfig } from "../types";
 
 export const clients: Record<string, ClientConfig> = {
   [apexTurfClient.slug]: apexTurfClient,
+  [arizonaArtificialLawnsClient.slug]: arizonaArtificialLawnsClient,
   [betterLifeLandscapeClient.slug]: betterLifeLandscapeClient,
   [paradiseGreensClient.slug]: paradiseGreensClient,
   [platinumOutdoorsClient.slug]: platinumOutdoorsClient,
