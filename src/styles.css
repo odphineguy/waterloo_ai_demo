@@ -323,8 +323,8 @@ a {
 }
 
 .client-agape-turf .site-logo {
-  height: 74px;
-  width: 250px;
+  height: 76px;
+  width: 240px;
 }
 
 /* Big Bully's bulldog is multi-color — keep its real colors on the image header,
@@ -1335,8 +1335,8 @@ pre {
   }
 
   .client-agape-turf .site-logo {
-    height: 66px;
-    width: min(224px, 82vw);
+    height: 68px;
+    width: min(216px, 82vw);
   }
 
   .client-apex-turf .site-logo {
