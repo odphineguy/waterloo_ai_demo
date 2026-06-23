@@ -173,6 +173,168 @@ a {
   color: var(--green-900);
 }
 
+/* Synthetic Grass Masters — white logo on the turf-image header (matches footer look). */
+.client-synthetic-grass-masters .site-header {
+  background:
+    linear-gradient(rgba(8, 47, 29, 0.52), rgba(8, 47, 29, 0.64)),
+    var(--footer-image, url("/images/footer-turf-premium.png")) center / cover;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+}
+
+.client-synthetic-grass-masters .site-logo {
+  height: 100px;
+  width: 134px;
+  filter: brightness(0) invert(1);
+}
+
+.client-synthetic-grass-masters .site-nav a {
+  color: #ffffff;
+  text-shadow: 0 1px 9px rgba(0, 0, 0, 0.32);
+}
+
+.client-synthetic-grass-masters .call-cta {
+  background: rgba(255, 255, 255, 0.94);
+  border-color: #ffffff;
+}
+
+.client-synthetic-grass-masters .header-cta {
+  background: var(--gold);
+  color: var(--green-900);
+}
+
+/* Arizona Luxury Lawns logo is white text on transparent — needs a dark header. */
+.client-arizona-luxury-lawns .site-header {
+  background:
+    linear-gradient(rgba(8, 47, 29, 0.52), rgba(8, 47, 29, 0.64)),
+    var(--footer-image, url("/images/footer-turf-premium.png")) center / cover;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+}
+
+.client-arizona-luxury-lawns .site-logo {
+  height: 84px;
+  width: 320px;
+}
+
+.client-arizona-luxury-lawns .site-nav a {
+  color: #ffffff;
+  text-shadow: 0 1px 9px rgba(0, 0, 0, 0.32);
+}
+
+.client-arizona-luxury-lawns .call-cta {
+  background: rgba(255, 255, 255, 0.94);
+  border-color: #ffffff;
+}
+
+.client-arizona-luxury-lawns .header-cta {
+  background: var(--gold);
+  color: var(--green-900);
+}
+
+/* --- Batch 2: turf-image headers (white logos, gold CTA) to match the footer. --- */
+.client-scottsdale-turf .site-header,
+.client-all-valley-turf .site-header,
+.client-turfli .site-header,
+.client-big-bully-turf .site-header,
+.client-turf-mesa .site-header,
+.client-east-valley-turf .site-header,
+.client-southern-turf-co .site-header,
+.client-agape-turf .site-header {
+  background:
+    linear-gradient(rgba(8, 47, 29, 0.52), rgba(8, 47, 29, 0.64)),
+    var(--footer-image, url("/images/footer-turf-premium.png")) center / cover;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+}
+
+.client-scottsdale-turf .site-nav a,
+.client-all-valley-turf .site-nav a,
+.client-turfli .site-nav a,
+.client-big-bully-turf .site-nav a,
+.client-turf-mesa .site-nav a,
+.client-east-valley-turf .site-nav a,
+.client-southern-turf-co .site-nav a,
+.client-agape-turf .site-nav a {
+  color: #ffffff;
+  text-shadow: 0 1px 9px rgba(0, 0, 0, 0.32);
+}
+
+.client-scottsdale-turf .call-cta,
+.client-all-valley-turf .call-cta,
+.client-turfli .call-cta,
+.client-big-bully-turf .call-cta,
+.client-turf-mesa .call-cta,
+.client-east-valley-turf .call-cta,
+.client-southern-turf-co .call-cta,
+.client-agape-turf .call-cta {
+  background: rgba(255, 255, 255, 0.94);
+  border-color: #ffffff;
+}
+
+.client-scottsdale-turf .header-cta,
+.client-all-valley-turf .header-cta,
+.client-turfli .header-cta,
+.client-big-bully-turf .header-cta,
+.client-turf-mesa .header-cta,
+.client-east-valley-turf .header-cta,
+.client-southern-turf-co .header-cta,
+.client-agape-turf .header-cta {
+  background: var(--gold);
+  color: var(--green-900);
+}
+
+/* White-silhouette logos on the image header (wordmark / single-color logos). */
+.client-scottsdale-turf .site-logo,
+.client-all-valley-turf .site-logo,
+.client-turfli .site-logo,
+.client-turf-mesa .site-logo,
+.client-east-valley-turf .site-logo,
+.client-southern-turf-co .site-logo,
+.client-agape-turf .site-logo {
+  filter: brightness(0) invert(1);
+}
+
+.client-scottsdale-turf .site-logo {
+  height: 56px;
+  width: 296px;
+}
+
+.client-all-valley-turf .site-logo {
+  height: 106px;
+  width: 86px;
+}
+
+.client-turfli .site-logo {
+  height: 92px;
+  width: 132px;
+}
+
+.client-turf-mesa .site-logo {
+  height: 64px;
+  width: 262px;
+}
+
+.client-east-valley-turf .site-logo {
+  height: 84px;
+  width: 198px;
+}
+
+.client-southern-turf-co .site-logo {
+  height: 60px;
+  width: 252px;
+}
+
+.client-agape-turf .site-logo {
+  height: 74px;
+  width: 250px;
+}
+
+/* Big Bully's bulldog is multi-color — keep its real colors on the image header,
+   sized to match the footer logo. */
+.client-big-bully-turf .site-logo {
+  height: 120px;
+  width: 280px;
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.55));
+}
+
 .client-always-green-turf .site-header {
   background:
     linear-gradient(rgba(8, 47, 29, 0.52), rgba(8, 47, 29, 0.64)),
@@ -910,6 +1072,22 @@ pre {
   width: 142px;
 }
 
+/* Big Bully has a colored bulldog mascot — keep its real colors instead of the
+   default white-silhouette filter. */
+.client-big-bully-turf .footer-brand img {
+  height: 120px;
+  width: 280px;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.55));
+}
+
+/* Arizona Luxury logo is white text + a green diamond — the default invert filter
+   flattens the diamond to a white box, so keep its real colors instead. */
+.client-arizona-luxury-lawns .footer-brand img {
+  height: 92px;
+  width: 352px;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.55));
+}
+
 .social-row {
   display: flex;
   gap: 9px;
@@ -1029,6 +1207,56 @@ pre {
     width: min(124px, 44vw);
   }
 
+  .client-arizona-luxury-lawns .site-logo {
+    height: 74px;
+    width: min(300px, 84vw);
+  }
+
+  .client-synthetic-grass-masters .site-logo {
+    height: 88px;
+    width: min(118px, 40vw);
+  }
+
+  .client-scottsdale-turf .site-logo {
+    height: 50px;
+    width: min(280px, 84vw);
+  }
+
+  .client-all-valley-turf .site-logo {
+    height: 96px;
+    width: min(78px, 32vw);
+  }
+
+  .client-turfli .site-logo {
+    height: 82px;
+    width: min(118px, 42vw);
+  }
+
+  .client-big-bully-turf .site-logo {
+    height: 104px;
+    width: min(260px, 84vw);
+  }
+
+  .client-turf-mesa .site-logo {
+    height: 56px;
+    width: min(236px, 82vw);
+  }
+
+  .client-east-valley-turf .site-logo {
+    height: 74px;
+    width: min(176px, 70vw);
+  }
+
+  .client-southern-turf-co .site-logo {
+    height: 54px;
+    width: min(228px, 82vw);
+  }
+
+  .client-agape-turf .site-logo {
+    height: 66px;
+    width: min(224px, 82vw);
+  }
+
   .site-nav {
     flex-wrap: wrap;
     justify-content: center;
@@ -1119,6 +1347,16 @@ pre {
   .client-always-green-turf .footer-brand img {
     height: 86px;
     width: min(128px, 44vw);
+  }
+
+  .client-big-bully-turf .footer-brand img {
+    height: 104px;
+    width: min(260px, 84vw);
+  }
+
+  .client-arizona-luxury-lawns .footer-brand img {
+    height: 80px;
+    width: min(320px, 86vw);
   }
 
   .download-card {

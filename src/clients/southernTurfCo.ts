@@ -1,0 +1,67 @@
+import type { ClientConfig } from "../types";
+
+export const southernTurfCoClient: ClientConfig = {
+  slug: "southern-turf-co",
+  companyName: "Southern Turf Co",
+  brandName: "SOUTHERN TURF CO",
+  legalName: "Southern Turf Co",
+  serviceLabel: "Artificial Turf",
+  positioning: "Phoenix turf installer with strong review-driven positioning and a polished, professional artificial grass sales pitch.",
+  website: "https://www.southernturfco.com/phoenix/",
+  logoPath: "/images/southern-turf-co-logo.png",
+  footerImagePath: "/images/footer-turf-premium.png",
+  phone: "(602) 814-0104",
+  email: "info@southernturfco.com",
+  navLinks: ["Artificial Turf", "Residential Turf", "Free Estimate", "Contact"],
+  quickLinks: ["Home", "Services", "Gallery", "Reviews", "Free Quote", "Contact"],
+  services: [
+    "Artificial Turf",
+    "Residential Turf",
+    "Pet Turf",
+    "Front Yard Turf",
+    "Back Yard Turf",
+  ],
+  projectOptions: [
+    "Artificial Grass",
+    "Pet Turf",
+    "Front Yard",
+    "Back Yard",
+    "Other",
+  ],
+  estimateRanges: {
+    "Artificial Grass": [5000, 14500],
+    "Pet Turf": [5500, 15500],
+    "Front Yard": [4500, 13000],
+    "Back Yard": [5500, 15000],
+    Other: "review",
+  },
+  estimatePrefix: "STC",
+  colors: {
+    primary: "#1f5c34",
+    primaryDark: "#0e2a18",
+    primarySoft: "#e9f0ea",
+    accent: "#c2a24a",
+    accentDark: "#8a6f22",
+  },
+  pdfLogo: {
+    background: "none",
+    width: 150,
+    height: 60,
+  },
+  copy: {
+    pageTitle: "Get Your Instant Artificial Turf Project Preview",
+    contactPrompt: "Where should Southern Turf Co prepare this preview?",
+    notesPlaceholder:
+      "Tell us anything helpful about pets, putting greens, pavers, drainage, access, timing, or the look you want.",
+    generateButton: "Generate Turf Project Preview",
+    pdfTitle: "AI VISUAL ESTIMATE",
+    pdfThanks: "Thank you for choosing Southern Turf Co.",
+    specialistLabel: "Artificial Turf Specialists",
+    reviewRequired: "This selection needs a Southern Turf Co review before a range is shown.",
+    nextSteps: [
+      "We review your photos and selected turf options",
+      "Your artificial turf concept preview is prepared",
+      "Southern Turf Co follows up with measurements, options, and final pricing",
+    ],
+  },
+};

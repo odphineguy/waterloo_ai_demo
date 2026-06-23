@@ -1,0 +1,67 @@
+import type { ClientConfig } from "../types";
+
+export const turfliClient: ClientConfig = {
+  slug: "turfli",
+  companyName: "Turfli",
+  brandName: "TURFLI",
+  legalName: "Turfli",
+  serviceLabel: "Artificial Turf",
+  positioning: "Phoenix artificial turf brand using affordable pricing, BBB credibility, and trusted Smartscape-style positioning.",
+  website: "https://turfli.com/",
+  logoPath: "/images/turfli-logo.png",
+  footerImagePath: "/images/footer-turf-premium.png",
+  phone: "(480) 405-0725",
+  email: "info@turfli.com",
+  navLinks: ["Artificial Turf", "Residential Turf", "Free Estimates", "Contact"],
+  quickLinks: ["Home", "Services", "Gallery", "Reviews", "Free Quote", "Contact"],
+  services: [
+    "Artificial Turf",
+    "Residential Turf",
+    "Pet Turf",
+    "Front Yard Turf",
+    "Back Yard Turf",
+  ],
+  projectOptions: [
+    "Artificial Grass",
+    "Pet Turf",
+    "Front Yard",
+    "Back Yard",
+    "Other",
+  ],
+  estimateRanges: {
+    "Artificial Grass": [5000, 14500],
+    "Pet Turf": [5500, 15500],
+    "Front Yard": [4500, 13000],
+    "Back Yard": [5500, 15000],
+    Other: "review",
+  },
+  estimatePrefix: "TL",
+  colors: {
+    primary: "#2f8151",
+    primaryDark: "#1a3d2a",
+    primarySoft: "#eef1e6",
+    accent: "#c59635",
+    accentDark: "#8f6a1f",
+  },
+  pdfLogo: {
+    background: "none",
+    width: 150,
+    height: 60,
+  },
+  copy: {
+    pageTitle: "Get Your Instant Artificial Turf Project Preview",
+    contactPrompt: "Where should Turfli prepare this preview?",
+    notesPlaceholder:
+      "Tell us anything helpful about pets, putting greens, pavers, drainage, access, timing, or the look you want.",
+    generateButton: "Generate Turf Project Preview",
+    pdfTitle: "AI VISUAL ESTIMATE",
+    pdfThanks: "Thank you for choosing Turfli.",
+    specialistLabel: "Artificial Turf Specialists",
+    reviewRequired: "This selection needs a Turfli review before a range is shown.",
+    nextSteps: [
+      "We review your photos and selected turf options",
+      "Your artificial turf concept preview is prepared",
+      "Turfli follows up with measurements, options, and final pricing",
+    ],
+  },
+};

@@ -1,0 +1,67 @@
+import type { ClientConfig } from "../types";
+
+export const syntheticGrassMastersClient: ClientConfig = {
+  slug: "synthetic-grass-masters",
+  companyName: "Synthetic Grass Masters",
+  brandName: "SYNTHETIC GRASS MASTERS",
+  legalName: "Synthetic Grass Masters",
+  serviceLabel: "Artificial Turf",
+  positioning: "Artificial turf installation shop pushing free consultations and design quotes with low-maintenance lawn messaging.",
+  website: "https://syntheticgrassmasters.com/",
+  logoPath: "/images/synthetic-grass-masters-logo.png",
+  footerImagePath: "/images/footer-turf-premium.png",
+  phone: "602-384-7746",
+  email: "syntheticgrassmasters@gmail.com",
+  navLinks: ["Artificial Turf", "Lawn Replacement", "Design Consultation", "Contact"],
+  quickLinks: ["Home", "Services", "Gallery", "Reviews", "Free Quote", "Contact"],
+  services: [
+    "Artificial Turf",
+    "Lawn Replacement",
+    "Pet Turf",
+    "Front Yard Turf",
+    "Back Yard Turf",
+  ],
+  projectOptions: [
+    "Artificial Grass",
+    "Pet Turf",
+    "Front Yard",
+    "Back Yard",
+    "Other",
+  ],
+  estimateRanges: {
+    "Artificial Grass": [5000, 14500],
+    "Pet Turf": [5500, 15500],
+    "Front Yard": [4500, 13000],
+    "Back Yard": [5500, 15000],
+    Other: "review",
+  },
+  estimatePrefix: "SG",
+  colors: {
+    primary: "#5ba310",
+    primaryDark: "#2b4d09",
+    primarySoft: "#eef6e0",
+    accent: "#d7ad3b",
+    accentDark: "#92711c",
+  },
+  pdfLogo: {
+    background: "none",
+    width: 150,
+    height: 60,
+  },
+  copy: {
+    pageTitle: "Get Your Instant Artificial Turf Project Preview",
+    contactPrompt: "Where should Synthetic Grass Masters prepare this preview?",
+    notesPlaceholder:
+      "Tell us anything helpful about pets, putting greens, pavers, drainage, access, timing, or the look you want.",
+    generateButton: "Generate Turf Project Preview",
+    pdfTitle: "AI VISUAL ESTIMATE",
+    pdfThanks: "Thank you for choosing Synthetic Grass Masters.",
+    specialistLabel: "Artificial Turf Specialists",
+    reviewRequired: "This selection needs a Synthetic Grass Masters review before a range is shown.",
+    nextSteps: [
+      "We review your photos and selected turf options",
+      "Your artificial turf concept preview is prepared",
+      "Synthetic Grass Masters follows up with measurements, options, and final pricing",
+    ],
+  },
+};
