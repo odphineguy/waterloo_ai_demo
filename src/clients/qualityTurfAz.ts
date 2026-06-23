@@ -1,0 +1,67 @@
+import type { ClientConfig } from "../types";
+
+export const qualityTurfAzClient: ClientConfig = {
+  slug: "quality-turf-az",
+  companyName: "Quality Turf AZ",
+  brandName: "QUALITY TURF AZ",
+  legalName: "Quality Turf AZ",
+  serviceLabel: "Artificial Turf",
+  positioning: "Chandler-area artificial grass installer using water savings, low upkeep, and home-and-business flexibility as the main sales hooks.",
+  website: "https://qualityturfaz.com/",
+  logoPath: "/images/quality-turf-az-logo.webp",
+  footerImagePath: "/images/footer-turf-premium.png",
+  phone: "602-675-3474",
+  email: "sales@qualityturfaz.com",
+  navLinks: ["Artificial Grass", "Residential Turf", "Commercial Turf", "Contact"],
+  quickLinks: ["Home", "Services", "Gallery", "Reviews", "Free Quote", "Contact"],
+  services: [
+    "Artificial Grass Installation",
+    "Residential Turf",
+    "Commercial Turf",
+    "Front Yard Turf",
+    "Back Yard Turf",
+  ],
+  projectOptions: [
+    "Artificial Grass",
+    "Pet Turf",
+    "Front Yard",
+    "Back Yard",
+    "Other",
+  ],
+  estimateRanges: {
+    "Artificial Grass": [5000, 14500],
+    "Pet Turf": [5500, 15500],
+    "Front Yard": [4500, 13000],
+    "Back Yard": [5500, 15000],
+    Other: "review",
+  },
+  estimatePrefix: "QT",
+  colors: {
+    primary: "#2f8a3a",
+    primaryDark: "#143a1c",
+    primarySoft: "#e9f4e8",
+    accent: "#d7ad3b",
+    accentDark: "#92711c",
+  },
+  pdfLogo: {
+    background: "none",
+    width: 150,
+    height: 66,
+  },
+  copy: {
+    pageTitle: "Get Your Instant Artificial Turf Project Preview",
+    contactPrompt: "Where should Quality Turf AZ prepare this preview?",
+    notesPlaceholder:
+      "Tell us anything helpful about pets, putting greens, pavers, drainage, access, timing, or the look you want.",
+    generateButton: "Generate Turf Project Preview",
+    pdfTitle: "AI VISUAL ESTIMATE",
+    pdfThanks: "Thank you for choosing Quality Turf AZ.",
+    specialistLabel: "Artificial Turf Specialists",
+    reviewRequired: "This selection needs a Quality Turf AZ review before a range is shown.",
+    nextSteps: [
+      "We review your photos and selected turf options",
+      "Your artificial turf concept preview is prepared",
+      "Quality Turf AZ follows up with measurements, options, and final pricing",
+    ],
+  },
+};

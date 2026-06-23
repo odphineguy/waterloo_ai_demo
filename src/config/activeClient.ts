@@ -20,6 +20,15 @@ import { turfMesaClient } from "../clients/turfMesa";
 import { eastValleyTurfClient } from "../clients/eastValleyTurf";
 import { southernTurfCoClient } from "../clients/southernTurfCo";
 import { agapeTurfClient } from "../clients/agapeTurf";
+import { artificialGrassSuperstoreClient } from "../clients/artificialGrassSuperstore";
+import { turfGilbertClient } from "../clients/turfGilbert";
+import { chandlerArtificialGrassClient } from "../clients/chandlerArtificialGrass";
+import { qualityTurfAzClient } from "../clients/qualityTurfAz";
+import { foreverlawnEastValleyClient } from "../clients/foreverlawnEastValley";
+import { masterazscapesClient } from "../clients/masterazscapes";
+import { diamondStoneSyntheticGrassClient } from "../clients/diamondStoneSyntheticGrass";
+import { celebrityGreensMesaClient } from "../clients/celebrityGreensMesa";
+import { golfGreensAzClient } from "../clients/golfGreensAz";
 import type { ClientConfig } from "../types";
 
 export const clients: Record<string, ClientConfig> = {
@@ -34,6 +43,15 @@ export const clients: Record<string, ClientConfig> = {
   [eastValleyTurfClient.slug]: eastValleyTurfClient,
   [southernTurfCoClient.slug]: southernTurfCoClient,
   [agapeTurfClient.slug]: agapeTurfClient,
+  [artificialGrassSuperstoreClient.slug]: artificialGrassSuperstoreClient,
+  [turfGilbertClient.slug]: turfGilbertClient,
+  [chandlerArtificialGrassClient.slug]: chandlerArtificialGrassClient,
+  [qualityTurfAzClient.slug]: qualityTurfAzClient,
+  [foreverlawnEastValleyClient.slug]: foreverlawnEastValleyClient,
+  [masterazscapesClient.slug]: masterazscapesClient,
+  [diamondStoneSyntheticGrassClient.slug]: diamondStoneSyntheticGrassClient,
+  [celebrityGreensMesaClient.slug]: celebrityGreensMesaClient,
+  [golfGreensAzClient.slug]: golfGreensAzClient,
   [apexTurfClient.slug]: apexTurfClient,
   [arizonaArtificialLawnsClient.slug]: arizonaArtificialLawnsClient,
   [betterLifeLandscapeClient.slug]: betterLifeLandscapeClient,

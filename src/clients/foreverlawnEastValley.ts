@@ -1,0 +1,67 @@
+import type { ClientConfig } from "../types";
+
+export const foreverlawnEastValleyClient: ClientConfig = {
+  slug: "foreverlawn-east-valley",
+  companyName: "ForeverLawn East Valley",
+  brandName: "FOREVERLAWN EAST VALLEY",
+  legalName: "ForeverLawn East Valley",
+  serviceLabel: "Artificial Grass",
+  positioning: "Chandler artificial grass brand tied to a larger national operation, with premium-product positioning and consultation-focused messaging.",
+  website: "https://www.foreverlawn.com/eastvalley/chandler-az/",
+  logoPath: "/images/foreverlawn-east-valley-logo.webp",
+  footerImagePath: "/images/footer-turf-premium.png",
+  phone: "480.813.2235",
+  email: "eastvalley@foreverlawn.com",
+  navLinks: ["Artificial Grass", "Pet Turf", "Consultations", "Contact"],
+  quickLinks: ["Home", "Services", "Gallery", "Reviews", "Free Quote", "Contact"],
+  services: [
+    "Artificial Grass",
+    "Residential Lawn Upgrades",
+    "Pet Turf",
+    "Front Yard Turf",
+    "Back Yard Turf",
+  ],
+  projectOptions: [
+    "Artificial Grass",
+    "Pet Turf",
+    "Front Yard",
+    "Back Yard",
+    "Other",
+  ],
+  estimateRanges: {
+    "Artificial Grass": [5000, 14500],
+    "Pet Turf": [5500, 15500],
+    "Front Yard": [4500, 13000],
+    "Back Yard": [5500, 15000],
+    Other: "review",
+  },
+  estimatePrefix: "FL",
+  colors: {
+    primary: "#3f8f43",
+    primaryDark: "#173d1f",
+    primarySoft: "#e8f2e8",
+    accent: "#d7ad3b",
+    accentDark: "#92711c",
+  },
+  pdfLogo: {
+    background: "dark",
+    width: 150,
+    height: 40,
+  },
+  copy: {
+    pageTitle: "Get Your Instant Artificial Grass Project Preview",
+    contactPrompt: "Where should ForeverLawn East Valley prepare this preview?",
+    notesPlaceholder:
+      "Tell us anything helpful about pets, putting greens, pavers, drainage, access, timing, or the look you want.",
+    generateButton: "Generate Turf Project Preview",
+    pdfTitle: "AI VISUAL ESTIMATE",
+    pdfThanks: "Thank you for choosing ForeverLawn East Valley.",
+    specialistLabel: "Artificial Grass Specialists",
+    reviewRequired: "This selection needs a ForeverLawn East Valley review before a range is shown.",
+    nextSteps: [
+      "We review your photos and selected turf options",
+      "Your artificial turf concept preview is prepared",
+      "ForeverLawn East Valley follows up with measurements, options, and final pricing",
+    ],
+  },
+};

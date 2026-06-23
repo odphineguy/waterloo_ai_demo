@@ -415,6 +415,156 @@ a {
   filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.55));
 }
 
+/* --- Batch 3: turf-image headers, all logos rendered white. --- */
+.client-artificial-grass-superstore .site-header,
+.client-turf-gilbert .site-header,
+.client-chandler-artificial-grass .site-header,
+.client-quality-turf-az .site-header,
+.client-foreverlawn-east-valley .site-header,
+.client-masterazscapes .site-header,
+.client-diamond-stone-synthetic-grass .site-header,
+.client-celebrity-greens-mesa .site-header,
+.client-golf-greens-az .site-header {
+  background:
+    linear-gradient(rgba(8, 47, 29, 0.52), rgba(8, 47, 29, 0.64)),
+    var(--footer-image, url("/images/footer-turf-premium.png")) center / cover;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+}
+
+.client-artificial-grass-superstore .site-nav a,
+.client-turf-gilbert .site-nav a,
+.client-chandler-artificial-grass .site-nav a,
+.client-quality-turf-az .site-nav a,
+.client-foreverlawn-east-valley .site-nav a,
+.client-masterazscapes .site-nav a,
+.client-diamond-stone-synthetic-grass .site-nav a,
+.client-celebrity-greens-mesa .site-nav a,
+.client-golf-greens-az .site-nav a {
+  color: #ffffff;
+  text-shadow: 0 1px 9px rgba(0, 0, 0, 0.32);
+}
+
+.client-artificial-grass-superstore .call-cta,
+.client-turf-gilbert .call-cta,
+.client-chandler-artificial-grass .call-cta,
+.client-quality-turf-az .call-cta,
+.client-foreverlawn-east-valley .call-cta,
+.client-masterazscapes .call-cta,
+.client-diamond-stone-synthetic-grass .call-cta,
+.client-celebrity-greens-mesa .call-cta,
+.client-golf-greens-az .call-cta {
+  background: rgba(255, 255, 255, 0.94);
+  border-color: #ffffff;
+}
+
+.client-artificial-grass-superstore .header-cta,
+.client-turf-gilbert .header-cta,
+.client-chandler-artificial-grass .header-cta,
+.client-quality-turf-az .header-cta,
+.client-foreverlawn-east-valley .header-cta,
+.client-masterazscapes .header-cta,
+.client-diamond-stone-synthetic-grass .header-cta,
+.client-celebrity-greens-mesa .header-cta,
+.client-golf-greens-az .header-cta {
+  background: var(--gold);
+  color: var(--green-900);
+}
+
+/* All batch-3 logos render white on the image header (already-white or silhouette). */
+.client-artificial-grass-superstore .site-logo,
+.client-turf-gilbert .site-logo,
+.client-chandler-artificial-grass .site-logo,
+.client-quality-turf-az .site-logo,
+.client-foreverlawn-east-valley .site-logo,
+.client-masterazscapes .site-logo,
+.client-diamond-stone-synthetic-grass .site-logo,
+.client-celebrity-greens-mesa .site-logo,
+.client-golf-greens-az .site-logo {
+  filter: brightness(0) invert(1);
+}
+
+.client-artificial-grass-superstore .site-logo {
+  height: 64px;
+  width: 238px;
+}
+
+.client-turf-gilbert .site-logo {
+  height: 54px;
+  width: 257px;
+}
+
+/* Chandler logo recolored to white text + green trefoil — show native (no invert),
+   else the three green leaves merge into one white blob. */
+.client-chandler-artificial-grass .site-logo {
+  height: 52px;
+  width: 255px;
+  filter: none;
+}
+
+.client-chandler-artificial-grass .footer-brand img {
+  filter: none;
+}
+
+/* Quality Turf is a self-contained dark badge (opaque, no transparency) — show it
+   as-is with a drop-shadow instead of the white-invert that turns it into a box. */
+.client-quality-turf-az .site-logo {
+  height: 96px;
+  width: 216px;
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6));
+  border-radius: 10px;
+}
+
+.client-quality-turf-az .footer-brand img {
+  filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.6));
+  border-radius: 10px;
+}
+
+.client-foreverlawn-east-valley .site-logo {
+  height: 66px;
+  width: 243px;
+}
+
+/* MasterAZscapes logo is full-color (yellow sun, green cactus, red AZ, white text)
+   built for dark backgrounds — show native, not the white-invert. */
+.client-masterazscapes .site-logo {
+  height: 104px;
+  width: 156px;
+  filter: none;
+}
+
+.client-masterazscapes .footer-brand img {
+  filter: none;
+}
+
+/* These batch-3 logos are white-text + colored accents built for dark backgrounds —
+   show them native so their color survives (only Diamond, with black text, stays
+   a white silhouette). */
+.client-artificial-grass-superstore .site-logo,
+.client-turf-gilbert .site-logo,
+.client-foreverlawn-east-valley .site-logo,
+.client-celebrity-greens-mesa .site-logo,
+.client-artificial-grass-superstore .footer-brand img,
+.client-turf-gilbert .footer-brand img,
+.client-foreverlawn-east-valley .footer-brand img,
+.client-celebrity-greens-mesa .footer-brand img {
+  filter: none;
+}
+
+.client-diamond-stone-synthetic-grass .site-logo {
+  height: 56px;
+  width: 248px;
+}
+
+.client-celebrity-greens-mesa .site-logo {
+  height: 78px;
+  width: 230px;
+}
+
+.client-golf-greens-az .site-logo {
+  height: 74px;
+  width: 249px;
+}
+
 .client-always-green-turf .site-header {
   background:
     linear-gradient(rgba(8, 47, 29, 0.52), rgba(8, 47, 29, 0.64)),
@@ -1352,6 +1502,51 @@ pre {
   .client-white-rhino-turf .site-logo {
     height: 92px;
     width: min(150px, 48vw);
+  }
+
+  .client-artificial-grass-superstore .site-logo {
+    height: 56px;
+    width: min(210px, 82vw);
+  }
+
+  .client-turf-gilbert .site-logo {
+    height: 48px;
+    width: min(228px, 84vw);
+  }
+
+  .client-chandler-artificial-grass .site-logo {
+    height: 46px;
+    width: min(226px, 84vw);
+  }
+
+  .client-quality-turf-az .site-logo {
+    height: 76px;
+    width: min(172px, 60vw);
+  }
+
+  .client-foreverlawn-east-valley .site-logo {
+    height: 58px;
+    width: min(214px, 82vw);
+  }
+
+  .client-masterazscapes .site-logo {
+    height: 92px;
+    width: min(138px, 46vw);
+  }
+
+  .client-diamond-stone-synthetic-grass .site-logo {
+    height: 50px;
+    width: min(220px, 84vw);
+  }
+
+  .client-celebrity-greens-mesa .site-logo {
+    height: 70px;
+    width: min(206px, 76vw);
+  }
+
+  .client-golf-greens-az .site-logo {
+    height: 66px;
+    width: min(222px, 82vw);
   }
 
   .site-nav {
