@@ -126,6 +126,32 @@ a {
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
 }
 
+.client-celebrity-greens .site-header {
+  background: linear-gradient(135deg, #0c1a0e, #1a2e1c 50%, #0e2a18);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+}
+
+.client-celebrity-greens .site-logo {
+  height: 140px;
+  width: 280px;
+}
+
+.client-celebrity-greens .site-nav a {
+  color: #ffffff;
+  text-shadow: 0 1px 9px rgba(0, 0, 0, 0.32);
+}
+
+.client-celebrity-greens .call-cta {
+  background: rgba(255, 255, 255, 0.94);
+  border-color: #ffffff;
+  color: #0e2a18;
+}
+
+.client-celebrity-greens .header-cta {
+  background: var(--gold);
+  color: #0e2a18;
+}
+
 .client-platinum-outdoors .site-logo {
   height: 120px;
   width: 196px;
