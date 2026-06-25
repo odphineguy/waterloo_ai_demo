@@ -1,7 +1,7 @@
 import type { ClientConfig } from "../types";
 
 export const celebrityGreensMesaClient: ClientConfig = {
-  slug: "celebrity-greens-mesa",
+  slug: "celebrity-greens",
   companyName: "Celebrity Greens Mesa",
   brandName: "CELEBRITY GREENS MESA",
   legalName: "Celebrity Greens Mesa",
