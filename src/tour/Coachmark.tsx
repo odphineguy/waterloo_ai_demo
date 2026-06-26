@@ -39,7 +39,7 @@ export const COACH: Record<number, CoachEntry> = {
   6: {
     title: "Instant ballpark estimate",
     body: "A realistic range appears immediately — enough to build confidence, framed as a preliminary AI estimate.",
-    pos: { bottom: "24px", right: "160px" },
+    pos: { top: "357px", right: "160px" },
   },
   7: {
     title: "A branded PDF, automatically",
