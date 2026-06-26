@@ -19,7 +19,7 @@ export const COACH: Record<number, CoachEntry> = {
   2: {
     title: "Pick the project",
     body: "They tap what they want — turf, pavers and more. Each tap shapes the render and the price.",
-    pos: { bottom: "24px", ...center },
+    pos: { top: "40px", right: "40px" },
   },
   3: {
     title: "Just one photo",
