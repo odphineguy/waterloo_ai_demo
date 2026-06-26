@@ -798,6 +798,12 @@
   font-weight: 800;
   color: var(--green-900);
 }
+/* Push the pitch column down so its heading clears the top-right coachmark
+   while the PDF document stays vertically centered. */
+.tour-pdf-pitch {
+  align-self: start;
+  margin-top: 107px;
+}
 .tour-pdf-pitch .tour-h2 {
   font-size: 26px;
 }
