@@ -6,6 +6,7 @@ import {
 import type { jsPDF as JsPDF } from "jspdf";
 import { CSSProperties, useMemo, useState } from "react";
 import { getActiveClient } from "./config/activeClient";
+import { GuidedTour } from "./tour/GuidedTour";
 import { generateYardPreview } from "./services/imageGeneration";
 import {
   ClientConfig,
@@ -208,7 +209,21 @@ function safeFilename(value: string) {
   return value.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
+// The guided product tour lives at /<slug>/demo (additive — the real funnel
+// stays at /<slug>). getActiveClient already reads only the first path segment,
+// so we just detect "demo" as the second segment here.
+function isTourPath(pathname = window.location.pathname) {
+  return pathname.split("/").filter(Boolean)[1] === "demo";
+}
+
 function App() {
+  if (isTourPath()) {
+    return <GuidedTour client={getActiveClient()} />;
+  }
+  return <Funnel />;
+}
+
+function Funnel() {
   const client = useMemo(() => getActiveClient(), []);
   const [contact, setContact] = useState<ContactInfo>(emptyContact);
   const [projectOptions, setProjectOptions] = useState<ProjectOption[]>([]);
