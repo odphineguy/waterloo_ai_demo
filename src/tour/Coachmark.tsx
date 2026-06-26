@@ -44,7 +44,7 @@ export const COACH: Record<number, CoachEntry> = {
   7: {
     title: "A branded PDF, automatically",
     body: "A polished estimate PDF is generated and emailed — with your logo and details, not ours.",
-    pos: { bottom: "24px", right: "40px" },
+    pos: { top: "40px", right: "40px" },
   },
   8: {
     title: "It lands in your CRM",
