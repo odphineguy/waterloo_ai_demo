@@ -17,7 +17,6 @@ import {
 import "../tour.css";
 
 const GEN_DURATION_MS = 2600;
-const GEN_HOLD_MS = 400;
 
 export function GuidedTour({ client }: { client: ClientConfig }) {
   const tour = useMemo(() => resolveTourConfig(client), [client]);
@@ -40,29 +39,21 @@ export function GuidedTour({ client }: { client: ClientConfig }) {
       cur.includes(option) ? cur.filter((o) => o !== option) : [...cur, option],
     );
 
-  // s4 fake-render progress: ramp 0→100 over GEN_DURATION_MS, then auto-advance
-  // to s5. Cleanup cancels the frame + timeout so a "Skip" or unmount can't fire
-  // a stale advance (StrictMode-safe).
+  // s4 fake-render progress: ramp the bar 0→100 over GEN_DURATION_MS for the
+  // "AI working" effect, then stop. The user clicks Next to see the reveal — no
+  // auto-advance. Cleanup cancels the frame on unmount/step change.
   useEffect(() => {
     if (s !== 4) return;
     setGen(0);
     const start = performance.now();
     let raf = 0;
-    let timeout = 0;
     const tick = (now: number) => {
       const pct = Math.min(100, ((now - start) / GEN_DURATION_MS) * 100);
       setGen(pct);
-      if (pct < 100) {
-        raf = requestAnimationFrame(tick);
-      } else {
-        timeout = window.setTimeout(() => setS((cur) => (cur === 4 ? 5 : cur)), GEN_HOLD_MS);
-      }
+      if (pct < 100) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
-    return () => {
-      cancelAnimationFrame(raf);
-      window.clearTimeout(timeout);
-    };
+    return () => cancelAnimationFrame(raf);
   }, [s]);
 
   const themeVars = {

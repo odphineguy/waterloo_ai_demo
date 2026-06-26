@@ -11,6 +11,7 @@
   padding: 28px 20px;
   background: radial-gradient(120% 90% at 50% 0%, #eef3ea 0%, #e7ece2 60%, #e2e8dd 100%);
   color: #182019;
+  font-family: "Manrope", system-ui, sans-serif;
 }
 
 .tour-shell * {
@@ -156,28 +157,22 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 40px;
-  max-width: 100%;
-}
-.tour-step-narrow {
   align-items: center;
+  padding: 0 40px;
 }
-.tour-step-narrow > * {
+/* One centered column; its contents (heading, sub, card) all left-align to the
+   same edge — matches the design and keeps the title over the box. */
+.tour-step-inner {
   width: 100%;
+}
+.tour-w-narrow {
   max-width: 600px;
 }
-.tour-step-mid > * {
-  width: 100%;
+.tour-w-mid {
   max-width: 780px;
-  margin-inline: auto;
 }
-.tour-step-wide > * {
-  width: 100%;
+.tour-w-wide {
   max-width: 860px;
-  margin-inline: auto;
-}
-.tour-step-center {
-  align-items: center;
 }
 
 .tour-eyebrow {

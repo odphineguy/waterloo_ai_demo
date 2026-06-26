@@ -63,7 +63,7 @@ export function Coachmark({ step, onNext, onBack }: CoachmarkProps) {
   const entry = COACH[step];
   if (!entry) return null;
 
-  const nextLabel = step === 8 ? "Finish" : step === 4 ? "Skip" : "Next";
+  const nextLabel = step === 8 ? "Finish" : "Next";
 
   return (
     <div className="tour-coach" style={{ position: "absolute", zIndex: 40, ...entry.pos }}>

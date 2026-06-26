@@ -85,9 +85,11 @@ function hasRealRange(client: ClientConfig, option: string): boolean {
   return Array.isArray(client.estimateRanges[option]);
 }
 
-// Choose the sample options the demo pre-selects. We must guarantee they exist
-// in this client's projectOptions AND produce a real range, otherwise the
-// estimate flips to "Requires review" and the wow-moment falls flat.
+// Choose the sample option(s) the demo pre-selects. Defaults to a SINGLE option
+// (prefer "Back Yard") so the selection, estimate, PDF and CRM all tell one clean,
+// consistent story. A client can pre-select more via client.tour.sampleOptions.
+// Whatever we return must exist in projectOptions AND have a real (non-"review")
+// range, or the estimate flips to "Requires review".
 function pickSampleOptions(client: ClientConfig, requested?: string[]): string[] {
   if (requested && requested.length > 0) {
     const valid = requested.filter(
@@ -98,10 +100,8 @@ function pickSampleOptions(client: ClientConfig, requested?: string[]): string[]
 
   const reals = client.projectOptions.filter((o) => hasRealRange(client, o));
   const back = reals.find((o) => /back/i.test(o));
-  const front = reals.find((o) => /front/i.test(o));
-  const first = back ?? front ?? reals[0];
-  const second = reals.find((o) => o !== first);
-  return [first, second].filter((o): o is string => Boolean(o));
+  const chosen = back ?? reals[0];
+  return chosen ? [chosen] : [];
 }
 
 // Short CRM-cell form of a range, e.g. "$11k–$29.5k".

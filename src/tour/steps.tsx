@@ -55,21 +55,23 @@ export function Welcome({
 export function YourDetails({ tour }: { tour: ResolvedTour }) {
   const c = tour.customer;
   return (
-    <div className="tour-step tour-step-narrow">
-      <div className="tour-eyebrow">Step 1 — Your details</div>
-      <h2 className="tour-h2">Where should we send the preview?</h2>
-      <p className="tour-sub">One short step — no long forms. We've pre-filled it for this demo.</p>
-      <div className="tour-form-card">
-        <div className="tour-form-grid">
-          <Field label="First name" value={c.firstName} />
-          <Field label="Last name" value={c.lastName} />
-          <Field label="Email" value={c.email} />
-          <Field label="Phone" value={c.phone} />
-          <Field
-            label="Property address"
-            full
-            value={`${c.street}, ${c.city}, ${c.state} ${c.zip}`}
-          />
+    <div className="tour-step">
+      <div className="tour-step-inner tour-w-narrow">
+        <div className="tour-eyebrow">Step 1 — Your details</div>
+        <h2 className="tour-h2">Where should we send the preview?</h2>
+        <p className="tour-sub">One short step — no long forms. We've pre-filled it for this demo.</p>
+        <div className="tour-form-card">
+          <div className="tour-form-grid">
+            <Field label="First name" value={c.firstName} />
+            <Field label="Last name" value={c.lastName} />
+            <Field label="Email" value={c.email} />
+            <Field label="Phone" value={c.phone} />
+            <Field
+              label="Property address"
+              full
+              value={`${c.street}, ${c.city}, ${c.state} ${c.zip}`}
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -96,28 +98,30 @@ export function TheProject({
   onToggle: (option: string) => void;
 }) {
   return (
-    <div className="tour-step tour-step-mid">
-      <div className="tour-eyebrow">Step 2 — The project</div>
-      <h2 className="tour-h2">What are we transforming?</h2>
-      <p className="tour-sub">Tap everything that applies. Each choice shapes the render and the estimate.</p>
-      <div className="tour-options-card">
-        <div className="tour-options-grid">
-          {client.projectOptions.map((option) => {
-            const on = options.includes(option);
-            return (
-              <button
-                type="button"
-                key={option}
-                className="tour-option-row"
-                onClick={() => onToggle(option)}
-              >
-                <span className={on ? "tour-check tour-check-on" : "tour-check"}>
-                  {on && <span className="tour-check-mark">✓</span>}
-                </span>
-                <span className="tour-option-label">{option}</span>
-              </button>
-            );
-          })}
+    <div className="tour-step">
+      <div className="tour-step-inner tour-w-mid">
+        <div className="tour-eyebrow">Step 2 — The project</div>
+        <h2 className="tour-h2">What are we transforming?</h2>
+        <p className="tour-sub">Tap everything that applies. Each choice shapes the render and the estimate.</p>
+        <div className="tour-options-card">
+          <div className="tour-options-grid">
+            {client.projectOptions.map((option) => {
+              const on = options.includes(option);
+              return (
+                <button
+                  type="button"
+                  key={option}
+                  className="tour-option-row"
+                  onClick={() => onToggle(option)}
+                >
+                  <span className={on ? "tour-check tour-check-on" : "tour-check"}>
+                    {on && <span className="tour-check-mark">✓</span>}
+                  </span>
+                  <span className="tour-option-label">{option}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
@@ -127,21 +131,23 @@ export function TheProject({
 // ----- s3 The photo ---------------------------------------------------------
 export function ThePhoto({ tour }: { tour: ResolvedTour }) {
   return (
-    <div className="tour-step tour-step-wide">
-      <div className="tour-eyebrow">Step 3 — The photo</div>
-      <h2 className="tour-h2">Add a photo of the space</h2>
-      <p className="tour-sub">One photo is all the AI needs. We're using a sample yard for this demo.</p>
-      <div className="tour-dropzone">
-        <img className="tour-dropzone-img" src={tour.beforeImage} alt="Sample yard before" />
-        <div className="tour-dropzone-side">
-          <span className="tour-upload-pill">
-            <span className="tour-upload-dot" />
-            back-yard.jpg · uploaded
-          </span>
-          <div className="tour-upload-title">Sample photo loaded</div>
-          <p className="tour-upload-help">
-            In the live tool your customer drags in their own photo, or snaps one from their phone.
-          </p>
+    <div className="tour-step">
+      <div className="tour-step-inner tour-w-wide">
+        <div className="tour-eyebrow">Step 3 — The photo</div>
+        <h2 className="tour-h2">Add a photo of the space</h2>
+        <p className="tour-sub">One photo is all the AI needs. We're using a sample yard for this demo.</p>
+        <div className="tour-dropzone">
+          <img className="tour-dropzone-img" src={tour.beforeImage} alt="Sample yard before" />
+          <div className="tour-dropzone-side">
+            <span className="tour-upload-pill">
+              <span className="tour-upload-dot" />
+              back-yard.jpg · uploaded
+            </span>
+            <div className="tour-upload-title">Sample photo loaded</div>
+            <p className="tour-upload-help">
+              In the live tool your customer drags in their own photo, or snaps one from their phone.
+            </p>
+          </div>
         </div>
       </div>
     </div>
