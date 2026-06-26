@@ -629,6 +629,8 @@
 /* ---- s6 estimate ---- */
 .tour-step-estimate {
   align-items: center;
+  justify-content: flex-start;
+  padding-top: 44px;
 }
 .tour-estimate-grid {
   width: 100%;
@@ -637,7 +639,7 @@
   display: grid;
   grid-template-columns: 1.15fr 1fr;
   gap: 26px;
-  align-items: center;
+  align-items: start;
 }
 .tour-estimate-img {
   width: 100%;
