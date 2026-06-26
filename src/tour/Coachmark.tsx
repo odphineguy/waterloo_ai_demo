@@ -24,7 +24,7 @@ export const COACH: Record<number, CoachEntry> = {
   3: {
     title: "Just one photo",
     body: "They drop in a photo of their yard — or try a sample. That's everything the AI needs.",
-    pos: { bottom: "24px", ...center },
+    pos: { top: "40px", right: "40px" },
   },
   4: {
     title: "AI goes to work",
