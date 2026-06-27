@@ -65,8 +65,8 @@ const DEFAULT_CUSTOMER: TourSampleCustomer = {
 };
 
 const DEFAULTS = {
-  beforeImage: "/images/tour/sample-before.webp",
-  afterImage: "/images/tour/sample-after.png",
+  beforeImage: "/images/myhome-before.webp",
+  afterImage: "/images/myhome-after.webp",
   sampleArea: "1,250 sq ft",
 };
 
