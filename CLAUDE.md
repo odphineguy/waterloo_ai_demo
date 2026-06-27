@@ -23,7 +23,7 @@ There is no test suite. `npm run build` is the real gate — TypeScript is `stri
 
 Server-side only (never exposed to the browser):
 - `OPENAI_API_KEY` — required for image generation.
-- `OPENAI_IMAGE_MODEL` — defaults to `gpt-image-1.5`. Note: `gpt-image-2` does **not** support `input_fidelity`, and `api/generate-yard-preview.ts` branches on this (`supportsInputFidelity`). `.env.example` and the README disagree on the default model value; the code default is `gpt-image-1.5`.
+- `OPENAI_IMAGE_MODEL` — defaults to `gpt-image-1.5` (code default in `api/generate-yard-preview.ts`; `.env.example` and the README match). Note: `gpt-image-2` does **not** support `input_fidelity`, and the handler branches on this (`supportsInputFidelity`).
 - `VITE_AI_PREVIEW_ENDPOINT` — client-side override for the API path; defaults to `/api/generate-yard-preview`.
 
 `.env` is gitignored; `.env.example` is the template.
@@ -68,6 +68,28 @@ Entirely client-side in `App.tsx` (`handleDownloadEstimate`) using `jspdf` (dyna
 
 `src/utils/leadPacket.ts` (`createLeadPacket`) assembles a structured lead object after a successful preview. It is currently **only held in component state** — there is a `TODO` to wire it to email / CRM webhook / Supabase / Google Sheets. No backend persistence exists yet.
 
+### Guided tour (`/<slug>/demo`)
+
+An additive, no-friction product walkthrough that runs **alongside** the real funnel — it does not call OpenAI. `App.tsx` (`isTourPath`) checks whether the **second** URL segment is `demo` (`/<slug>/demo`); if so it renders `<GuidedTour>` instead of the funnel. The brand still comes from the first segment via `getActiveClient()`.
+
+- `src/tour/GuidedTour.tsx` — 10-step (`s0`–`s9`) state machine (welcome → details → project → photo → generating → reveal → estimate → branded PDF → CRM → recap), with a before/after slider and option toggles.
+- `src/tour/steps.tsx` — one component per step. `src/tour/Coachmark.tsx` — the positioned callout bubble.
+- `src/tour/tourConfig.ts` (`resolveTourConfig`) — the key abstraction: derives everything shown (sample customer, pre-selected options, estimate figure/line items, CRM rows, URL bar) from the existing `ClientConfig` so **every brand works in the tour with zero per-client authoring**. It reuses `calculateBudgetRange`/`formatCurrency`, and only pre-selects options that have a real (non-`"review"`) range, picking a single "Back Yard"-like option by default so selection/estimate/PDF/CRM tell one consistent story.
+- Per-brand overrides are optional via `client.tour` (`TourConfig` in `types.ts`): `sampleCustomer`, `sampleOptions`, `crmRows`, `welcomeHeadline`, `urlBar`, before/after images, etc. Tour styling lives in `src/tour.css` (separate from `styles.css`).
+
+### PDF logo proof (dev QA tool)
+
+`src/pdfProof.tsx` + `pdf-proof.html` render the real jsPDF estimate header for **every** client side-by-side, so logo sizing/contrast can be eyeballed at once. It copies the canvas/image helpers from `App.tsx` verbatim to match real PDF output. Dev-only — open `http://localhost:5173/pdf-proof.html`; it is not part of the funnel.
+
 ## Deploy
 
 Vercel, Vite preset. `vercel.json` rewrites `/api/*` to the serverless functions and everything else to `index.html` (SPA + path-based client routing). Build command `npm run build`, output `dist/`.
+
+
+## Read Discipline
+
+- Before reading a file, search for the target first (grep/Glob/search) to locate the relevant lines. Don't open a file blind to find one thing.
+- Read only the relevant range using `offset` and `limit`. Do not read whole files when a section will do.
+- Exception: read the full file when you genuinely need whole-file context — small files (<~100 lines), or when restructuring/reviewing the entire file.
+- Never re-read a file already in context unless it has changed since you last read it. Reuse what you already have.
+- Prefer targeted reads over broad repo exploration. Locate, then read the slice.

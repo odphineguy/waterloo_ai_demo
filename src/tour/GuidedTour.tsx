@@ -7,12 +7,10 @@ import {
   Crm,
   Estimate,
   Generating,
+  ProjectAndPhoto,
   Recap,
   Reveal,
-  TheProject,
-  ThePhoto,
   Welcome,
-  YourDetails,
 } from "./steps";
 import "../tour.css";
 
@@ -26,7 +24,7 @@ export function GuidedTour({ client }: { client: ClientConfig }) {
   const [gen, setGen] = useState(0);
   const [options, setOptions] = useState<string[]>(tour.sampleOptions);
 
-  const next = () => setS((v) => Math.min(9, v + 1));
+  const next = () => setS((v) => Math.min(7, v + 1));
   const back = () => setS((v) => Math.max(0, v - 1));
   const restart = () => {
     setS(0);
@@ -39,11 +37,11 @@ export function GuidedTour({ client }: { client: ClientConfig }) {
       cur.includes(option) ? cur.filter((o) => o !== option) : [...cur, option],
     );
 
-  // s4 fake-render progress: ramp the bar 0→100 over GEN_DURATION_MS for the
+  // s2 fake-render progress: ramp the bar 0→100 over GEN_DURATION_MS for the
   // "AI working" effect, then stop. The user clicks Next to see the reveal — no
   // auto-advance. Cleanup cancels the frame on unmount/step change.
   useEffect(() => {
-    if (s !== 4) return;
+    if (s !== 2) return;
     setGen(0);
     const start = performance.now();
     let raf = 0;
@@ -87,16 +85,16 @@ export function GuidedTour({ client }: { client: ClientConfig }) {
         </div>
         <div className="tour-stage">
           {s === 0 && <Welcome client={client} tour={tour} onStart={next} />}
-          {s === 1 && <YourDetails tour={tour} />}
-          {s === 2 && <TheProject client={client} options={options} onToggle={toggle} />}
-          {s === 3 && <ThePhoto tour={tour} />}
-          {s === 4 && <Generating tour={tour} gen={gen} />}
-          {s === 5 && <Reveal tour={tour} slider={slider} onSlider={setSlider} />}
-          {s === 6 && <Estimate tour={tour} />}
-          {s === 7 && <BrandedPdf client={client} tour={tour} />}
-          {s === 8 && <Crm client={client} tour={tour} />}
-          {s === 9 && <Recap onRestart={restart} liveUrl={`/${client.slug}`} />}
-          {s >= 1 && s <= 8 && <Coachmark step={s} onNext={next} onBack={back} />}
+          {s === 1 && (
+            <ProjectAndPhoto client={client} tour={tour} options={options} onToggle={toggle} />
+          )}
+          {s === 2 && <Generating tour={tour} gen={gen} />}
+          {s === 3 && <Reveal tour={tour} slider={slider} onSlider={setSlider} />}
+          {s === 4 && <Estimate tour={tour} />}
+          {s === 5 && <BrandedPdf client={client} tour={tour} />}
+          {s === 6 && <Crm client={client} tour={tour} />}
+          {s === 7 && <Recap onRestart={restart} liveUrl={`/${client.slug}`} />}
+          {s >= 1 && s <= 6 && <Coachmark step={s} onNext={next} onBack={back} />}
         </div>
       </div>
     </div>

@@ -51,16 +51,6 @@ const DEFAULT_CRM_ROWS: TourCrmRow[] = [
     ownerInitials: "ML",
     ownerName: "Maria L.",
   },
-  {
-    name: "Coyote Ridge HOA",
-    location: "Mesa, AZ",
-    projectType: "Commercial",
-    stage: "Quoted",
-    estValue: "$86,500",
-    lastContact: "5d ago",
-    ownerInitials: "DR",
-    ownerName: "Devon R.",
-  },
 ];
 
 const DEFAULT_CUSTOMER: TourSampleCustomer = {

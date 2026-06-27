@@ -42,7 +42,7 @@ export function Welcome({
         <button type="button" className="tour-btn-primary tour-btn-lg" onClick={onStart}>
           Start the tour →
         </button>
-        <div className="tour-welcome-caption">Guided · about 60 seconds · 8 steps</div>
+        <div className="tour-welcome-caption">Guided · about 45 seconds · 6 steps</div>
         <a className="tour-welcome-trylive" href={`/${client.slug}`}>
           Prefer to dive in? Try it live with your own photo →
         </a>
@@ -51,102 +51,56 @@ export function Welcome({
   );
 }
 
-// ----- s1 Your details ------------------------------------------------------
-export function YourDetails({ tour }: { tour: ResolvedTour }) {
-  const c = tour.customer;
-  return (
-    <div className="tour-step">
-      <div className="tour-step-inner tour-w-narrow">
-        <div className="tour-eyebrow">Step 1 — Your details</div>
-        <h2 className="tour-h2">Where should we send the preview?</h2>
-        <p className="tour-sub">One short step — no long forms. We've pre-filled it for this demo.</p>
-        <div className="tour-form-card">
-          <div className="tour-form-grid">
-            <Field label="First name" value={c.firstName} />
-            <Field label="Last name" value={c.lastName} />
-            <Field label="Email" value={c.email} />
-            <Field label="Phone" value={c.phone} />
-            <Field
-              label="Property address"
-              full
-              value={`${c.street}, ${c.city}, ${c.state} ${c.zip}`}
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Field({ label, value, full }: { label: string; value: string; full?: boolean }) {
-  return (
-    <label className={full ? "tour-field tour-field-full" : "tour-field"}>
-      <span className="tour-field-label">{label}</span>
-      <input className="tour-field-input" value={value} readOnly tabIndex={-1} />
-    </label>
-  );
-}
-
-// ----- s2 The project -------------------------------------------------------
-export function TheProject({
+// ----- s1 Project + photo (combined input) ----------------------------------
+// Cold traffic gets to the wow faster: the two inputs that actually shape the
+// result — what they want + a photo — live on one screen. The old standalone
+// "Your details" step was cut (its low-friction point is now a coachmark line).
+export function ProjectAndPhoto({
   client,
+  tour,
   options,
   onToggle,
 }: {
   client: ClientConfig;
+  tour: ResolvedTour;
   options: string[];
   onToggle: (option: string) => void;
 }) {
   return (
     <div className="tour-step">
-      <div className="tour-step-inner tour-w-mid">
-        <div className="tour-eyebrow">Step 2 — The project</div>
-        <h2 className="tour-h2">What are we transforming?</h2>
-        <p className="tour-sub">Tap everything that applies. Each choice shapes the render and the estimate.</p>
-        <div className="tour-options-card">
-          <div className="tour-options-grid">
-            {client.projectOptions.map((option) => {
-              const on = options.includes(option);
-              return (
-                <button
-                  type="button"
-                  key={option}
-                  className="tour-option-row"
-                  onClick={() => onToggle(option)}
-                >
-                  <span className={on ? "tour-check tour-check-on" : "tour-check"}>
-                    {on && <span className="tour-check-mark">✓</span>}
-                  </span>
-                  <span className="tour-option-label">{option}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ----- s3 The photo ---------------------------------------------------------
-export function ThePhoto({ tour }: { tour: ResolvedTour }) {
-  return (
-    <div className="tour-step">
       <div className="tour-step-inner tour-w-wide">
-        <div className="tour-eyebrow">Step 3 — The photo</div>
-        <h2 className="tour-h2">Add a photo of the space</h2>
-        <p className="tour-sub">One photo is all the AI needs. We're using a sample yard for this demo.</p>
-        <div className="tour-dropzone">
-          <img className="tour-dropzone-img" src={tour.beforeImage} alt="Sample yard before" />
-          <div className="tour-dropzone-side">
+        <div className="tour-eyebrow">Step 1 — Your project</div>
+        <h2 className="tour-h2">What are we transforming?</h2>
+        <p className="tour-sub">
+          Tap what they want and drop in one photo — that's everything the AI needs.
+        </p>
+        <div className="tour-input-row">
+          <div className="tour-options-card tour-input-options">
+            <div className="tour-options-grid">
+              {client.projectOptions.map((option) => {
+                const on = options.includes(option);
+                return (
+                  <button
+                    type="button"
+                    key={option}
+                    className="tour-option-row"
+                    onClick={() => onToggle(option)}
+                  >
+                    <span className={on ? "tour-check tour-check-on" : "tour-check"}>
+                      {on && <span className="tour-check-mark">✓</span>}
+                    </span>
+                    <span className="tour-option-label">{option}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+          <div className="tour-input-photo">
+            <img className="tour-input-photo-img" src={tour.beforeImage} alt="Sample yard" />
             <span className="tour-upload-pill">
               <span className="tour-upload-dot" />
               back-yard.jpg · uploaded
             </span>
-            <div className="tour-upload-title">Sample photo loaded</div>
-            <p className="tour-upload-help">
-              In the live tool your customer drags in their own photo, or snaps one from their phone.
-            </p>
           </div>
         </div>
       </div>
@@ -154,7 +108,7 @@ export function ThePhoto({ tour }: { tour: ResolvedTour }) {
   );
 }
 
-// ----- s4 Generating --------------------------------------------------------
+// ----- s2 Generating --------------------------------------------------------
 export function Generating({ tour, gen }: { tour: ResolvedTour; gen: number }) {
   const pct = Math.round(gen);
   const checklist = [
@@ -163,7 +117,7 @@ export function Generating({ tour, gen }: { tour: ResolvedTour; gen: number }) {
     { label: "Rendering final image", done: gen >= 100 },
   ];
   return (
-    <div className="tour-step tour-step-center">
+    <div className="tour-step tour-step-center tour-step-gen">
       <div className="tour-gen-panel">
         <img className="tour-gen-img" src={tour.beforeImage} alt="Generating" />
         <div className="tour-gen-scrim" />

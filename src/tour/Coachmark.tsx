@@ -12,41 +12,31 @@ const center: CSSProperties = { left: "50%", transform: "translateX(-50%)" };
 
 export const COACH: Record<number, CoachEntry> = {
   1: {
-    title: "Start with a few details",
-    body: "Your customer enters their info once — name and property address. No long forms, no friction.",
-    pos: { top: "78px", right: "40px" },
+    title: "Tell the AI what you want",
+    body: "Your customer taps the projects they want and drops in a single photo — no long forms, no friction. That's everything the AI needs.",
+    pos: { top: "372px", left: "160px" },
   },
   2: {
-    title: "Pick the project",
-    body: "They tap what they want — turf, pavers and more. Each tap shapes the render and the price.",
-    pos: { top: "40px", right: "40px" },
-  },
-  3: {
-    title: "Just one photo",
-    body: "They drop in a photo of their yard — or try a sample. That's everything the AI needs.",
-    pos: { top: "40px", right: "40px" },
-  },
-  4: {
     title: "AI goes to work",
     body: "In seconds, the AI redesigns the space with exactly the products they picked.",
-    pos: { top: "40px", right: "40px" },
+    pos: { top: "20px", ...center },
   },
-  5: {
+  3: {
     title: "The wow moment",
     body: "Drag to reveal the transformation. This is what turns a curious visitor into a booked lead.",
     pos: { top: "20px", ...center },
   },
-  6: {
+  4: {
     title: "Instant ballpark estimate",
     body: "A realistic range appears immediately — enough to build confidence, framed as a preliminary AI estimate.",
     pos: { top: "357px", right: "160px" },
   },
-  7: {
+  5: {
     title: "A branded PDF, automatically",
     body: "A polished estimate PDF is generated and emailed — with your logo and details, not ours.",
-    pos: { top: "40px", right: "40px" },
+    pos: { top: "40px", right: "108px" },
   },
-  8: {
+  6: {
     title: "It lands in your CRM",
     body: "Every preview becomes a real lead — project type, deal stage and estimated value — dropped into your pipeline for a rep to work.",
     pos: { bottom: "22px", right: "40px" },
@@ -63,7 +53,7 @@ export function Coachmark({ step, onNext, onBack }: CoachmarkProps) {
   const entry = COACH[step];
   if (!entry) return null;
 
-  const nextLabel = step === 8 ? "Finish" : "Next";
+  const nextLabel = step === 6 ? "Finish" : "Next";
 
   return (
     <div className="tour-coach" style={{ position: "absolute", zIndex: 40, ...entry.pos }}>
@@ -71,7 +61,7 @@ export function Coachmark({ step, onNext, onBack }: CoachmarkProps) {
         <div className="tour-coach-title">{entry.title}</div>
         <div className="tour-coach-body">{entry.body}</div>
         <div className="tour-coach-footer">
-          <span className="tour-coach-count">{step} / 8</span>
+          <span className="tour-coach-count">{step} / 6</span>
           <div className="tour-coach-actions">
             {step > 1 && (
               <button type="button" className="tour-coach-back" onClick={onBack}>

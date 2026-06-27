@@ -72,12 +72,12 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 13px 26px;
+  padding: 11px 26px;
   background: #fff;
   border-bottom: 1px solid #eceee8;
 }
 .tour-site-logo {
-  height: 40px;
+  height: 56px;
   width: auto;
 }
 .tour-site-nav {
@@ -360,6 +360,32 @@
   color: #243026;
 }
 
+/* ---- s1 combined project + photo ---- */
+.tour-input-row {
+  display: flex;
+  gap: 22px;
+  align-items: flex-start;
+}
+.tour-input-options {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.tour-input-photo {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+.tour-input-photo-img {
+  width: 100%;
+  height: 326px;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 10px 26px -12px rgba(0, 0, 0, 0.45);
+}
+
 /* ---- s3 dropzone ---- */
 .tour-dropzone {
   border: 2px dashed #c7d3c0;
@@ -411,6 +437,12 @@
 }
 
 /* ---- s4 generating ---- */
+/* Step 2 stacks vertically: coachmark centered on top, large scanning image
+   centered on the bottom. Push this step's content to the bottom of the stage. */
+.tour-step-gen {
+  justify-content: flex-end;
+  padding-bottom: 24px;
+}
 .tour-gen-panel {
   position: relative;
   width: 580px;
@@ -802,7 +834,7 @@
    while the PDF document stays vertically centered. */
 .tour-pdf-pitch {
   align-self: start;
-  margin-top: 107px;
+  margin-top: 150px;
 }
 .tour-pdf-pitch .tour-h2 {
   font-size: 26px;
