@@ -81,6 +81,7 @@ export type TourConfig = {
   sampleArea?: string;
   crmRows?: TourCrmRow[];
   welcomeHeadline?: string;
+  bookingUrl?: string;
 };
 
 export type ContactInfo = {

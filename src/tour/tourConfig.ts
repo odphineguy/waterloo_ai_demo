@@ -68,6 +68,7 @@ const DEFAULTS = {
   beforeImage: "/images/myhome-before.webp",
   afterImage: "/images/myhome-after.webp",
   sampleArea: "1,250 sq ft",
+  bookingUrl: "https://cal.com/abe-p-698781/walkthrough",
 };
 
 // An option yields a real (non-"review") range only when its entry is a tuple.
@@ -118,6 +119,7 @@ export type ResolvedTour = {
   estimateShort: string;
   lineItems: { label: string; value: string }[];
   estimateNumber: string;
+  bookingUrl: string;
 };
 
 function defaultUrlBar(client: ClientConfig): string {
@@ -170,5 +172,6 @@ export function resolveTourConfig(client: ClientConfig): ResolvedTour {
     estimateShort: shortRange(range),
     lineItems: buildLineItems(client, sampleOptions),
     estimateNumber: `${client.estimatePrefix}-20260625`,
+    bookingUrl: t.bookingUrl ?? DEFAULTS.bookingUrl,
   };
 }

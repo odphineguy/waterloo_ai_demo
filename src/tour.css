@@ -9,7 +9,9 @@
   align-items: center;
   justify-content: center;
   padding: 28px 20px;
-  background: radial-gradient(120% 90% at 50% 0%, #eef3ea 0%, #e7ece2 60%, #e2e8dd 100%);
+  background:
+    linear-gradient(180deg, rgba(20, 30, 22, 0.34) 0%, rgba(20, 30, 22, 0.5) 100%),
+    url("/images/background.webp") center / cover no-repeat fixed;
   color: #182019;
   font-family: "Manrope", system-ui, sans-serif;
 }
@@ -148,7 +150,7 @@
 .tour-stage {
   position: relative;
   height: 606px;
-  background: #fbfcfa;
+  background: linear-gradient(180deg, #f6faf3 0%, #e2f0da 55%, #c6ddb9 100%);
   overflow: hidden;
 }
 .tour-step {
@@ -204,17 +206,18 @@
   align-items: center;
   justify-content: center;
   padding: 30px;
+  background: url("/images/turf-background.webp") center / cover no-repeat;
 }
 .tour-overlay::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(17, 26, 19, 0.66);
+  background: rgba(17, 26, 19, 0.5);
 }
 .tour-welcome-card,
 .tour-recap-card {
   position: relative;
-  background: #fff;
+  background: linear-gradient(180deg, #f6faf3 0%, #e2f0da 55%, #c6ddb9 100%);
   border-radius: 22px;
   box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.5);
 }

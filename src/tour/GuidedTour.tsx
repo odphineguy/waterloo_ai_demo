@@ -93,7 +93,9 @@ export function GuidedTour({ client }: { client: ClientConfig }) {
           {s === 4 && <Estimate tour={tour} />}
           {s === 5 && <BrandedPdf client={client} tour={tour} />}
           {s === 6 && <Crm client={client} tour={tour} />}
-          {s === 7 && <Recap onRestart={restart} liveUrl={`/${client.slug}`} />}
+          {s === 7 && (
+            <Recap onRestart={restart} liveUrl={`/${client.slug}`} bookingUrl={tour.bookingUrl} />
+          )}
           {s >= 1 && s <= 6 && <Coachmark step={s} onNext={next} onBack={back} />}
         </div>
       </div>

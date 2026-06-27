@@ -386,7 +386,15 @@ function Owner({ initials: ini, name }: { initials: string; name: string }) {
 }
 
 // ----- s9 Recap -------------------------------------------------------------
-export function Recap({ onRestart, liveUrl }: { onRestart: () => void; liveUrl: string }) {
+export function Recap({
+  onRestart,
+  liveUrl,
+  bookingUrl,
+}: {
+  onRestart: () => void;
+  liveUrl: string;
+  bookingUrl: string;
+}) {
   const cards = [
     { title: "Instant wow", body: "A real before/after render hooks visitors in seconds." },
     { title: "Real leads", body: "Qualified prospects with project detail — not tire-kickers." },
@@ -412,9 +420,14 @@ export function Recap({ onRestart, liveUrl }: { onRestart: () => void; liveUrl: 
           <a className="tour-btn-primary tour-btn-link" href={liveUrl}>
             Try it with your own photos →
           </a>
-          <button type="button" className="tour-btn-dark">
+          <a
+            className="tour-btn-dark tour-btn-link"
+            href={bookingUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Book a walkthrough
-          </button>
+          </a>
         </div>
       </div>
     </div>
