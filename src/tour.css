@@ -1158,7 +1158,7 @@
   margin-bottom: 30px;
 }
 .tour-recap-benefit {
-  background: #f4f8f1;
+  background: linear-gradient(180deg, #f7faf4 0%, #f4f8f1 45%, rgba(244, 248, 241, 0) 100%);
   border-radius: 14px;
   padding: 18px;
 }

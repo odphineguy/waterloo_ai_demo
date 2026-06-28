@@ -1,6 +1,22 @@
+import { useEffect } from "react";
 import type { ChangeEvent } from "react";
+import { getCalApi } from "@calcom/embed-react";
 import type { ClientConfig } from "../types";
 import type { ResolvedTour } from "./tourConfig";
+
+const CAL_NAMESPACE = "walkthrough";
+
+// Extract the cal.com link slug (e.g. "abe-p-698781/walkthrough") from a full
+// booking URL so it can drive the embed popup. Returns null for non-cal.com URLs.
+function getCalLink(bookingUrl: string): string | null {
+  try {
+    const url = new URL(bookingUrl);
+    if (!url.hostname.endsWith("cal.com")) return null;
+    return url.pathname.replace(/^\/+/, "") || null;
+  } catch {
+    return null;
+  }
+}
 
 const STAGE_PILL_CLASS: Record<string, string> = {
   New: "tour-pill-new",
@@ -390,16 +406,35 @@ export function Recap({
   onRestart,
   liveUrl,
   bookingUrl,
+  brandColor,
 }: {
   onRestart: () => void;
   liveUrl: string;
   bookingUrl: string;
+  brandColor: string;
 }) {
   const cards = [
     { title: "Instant wow", body: "A real before/after render hooks visitors in seconds." },
     { title: "Real leads", body: "Qualified prospects with project detail — not tire-kickers." },
     { title: "Auto follow-up", body: "Branded PDF emailed, lead assigned to a rep instantly." },
   ];
+  const calLink = getCalLink(bookingUrl);
+
+  useEffect(() => {
+    if (!calLink) return;
+    (async () => {
+      const cal = await getCalApi({ namespace: CAL_NAMESPACE });
+      cal("ui", {
+        theme: "light",
+        hideEventTypeDetails: false,
+        layout: "month_view",
+        cssVarsPerTheme: {
+          light: { "cal-brand": brandColor },
+          dark: { "cal-brand": brandColor },
+        },
+      });
+    })();
+  }, [calLink, brandColor]);
   return (
     <div className="tour-overlay">
       <div className="tour-recap-card">
@@ -420,14 +455,26 @@ export function Recap({
           <a className="tour-btn-primary tour-btn-link" href={liveUrl}>
             Try it with your own photos →
           </a>
-          <a
-            className="tour-btn-dark tour-btn-link"
-            href={bookingUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Book a walkthrough
-          </a>
+          {calLink ? (
+            <button
+              type="button"
+              className="tour-btn-dark"
+              data-cal-namespace={CAL_NAMESPACE}
+              data-cal-link={calLink}
+              data-cal-config='{"layout":"month_view"}'
+            >
+              Book a walkthrough
+            </button>
+          ) : (
+            <a
+              className="tour-btn-dark tour-btn-link"
+              href={bookingUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Book a walkthrough
+            </a>
+          )}
         </div>
       </div>
     </div>
