@@ -43,6 +43,45 @@ export type ClientConfig = {
     reviewRequired: string;
     nextSteps: string[];
   };
+  tour?: TourConfig;
+};
+
+export type TourCrmStage = "New" | "Contacted" | "Quoted" | "Won";
+
+export type TourCrmRow = {
+  name: string;
+  location: string;
+  projectType: string;
+  stage: TourCrmStage;
+  estValue: string;
+  lastContact: string;
+  ownerInitials: string;
+  ownerName: string;
+};
+
+export type TourSampleCustomer = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  street: string;
+  city: string;
+  state: string;
+  zip: string;
+};
+
+// All fields optional; resolveTourConfig() fills in shared defaults so every
+// existing ClientConfig works in the guided tour with zero per-client authoring.
+export type TourConfig = {
+  urlBar?: string;
+  beforeImage?: string;
+  afterImage?: string;
+  sampleCustomer?: TourSampleCustomer;
+  sampleOptions?: string[];
+  sampleArea?: string;
+  crmRows?: TourCrmRow[];
+  welcomeHeadline?: string;
+  bookingUrl?: string;
 };
 
 export type ContactInfo = {

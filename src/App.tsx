@@ -6,6 +6,7 @@ import {
 import type { jsPDF as JsPDF } from "jspdf";
 import { CSSProperties, useMemo, useState } from "react";
 import { getActiveClient } from "./config/activeClient";
+import { GuidedTour } from "./tour/GuidedTour";
 import { generateYardPreview } from "./services/imageGeneration";
 import {
   ClientConfig,
@@ -208,7 +209,44 @@ function safeFilename(value: string) {
   return value.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
 
+// The guided product tour lives at /<slug>/demo (additive — the real funnel
+// stays at /<slug>). getActiveClient already reads only the first path segment,
+// so we just detect "demo" as the second segment here.
+function isTourPath(pathname = window.location.pathname) {
+  return pathname.split("/").filter(Boolean)[1] === "demo";
+}
+
+// Small "Powered by abemedia" badge. On the guided tour (a fixed full-screen
+// viewport) it's pinned to the bottom like the badge chatbots show. On the
+// funnel (a normal scrolling page with its own footer) it sits in normal flow
+// below that footer instead, so it never overlaps the page's own content.
+function PoweredByAbemedia({ fixed }: { fixed: boolean }) {
+  return (
+    <a
+      className={`abemedia-badge${fixed ? " abemedia-badge--fixed" : " abemedia-badge--inline"}`}
+      href="https://abemedia.online"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Powered by abemedia"
+    >
+      <img src="/images/abemedia-transparent.png" alt="Powered by abemedia" />
+    </a>
+  );
+}
+
 function App() {
+  const tour = isTourPath();
+  return (
+    <>
+      {tour ? <GuidedTour client={getActiveClient()} /> : <Funnel />}
+      {/* Tour is a fixed full-screen viewport, so the badge is pinned. The
+          funnel renders its own copy inside the green footer (SiteFooter). */}
+      {tour && <PoweredByAbemedia fixed />}
+    </>
+  );
+}
+
+function Funnel() {
   const client = useMemo(() => getActiveClient(), []);
   const [contact, setContact] = useState<ContactInfo>(emptyContact);
   const [projectOptions, setProjectOptions] = useState<ProjectOption[]>([]);
@@ -1031,6 +1069,7 @@ function SiteFooter({ client }: { client: ClientConfig }) {
           Copyright © 2026 {client.companyName}. <a href="#">Privacy Policy</a> |{" "}
           <a href="#">Terms & Conditions</a> | Powered by <a href="#">ClickTecs</a>
         </p>
+        <PoweredByAbemedia fixed={false} />
       </div>
     </footer>
   );
