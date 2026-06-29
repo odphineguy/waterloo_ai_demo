@@ -243,6 +243,18 @@
 .client-always-green-turf .tour-site-header {
   background: linear-gradient(90deg, #0e3320 0%, #1c5532 13%, #ffffff 40%, #ffffff 100%);
 }
+
+/* Pristine Green — white wordmark + green mark on transparent (wider logo than
+   Always Green, so the dark zone runs further right). */
+.client-pristine-green .tour-welcome-logo {
+  height: 78px;
+}
+.client-pristine-green .tour-welcome-card {
+  background: linear-gradient(180deg, #0c2a17 0%, #1d5733 22%, #e8f2e1 44%, #c6ddb9 100%);
+}
+.client-pristine-green .tour-site-header {
+  background: linear-gradient(90deg, #0e3320 0%, #1c5532 24%, #ffffff 48%, #ffffff 100%);
+}
 .tour-welcome-h1 {
   margin: 0 0 12px;
   font-size: 32px;
