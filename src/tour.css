@@ -255,6 +255,17 @@
 .client-pristine-green .tour-site-header {
   background: linear-gradient(90deg, #0e3320 0%, #1c5532 24%, #ffffff 48%, #ffffff 100%);
 }
+
+/* Platinum Outdoors — white AZ-outline + script logo on transparent (compact). */
+.client-platinum-outdoors .tour-welcome-logo {
+  height: 88px;
+}
+.client-platinum-outdoors .tour-welcome-card {
+  background: linear-gradient(180deg, #0c2a17 0%, #1d5733 20%, #e8f2e1 42%, #c6ddb9 100%);
+}
+.client-platinum-outdoors .tour-site-header {
+  background: linear-gradient(90deg, #0e3320 0%, #1c5532 15%, #ffffff 41%, #ffffff 100%);
+}
 .tour-welcome-h1 {
   margin: 0 0 12px;
   font-size: 32px;
