@@ -232,6 +232,17 @@
   width: auto;
   margin-bottom: 22px;
 }
+.client-always-green-turf .tour-welcome-logo {
+  height: 84px;
+}
+/* Center card: dark green top (backs the white logo) fading to light bottom. */
+.client-always-green-turf .tour-welcome-card {
+  background: linear-gradient(180deg, #0c2a17 0%, #1d5733 20%, #e8f2e1 42%, #c6ddb9 100%);
+}
+/* Header bar: dark green behind the logo on the left, fading to white across. */
+.client-always-green-turf .tour-site-header {
+  background: linear-gradient(90deg, #0e3320 0%, #1c5532 13%, #ffffff 40%, #ffffff 100%);
+}
 .tour-welcome-h1 {
   margin: 0 0 12px;
   font-size: 32px;
