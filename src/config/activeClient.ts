@@ -32,6 +32,8 @@ import { golfGreensAzClient } from "../clients/golfGreensAz";
 import { turfTimeArizonaClient } from "../clients/turfTimeArizona";
 import { twoGreenLandscapesClient } from "../clients/twoGreenLandscapes";
 import { hotshotPoolsClient } from "../clients/hotshotPools";
+import { durableLawnClient } from "../clients/durableLawn";
+import { frdmTurfClient } from "../clients/frdmTurf";
 import type { ClientConfig } from "../types";
 
 export const clients: Record<string, ClientConfig> = {
@@ -58,6 +60,8 @@ export const clients: Record<string, ClientConfig> = {
   [turfTimeArizonaClient.slug]: turfTimeArizonaClient,
   [twoGreenLandscapesClient.slug]: twoGreenLandscapesClient,
   [hotshotPoolsClient.slug]: hotshotPoolsClient,
+  [durableLawnClient.slug]: durableLawnClient,
+  [frdmTurfClient.slug]: frdmTurfClient,
   [apexTurfClient.slug]: apexTurfClient,
   [arizonaArtificialLawnsClient.slug]: arizonaArtificialLawnsClient,
   [betterLifeLandscapeClient.slug]: betterLifeLandscapeClient,

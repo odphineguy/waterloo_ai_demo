@@ -575,11 +575,13 @@ function Funnel() {
 
       const footerX = pageWidth - margin - 210;
       const badgeSize = 14;
-      const contactRows: Array<["phone" | "email" | "web", string]> = [
-        ["phone", client.phone],
-        ["email", client.email],
-        ["web", client.website.replace(/^https?:\/\//, "").replace(/\/$/, "")],
-      ];
+      const contactRows: Array<["phone" | "email" | "web", string]> = (
+        [
+          ["phone", client.phone],
+          ["email", client.email],
+          ["web", client.website.replace(/^https?:\/\//, "").replace(/\/$/, "")],
+        ] as Array<["phone" | "email" | "web", string]>
+      ).filter(([, value]) => value.trim() !== "");
       contactRows.forEach(([kind, value], index) => {
         const rowY = y + index * 20;
         drawContactBadge(doc, kind, footerX, rowY - 10, badgeSize, green);
@@ -719,9 +721,11 @@ function SiteHeader({ client }: { client: ClientConfig }) {
         ))}
       </nav>
       <div className="header-actions">
-        <a className="call-cta" href={phoneHref}>
-          Call Now
-        </a>
+        {client.phone.trim() !== "" && (
+          <a className="call-cta" href={phoneHref}>
+            Call Now
+          </a>
+        )}
         <a className="header-cta" href="#estimate">
           Get a Free Estimate
         </a>
