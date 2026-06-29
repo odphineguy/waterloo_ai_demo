@@ -244,6 +244,17 @@
   background: linear-gradient(90deg, #0e3320 0%, #1c5532 13%, #ffffff 40%, #ffffff 100%);
 }
 
+/* Turf Time Arizona — cream circular badge + green mark on transparent (compact). */
+.client-turf-time-arizona .tour-welcome-logo {
+  height: 90px;
+}
+.client-turf-time-arizona .tour-welcome-card {
+  background: linear-gradient(180deg, #0c2a17 0%, #1d5733 20%, #e8f2e1 42%, #c6ddb9 100%);
+}
+.client-turf-time-arizona .tour-site-header {
+  background: linear-gradient(90deg, #0e3320 0%, #1c5532 13%, #ffffff 38%, #ffffff 100%);
+}
+
 /* Hotshot Hardscape & Pools — white badge logo on transparent (compact). */
 .client-hotshot-pools .tour-welcome-logo {
   height: 84px;
