@@ -266,6 +266,18 @@
 .client-platinum-outdoors .tour-site-header {
   background: linear-gradient(90deg, #0e3320 0%, #1c5532 15%, #ffffff 41%, #ffffff 100%);
 }
+
+/* Synthetic Grass Masters — white "SYNTHETIC" + green mark on transparent
+   (wide logo, built for dark backgrounds), so the dark zone runs further right. */
+.client-synthetic-grass-masters .tour-welcome-logo {
+  height: 64px;
+}
+.client-synthetic-grass-masters .tour-welcome-card {
+  background: linear-gradient(180deg, #0c2a17 0%, #1d5733 22%, #e8f2e1 44%, #c6ddb9 100%);
+}
+.client-synthetic-grass-masters .tour-site-header {
+  background: linear-gradient(90deg, #0e3320 0%, #1c5532 26%, #ffffff 50%, #ffffff 100%);
+}
 .tour-welcome-h1 {
   margin: 0 0 12px;
   font-size: 32px;
