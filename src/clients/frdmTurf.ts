@@ -53,6 +53,9 @@ export const frdmTurfClient: ClientConfig = {
     width: 160,
     height: 22,
   },
+  tour: {
+    welcomeHeadline: "Welcome, FRDM Turf —\nsee any yard **transformed** by **AI**",
+  },
   copy: {
     pageTitle: "Get Your Instant Artificial Turf Project Preview",
     contactPrompt: "Where should FRDM Turf prepare this preview?",

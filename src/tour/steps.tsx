@@ -46,7 +46,9 @@ export function Welcome({
         <h1 className="tour-welcome-h1">
           {tour.welcomeHeadline.split("\n").map((line, i) => (
             <span key={i}>
-              {line}
+              {line.split("**").map((seg, j) =>
+                j % 2 === 1 ? <strong key={j}>{seg}</strong> : seg,
+              )}
               {i === 0 && <br />}
             </span>
           ))}

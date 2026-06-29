@@ -278,6 +278,58 @@
 .client-synthetic-grass-masters .tour-site-header {
   background: linear-gradient(90deg, #0e3320 0%, #1c5532 26%, #ffffff 50%, #ffffff 100%);
 }
+
+/* FRDM Turf — premium, matches their real site: solid dark-green (#314126) header
+   ALL across with cream nav + light CTA, white logo cut ~50% (it's huge: 1500x202),
+   Montserrat headline (their site font), rounded-rectangle buttons. */
+.client-frdm-turf .tour-site-header {
+  background: #314126;
+  border-bottom-color: #243019;
+  padding: 19px 26px;
+}
+.client-frdm-turf .tour-site-logo {
+  height: 28px;
+}
+.client-frdm-turf .tour-site-link {
+  color: #e8eee2;
+}
+/* Buttons: rounded rectangles (not pills), dark green like the header. */
+.client-frdm-turf .tour-btn-primary {
+  background: #314126;
+  border-radius: 8px;
+  box-shadow: 0 8px 18px -8px rgba(36, 48, 25, 0.6);
+}
+/* "Get a Free Estimate" header CTA: light sage rectangle so it pops on dark green. */
+.client-frdm-turf .tour-site-cta {
+  background: #b7d1ab;
+  color: #243019;
+  border-radius: 8px;
+  padding: 11px 20px;
+}
+.client-frdm-turf .tour-welcome-logo {
+  height: 32px;
+}
+.client-frdm-turf .tour-welcome-card {
+  background: linear-gradient(
+    180deg,
+    #243019 0%,
+    #314126 14%,
+    #46583a 24%,
+    #6f8862 34%,
+    #9fb891 44%,
+    #c8dabe 56%,
+    #e8f2e1 72%,
+    #d8e7cf 100%
+  );
+}
+/* Headline in their site font; light base weight with bold emphasis on **words**. */
+.client-frdm-turf .tour-welcome-h1 {
+  font-family: "Montserrat", system-ui, sans-serif;
+  font-weight: 500;
+}
+.client-frdm-turf .tour-welcome-h1 strong {
+  font-weight: 800;
+}
 .tour-welcome-h1 {
   margin: 0 0 12px;
   font-size: 32px;
