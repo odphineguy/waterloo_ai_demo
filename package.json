@@ -11,12 +11,16 @@
   },
   "dependencies": {
     "@calcom/embed-react": "^1.5.3",
+    "@googlemaps/js-api-loader": "^2.1.1",
+    "@supabase/supabase-js": "^2.110.3",
     "@vercel/analytics": "^2.0.1",
     "@vitejs/plugin-react": "latest",
+    "html2canvas": "^1.4.1",
     "jspdf": "^4.2.1",
     "lucide-react": "latest",
     "react": "latest",
     "react-dom": "latest",
+    "resend": "^6.17.2",
     "typescript": "latest",
     "vite": "latest"
   },

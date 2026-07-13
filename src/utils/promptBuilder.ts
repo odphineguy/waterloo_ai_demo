@@ -1,4 +1,4 @@
-import type { ClientConfig, ProjectOption } from "../types";
+import type { ClientConfig, ProjectOption, StudioPackage } from "../types";
 
 function getBaseInstruction(client: ClientConfig) {
   return `Create a photorealistic concept rendering of the provided yard photo for a ${client.serviceLabel.toLowerCase()} sales preview. Preserve the original camera angle, perspective, house structure, walls, fencing, gates, hardscape layout, and major fixed elements unless a better concept requires minor landscape layout cleanup. Redesign the landscape area into a realistic project concept based on the selected project options. The result should look like a believable after-image of the customer's actual property, suitable for a visual estimate preview for ${client.companyName}.`;
@@ -52,6 +52,84 @@ type BuildPromptInput = {
   projectOptions: ProjectOption[];
   notes: string;
 };
+
+// ---------------------------------------------------------------------------
+// Design Studio prompt path (additive — the funnel's buildYardPreviewPrompt
+// below is untouched). Product constraint is enforced by the package's
+// promptDirectives from tenant config, so nothing brand-specific lives here.
+// ---------------------------------------------------------------------------
+
+const studioDesignStyleDirection: Record<string, string> = {
+  freeform:
+    "Design style: freeform — organic, natural flowing curves for turf edges, borders, and bed lines.",
+  modern:
+    "Design style: modern — clean geometric lines, rectilinear turf shapes, and minimal crisp borders.",
+  surprise:
+    "Design style: designer's choice — a tasteful, creative composition that balances curves and clean lines.",
+};
+
+type BuildStudioPromptInput = {
+  client: ClientConfig;
+  pkg: StudioPackage;
+  designStyleId: string;
+  puttingSizeLabel: string | null;
+  paverLabel: string | null;
+  sqft: number | null;
+  notes: string;
+  hasPhotos: boolean;
+};
+
+export function buildStudioPrompt({
+  client,
+  pkg,
+  designStyleId,
+  puttingSizeLabel,
+  paverLabel,
+  sqft,
+  notes,
+  hasPhotos,
+}: BuildStudioPromptInput) {
+  const base = hasPhotos
+    ? getBaseInstruction(client)
+    : `Create a photorealistic landscape design concept image of a residential yard for a ${client.serviceLabel.toLowerCase()} sales preview for ${client.companyName}. Show a believable ground-level view of a well-kept suburban home's yard in warm natural light. The result should look like a realistic after-photo of a completed project, suitable for a visual estimate preview.`;
+
+  const lines = [
+    base,
+    "",
+    `Design package: ${pkg.name} — ${pkg.description}`,
+    pkg.promptDirectives,
+    "",
+    studioDesignStyleDirection[designStyleId] ?? studioDesignStyleDirection.surprise,
+  ];
+
+  if (puttingSizeLabel) {
+    lines.push(
+      `Include a putting green sized as "${puttingSizeLabel}" — keep it proportional to the yard and buildable.`,
+    );
+  }
+  if (paverLabel) {
+    lines.push(
+      `Use ${paverLabel}-style pavers for all paver elements (borders, patios, walkways).`,
+    );
+  }
+  if (sqft && sqft > 0) {
+    lines.push(
+      `The yard area being transformed is approximately ${Math.round(sqft).toLocaleString("en-US")} square feet.`,
+    );
+  }
+
+  lines.push(
+    "",
+    "Customer notes:",
+    notes.trim() || "No additional customer notes provided.",
+    "",
+    "Constraints:",
+    ...constraints.map((constraint) => `- ${constraint}`),
+    `- Feature only products and elements described in the design package above, consistent with ${client.companyName}'s services.`,
+  );
+
+  return lines.join("\n");
+}
 
 export function buildYardPreviewPrompt({
   client,

@@ -4,7 +4,7 @@ import {
   X,
 } from "lucide-react";
 import type { jsPDF as JsPDF } from "jspdf";
-import { CSSProperties, useMemo, useState } from "react";
+import { CSSProperties, lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { getActiveClient } from "./config/activeClient";
 import { GuidedTour } from "./tour/GuidedTour";
 import { generateYardPreview } from "./services/imageGeneration";
@@ -216,6 +216,23 @@ function isTourPath(pathname = window.location.pathname) {
   return pathname.split("/").filter(Boolean)[1] === "demo";
 }
 
+// The Design Studio lives at /<slug>/studio (same second-segment pattern).
+// Lazy-loaded so its chunk (Inter font, Maps loader, html2canvas) never ships
+// to the funnel or tour.
+const StudioFlow = lazy(() => import("./studio/StudioFlow"));
+
+function isStudioPath(pathname = window.location.pathname) {
+  return pathname.split("/").filter(Boolean)[1] === "studio";
+}
+
+// Tenants without a studio config redirect to their regular funnel.
+function StudioRedirect({ slug }: { slug: string }) {
+  useEffect(() => {
+    window.location.replace(`/${slug}`);
+  }, [slug]);
+  return null;
+}
+
 // Small "Powered by abemedia" badge. On the guided tour (a fixed full-screen
 // viewport) it's pinned to the bottom like the badge chatbots show. On the
 // funnel (a normal scrolling page with its own footer) it sits in normal flow
@@ -236,6 +253,16 @@ function PoweredByAbemedia({ fixed }: { fixed: boolean }) {
 
 function App() {
   const tour = isTourPath();
+  if (isStudioPath()) {
+    const client = getActiveClient();
+    return client.studio?.enabled ? (
+      <Suspense fallback={null}>
+        <StudioFlow client={client} />
+      </Suspense>
+    ) : (
+      <StudioRedirect slug={client.slug} />
+    );
+  }
   return (
     <>
       {tour ? <GuidedTour client={getActiveClient()} /> : <Funnel />}

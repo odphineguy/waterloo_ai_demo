@@ -44,6 +44,51 @@ export type ClientConfig = {
     nextSteps: string[];
   };
   tour?: TourConfig;
+  studio?: StudioConfig;
+};
+
+// ---------------------------------------------------------------------------
+// Design Studio (route: /<slug>/studio) — everything brand/product specific
+// for the studio funnel lives here so any tenant works with zero code changes.
+// ---------------------------------------------------------------------------
+
+export type StudioPackage = {
+  id: string;
+  name: string;
+  description: string;
+  items: string[];
+  /** Appended to the render prompt — must mention only this tenant's products. */
+  promptDirectives: string;
+  /** Gates the putting-green size picker on the style step. */
+  hasPuttingGreen: boolean;
+};
+
+export type StudioDesignStyleId = "freeform" | "modern" | "surprise";
+
+export type StudioConfig = {
+  enabled: boolean;
+  /** e.g. { label: "$500", amount: 500 } — "$500 off unlocked at the end" */
+  incentive: { label: string; amount: number };
+  packages: StudioPackage[];
+  paverStyles: { id: string; label: string; swatchPath: string }[];
+  designStyles: StudioDesignStyleId[];
+  puttingGreenSizes: { id: string; label: string; holes: string; sqftHint: string }[];
+  /** packageId → [$min, $max] per sqft. */
+  ratesPerSqft: Record<string, [number, number]>;
+  /** Floor for tiny traces. */
+  minInvestment: number;
+  /** e.g. "Final quote after your free on-site measure." */
+  disclaimer: string;
+  /** Where studio lead packets are emailed. */
+  leadEmail: string;
+  /** After-image used on the landing hero and blurred lead-gate backdrop. */
+  heroImagePath?: string;
+  /** Cal.com booking link for "Book My Free Consultation"; button hidden if absent. */
+  bookingUrl?: string;
+  /** Aerial imagery provider seam (EagleView is a Phase 2 stub). */
+  imagerySource?: "google" | "eagleview";
+  /** Google Aerial View property flyover tab (default true). */
+  flyoverEnabled?: boolean;
 };
 
 export type TourCrmStage = "New" | "Contacted" | "Quoted" | "Won";

@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,sans-serif;color:#172118;background:#f6f8f3;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  *{box-sizing:border-box;}
+  a{color:#2f7339;text-decoration:none;} a:hover{color:#183820;}
+  button{font:inherit;}
+  input{font:inherit;}
+  @keyframes wtShimmer{0%{background-position:-500px 0}100%{background-position:500px 0}}
+  @keyframes wtSpin{to{transform:rotate(360deg)}}
+  @keyframes wtPulse{0%,100%{opacity:.5}50%{opacity:1}}
+  @keyframes wtKen{0%{transform:scale(1.02) translate(0,0)}100%{transform:scale(1.2) translate(-3%,-2%)}}
+  @keyframes wtFade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  @keyframes wtRise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  @keyframes wtTut{0%{stroke-dashoffset:0}100%{stroke-dashoffset:-28}}
+  @keyframes wtToast{from{opacity:0;transform:translate(-50%,12px)}to{opacity:1;transform:translate(-50%,0)}}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;background:#f6f8f3">
+
+  <div style="background:linear-gradient(rgba(8,47,29,.56),rgba(8,47,29,.68)),url('images/footer-turf-premium.png') center/cover;box-shadow:0 8px 22px rgba(0,0,0,.16);position:relative;z-index:2">
+    <div style="max-width:1120px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 18px">
+      <a href="#top" onClick="{{ goHome }}" style="display:flex;align-items:center">
+        <img src="images/logo.png" alt="Waterloo Turf" style="height:60px;width:auto;object-fit:contain;filter:drop-shadow(0 2px 7px rgba(0,0,0,.45))"/>
+      </a>
+      <a href="tel:4808471847" style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.95);color:#183820;font-weight:800;border-radius:999px;padding:9px 17px;font-size:14px;white-space:nowrap">
+        <span style="width:8px;height:8px;border-radius:50%;background:#2f7339;display:inline-block"></span>(480) 847-1847
+      </a>
+    </div>
+    <sc-if value="{{ showStepper }}" hint-placeholder-val="{{ true }}">
+      <div style="background:rgba(255,255,255,.97);border-top:1px solid rgba(255,255,255,.5)">
+        <dc-import name="StepIndicator" current="{{ stepNum }}" hint-size="100%,66px"></dc-import>
+      </div>
+    </sc-if>
+  </div>
+
+  <!-- ============ 01 LANDING ============ -->
+  <sc-if value="{{ isLanding }}" hint-placeholder-val="{{ true }}">
+  <div style="flex:1;animation:wtFade .35s ease both">
+    <div style="max-width:1120px;margin:0 auto;padding:clamp(28px,5vw,64px) 18px;display:flex;flex-wrap:wrap;gap:clamp(28px,4vw,56px);align-items:center">
+      <div style="flex:1 1 360px;min-width:290px">
+        <div style="display:inline-flex;align-items:center;gap:8px;background:#fff6df;color:#8a6a10;border:1px solid #f0d789;border-radius:999px;padding:7px 15px;font-size:13px;font-weight:800;margin-bottom:22px">
+          <span style="font-size:15px">✦</span> {{ discountLabel }} off unlocked at the end
+        </div>
+        <h1 style="font-size:clamp(34px,5.2vw,56px);line-height:1.04;letter-spacing:-.02em;margin:0 0 18px;font-weight:900;color:#16241a">See your yard transformed <span style="color:#2f7339">— before we ever visit.</span></h1>
+        <p style="font-size:clamp(16px,2vw,20px);line-height:1.5;color:#48524a;margin:0 0 30px;max-width:520px">Trace your yard, pick your style, and get an instant AI preview with a real budget range.</p>
+        <button onClick="{{ designYard }}" style="border:0;cursor:pointer;background:#2e8050;color:#fff;font-weight:800;font-size:17px;border-radius:999px;padding:16px 34px;box-shadow:0 14px 30px rgba(46,128,80,.28);transition:transform .16s ease,box-shadow .16s ease" style-hover="transform:translateY(-2px);box-shadow:0 18px 38px rgba(46,128,80,.34)">Design My Yard &rarr;</button>
+        <div style="display:flex;align-items:center;gap:9px;margin-top:18px;color:#6a746a;font-size:14px;font-weight:600">
+          <span style="color:#2f7339">✓</span> Free · about 2 minutes · no obligation
+        </div>
+      </div>
+      <div style="flex:1 1 380px;min-width:290px">
+        <div style="position:relative;border-radius:20px;overflow:hidden;box-shadow:0 30px 60px rgba(21,45,25,.22);border:1px solid rgba(0,0,0,.05)">
+          <img src="public/images/studio-after.png" alt="Turf transformation" style="display:block;width:100%;height:clamp(280px,42vw,440px);object-fit:cover"/>
+          <div style="position:absolute;left:16px;top:16px;display:flex;gap:8px">
+            <span style="background:rgba(24,56,32,.82);color:#fff;font-size:12px;font-weight:800;padding:7px 13px;border-radius:999px;backdrop-filter:blur(4px)">AI Preview</span>
+          </div>
+          <div style="position:absolute;left:0;right:0;bottom:0;padding:22px 18px 16px;background:linear-gradient(transparent,rgba(8,20,12,.72));color:#fff">
+            <div style="font-weight:800;font-size:15px">Modern desert retreat</div>
+            <div style="font-size:13px;opacity:.85">Rendered in seconds from a satellite trace</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid #e6ece1;background:#fff">
+      <div style="max-width:1120px;margin:0 auto;padding:22px 18px;display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:center;color:#5a645a;font-size:13px;font-weight:600">
+        <span>Waterloo Turf Franchising Co, LLC.</span><span style="opacity:.4">|</span>
+        <span>Artificial Turf Specialists</span><span style="opacity:.4">|</span>
+        <a href="https://waterlooturf.com/" style="color:#2f7339">waterlooturf.com</a>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ============ 02 ADDRESS ============ -->
+  <sc-if value="{{ isAddress }}" hint-placeholder-val="{{ true }}">
+  <div style="flex:1;display:flex;align-items:flex-start;justify-content:center;padding:clamp(28px,5vw,64px) 18px;animation:wtFade .35s ease both">
+    <div style="width:100%;max-width:560px">
+      <h2 style="font-size:clamp(26px,3.6vw,34px);line-height:1.1;letter-spacing:-.01em;margin:0 0 8px;font-weight:900;color:#16241a">Where's your yard?</h2>
+      <p style="color:#5a645a;font-size:16px;margin:0 0 26px">We'll pull up a satellite view of your property.</p>
+      <div style="position:relative">
+        <div style="position:relative">
+          <span style="position:absolute;left:18px;top:50%;transform:translateY(-50%);color:#2f7339;font-size:18px;pointer-events:none">◉</span>
+          <input value="{{ addressQuery }}" onInput="{{ onAddrInput }}" onFocus="{{ onAddrFocus }}" placeholder="Enter your home address" style="width:100%;border:1.5px solid #c3ccBd;border-radius:14px;padding:18px 18px 18px 46px;font-size:17px;background:#fff;outline:none;box-shadow:0 8px 22px rgba(21,45,25,.06)" style-focus="border-color:#2f7339;box-shadow:0 0 0 4px rgba(47,115,57,.14)"/>
+        </div>
+        <sc-if value="{{ showSuggest }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:8px;background:#fff;border:1px solid #e0e7d9;border-radius:14px;overflow:hidden;box-shadow:0 16px 34px rgba(21,45,25,.12)">
+            <sc-for list="{{ suggestions }}" as="s" hint-placeholder-count="3">
+              <button onClick="{{ s.onSelect }}" style="display:flex;align-items:center;gap:13px;width:100%;text-align:left;border:0;border-bottom:1px solid #eef2ea;background:#fff;padding:14px 16px;cursor:pointer;transition:background .12s" style-hover="background:#f4f8f0">
+                <span style="width:34px;height:34px;border-radius:9px;background:#e4f0df;color:#2f7339;display:flex;align-items:center;justify-content:center;flex:0 0 auto;font-size:16px">◉</span>
+                <span style="min-width:0"><span style="display:block;font-weight:800;font-size:15px;color:#16241a">{{ s.line1 }}</span><span style="display:block;font-size:13px;color:#6a746a">{{ s.line2 }}</span></span>
+              </button>
+            </sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ addrNotFound }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:8px;background:#fff7e0;border:1px solid #f1d481;border-radius:14px;padding:16px 18px">
+            <div style="font-weight:800;color:#6e5105;font-size:15px;margin-bottom:4px">We couldn't find that exact address</div>
+            <div style="color:#8a6a10;font-size:14px;margin-bottom:12px">Check the spelling, or drop a pin manually on the next screen.</div>
+            <button onClick="{{ useAnyway }}" style="border:0;cursor:pointer;background:#2e8050;color:#fff;font-weight:800;font-size:14px;border-radius:999px;padding:11px 22px">Continue anyway &rarr;</button>
+          </div>
+        </sc-if>
+      </div>
+      <div style="margin-top:24px;display:flex;align-items:center;gap:8px;color:#8a938a;font-size:13px">
+        <span style="color:#2f7339">◉</span> Try one of the sample Phoenix-area addresses above to see the demo.
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ============ 03 TRACE ============ -->
+  <sc-if value="{{ isTrace }}" hint-placeholder-val="{{ true }}">
+  <div style="flex:1;padding:clamp(18px,3vw,32px) 18px;animation:wtFade .35s ease both">
+    <div style="max-width:1120px;margin:0 auto;display:flex;flex-wrap:wrap;gap:20px;align-items:stretch">
+      <div style="flex:2 1 380px;min-width:290px">
+        <div onClick="{{ addPoint }}" style="position:relative;width:100%;aspect-ratio:1/1;max-width:min(100%,620px);margin:0 auto;border-radius:16px;overflow:hidden;cursor:crosshair;box-shadow:0 18px 40px rgba(21,45,25,.16);background:#b7a88d;user-select:none">
+          <!-- stylized aerial (dev swaps in live Google Maps) -->
+          <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 120% at 30% 20%,#c3b596,#a89877 60%,#94855f)"></div>
+          <div style="position:absolute;inset:0;pointer-events:none;opacity:.5;background:repeating-linear-gradient(0deg,rgba(0,0,0,.05) 0 1px,transparent 1px 40px),repeating-linear-gradient(90deg,rgba(0,0,0,.05) 0 1px,transparent 1px 40px)"></div>
+          <div style="position:absolute;left:8%;top:10%;width:40%;height:34%;background:linear-gradient(135deg,#7d8188,#5f636b);border-radius:3px;box-shadow:0 6px 14px rgba(0,0,0,.28);pointer-events:none"></div>
+          <div style="position:absolute;left:10%;top:46%;width:36%;height:9%;background:#cfc6b3;pointer-events:none"></div>
+          <div style="position:absolute;left:54%;top:20%;width:33%;height:52%;background:linear-gradient(135deg,#9fa06f,#86894f);border-radius:4px;pointer-events:none;opacity:.85"></div>
+          <div style="position:absolute;left:60%;top:56%;width:20%;height:16%;background:linear-gradient(135deg,#4f9dc4,#2f79a3);border-radius:6px;box-shadow:inset 0 2px 8px rgba(0,0,0,.3);pointer-events:none"></div>
+          <div style="position:absolute;left:6%;bottom:4%;width:88%;height:7%;background:#8f8f8f;border-radius:2px;pointer-events:none;opacity:.7"></div>
+          <div style="position:absolute;left:12%;top:8%;width:22px;height:22px;border-radius:50%;background:radial-gradient(circle,#3f6b3a,#28471f);pointer-events:none"></div>
+          <div style="position:absolute;left:48%;top:14%;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle,#3f6b3a,#28471f);pointer-events:none"></div>
+          <div style="position:absolute;left:88%;bottom:16%;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,#3f6b3a,#28471f);pointer-events:none"></div>
+          <sc-if value="{{ hasAerial }}" hint-placeholder-val="{{ false }}">
+            <img src="{{ aerialSrc }}" alt="Satellite view of property" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none"/>
+          </sc-if>
+
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none">
+            <polygon points="{{ tracePoly }}" fill="rgba(47,115,57,.22)" stroke="#3fae63" stroke-width="0.5" stroke-dasharray="2 1.4" vector-effect="non-scaling-stroke" style="stroke-width:2.5px"></polygon>
+            <polygon points="{{ deductPoly }}" fill="rgba(204,60,40,.24)" stroke="#ff6a4d" stroke-width="0.5" stroke-dasharray="2 1.4" style="stroke-width:2.5px"></polygon>
+          </svg>
+          <sc-for list="{{ traceDots }}" as="d" hint-placeholder-count="0">
+            <div style="{{ d.style }}"></div>
+          </sc-for>
+          <sc-for list="{{ deductDots }}" as="d" hint-placeholder-count="0">
+            <div style="{{ d.style }}"></div>
+          </sc-for>
+
+          <!-- map chrome -->
+          <div style="position:absolute;right:12px;top:12px;width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;font-weight:900;color:#2f7339;pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,.2)">N</div>
+          <div style="position:absolute;left:12px;bottom:12px;display:flex;align-items:center;gap:6px;pointer-events:none">
+            <div style="width:52px;height:5px;background:#fff;border:1px solid rgba(0,0,0,.3)"></div>
+            <span style="font-size:11px;font-weight:700;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6)">20 ft</span>
+          </div>
+          <div style="position:absolute;right:12px;bottom:12px;font-size:10px;color:rgba(255,255,255,.85);text-shadow:0 1px 3px rgba(0,0,0,.7);pointer-events:none">{{ aerialCaption }}</div>
+
+          <!-- tutorial overlay -->
+          <sc-if value="{{ showTutorial }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;inset:0;background:rgba(10,24,14,.62);backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center">
+              <div style="max-width:320px;color:#fff">
+                <svg viewBox="0 0 120 90" style="width:130px;height:98px;margin-bottom:16px">
+                  <polygon points="20,68 30,22 92,18 100,66" fill="rgba(63,174,99,.2)" stroke="#3fae63" stroke-width="2.5" stroke-dasharray="6 4" style="animation:wtTut 1s linear infinite"></polygon>
+                  <circle cx="20" cy="68" r="5" fill="#e4b83d" stroke="#fff" stroke-width="2"></circle>
+                  <circle cx="30" cy="22" r="5" fill="#e4b83d" stroke="#fff" stroke-width="2"></circle>
+                  <circle cx="92" cy="18" r="5" fill="#e4b83d" stroke="#fff" stroke-width="2"></circle>
+                  <circle cx="100" cy="66" r="5" fill="#e4b83d" stroke="#fff" stroke-width="2"></circle>
+                </svg>
+                <div style="font-size:19px;font-weight:800;margin-bottom:8px">Tap the corners of your yard</div>
+                <div style="font-size:14px;opacity:.86;line-height:1.5;margin-bottom:20px">Outline the area you want transformed. Add 3 or more points to close the shape.</div>
+                <button onClick="{{ dismissTutorial }}" style="border:0;cursor:pointer;background:#e4b83d;color:#183820;font-weight:800;font-size:15px;border-radius:999px;padding:12px 28px">Got it — start tracing</button>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+
+      <div style="flex:1 1 250px;min-width:240px;display:flex;flex-direction:column;gap:16px">
+        <div style="display:inline-flex;background:#eef3ea;border-radius:12px;padding:4px;gap:4px">
+          <button onClick="{{ setTraceMode }}" style="{{ traceBtnStyle }}">✎ Trace</button>
+          <button onClick="{{ setDeductMode }}" style="{{ deductBtnStyle }}">⊖ Deduct</button>
+        </div>
+        <div style="background:#183820;border-radius:16px;padding:22px;color:#fff;box-shadow:0 14px 30px rgba(21,45,25,.18)">
+          <div style="font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:6px">Area measured</div>
+          <div style="font-size:clamp(42px,8vw,58px);font-weight:900;line-height:1;letter-spacing:-.02em">{{ sqftLabel }}</div>
+          <div style="font-size:14px;font-weight:700;color:#9fd3ac;margin-top:4px">square feet</div>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button onClick="{{ undo }}" style="flex:1;border:1px solid #cdd6c6;background:#fff;color:#3a463b;font-weight:800;border-radius:11px;padding:12px;cursor:pointer">↶ Undo</button>
+          <button onClick="{{ clearTrace }}" style="flex:1;border:1px solid #cdd6c6;background:#fff;color:#3a463b;font-weight:800;border-radius:11px;padding:12px;cursor:pointer">Clear</button>
+        </div>
+        <sc-if value="{{ needMorePoints }}" hint-placeholder-val="{{ true }}">
+          <div style="background:#fff7e0;border:1px solid #f1d481;border-radius:11px;padding:12px 14px;color:#6e5105;font-size:13px;font-weight:600;line-height:1.4">Add at least 3 points to close your yard outline.</div>
+        </sc-if>
+        <button onClick="{{ toPackage }}" disabled="{{ needMorePoints }}" style="{{ toPackageStyle }}">Select Package &rarr;</button>
+        <div style="font-size:12px;color:#8a938a;line-height:1.45">Deduct mode removes pools, patios &amp; structures from your total.</div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ============ 04 PACKAGE ============ -->
+  <sc-if value="{{ isPackage }}" hint-placeholder-val="{{ true }}">
+  <div style="flex:1;padding:clamp(24px,4vw,48px) 18px;animation:wtFade .35s ease both">
+    <div style="max-width:1120px;margin:0 auto">
+      <div style="text-align:center;margin-bottom:30px">
+        <div style="display:inline-flex;align-items:center;gap:8px;background:#e4f0df;color:#20502c;border-radius:999px;padding:7px 16px;font-size:14px;font-weight:800;margin-bottom:14px"><b style="font-size:16px">{{ sqftLabel }}</b> SQFT measured</div>
+        <h2 style="font-size:clamp(26px,3.6vw,36px);letter-spacing:-.01em;margin:0;font-weight:900;color:#16241a">Choose your design package</h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:16px">
+        <sc-for list="{{ packages }}" as="p" hint-placeholder-count="6">
+          <button onClick="{{ p.onSelect }}" style="{{ p.cardStyle }}">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;width:100%">
+              <span style="font-size:19px;font-weight:900;color:#16241a;text-align:left">{{ p.name }}</span>
+              <span style="{{ p.chipStyle }}">{{ p.countLabel }}</span>
+            </div>
+            <p style="margin:8px 0 0;color:#5a645a;font-size:14px;line-height:1.45;text-align:left">{{ p.desc }}</p>
+            <sc-if value="{{ p.isSelected }}" hint-placeholder-val="{{ false }}">
+              <div style="margin-top:14px;padding-top:14px;border-top:1px dashed #cdd6c6;display:flex;flex-wrap:wrap;gap:7px;animation:wtFade .25s ease both">
+                <sc-for list="{{ p.chips }}" as="c" hint-placeholder-count="3">
+                  <span style="background:#eef3ea;color:#20502c;font-size:12px;font-weight:700;padding:6px 11px;border-radius:999px">{{ c.label }}</span>
+                </sc-for>
+              </div>
+              <div style="margin-top:12px;display:flex;align-items:center;gap:7px;color:#2f7339;font-weight:800;font-size:13px">✓ Selected</div>
+            </sc-if>
+          </button>
+        </sc-for>
+      </div>
+      <div style="display:flex;justify-content:center;margin-top:32px">
+        <button onClick="{{ toStyle }}" disabled="{{ noPackage }}" style="{{ toStyleStyle }}">Choose Your Style &rarr;</button>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ============ 05 STYLE ============ -->
+  <sc-if value="{{ isStyle }}" hint-placeholder-val="{{ true }}">
+  <div style="flex:1;padding:clamp(24px,4vw,48px) 18px;animation:wtFade .35s ease both">
+    <div style="max-width:860px;margin:0 auto">
+      <h2 style="font-size:clamp(26px,3.6vw,36px);letter-spacing:-.01em;margin:0 0 6px;font-weight:900;color:#16241a;text-align:center">Dial in your look</h2>
+      <p style="color:#5a645a;font-size:16px;margin:0 0 32px;text-align:center">Fine-tune the render. Everything here is optional.</p>
+
+      <div style="margin-bottom:30px">
+        <div style="font-size:13px;font-weight:800;color:#38453b;letter-spacing:.04em;text-transform:uppercase;margin-bottom:12px">Design style</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:12px">
+          <sc-for list="{{ designStyles }}" as="d" hint-placeholder-count="3">
+            <button onClick="{{ d.onSelect }}" style="{{ d.tileStyle }}">
+              <svg viewBox="0 0 24 24" fill="none" stroke="{{ d.stroke }}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:30px;height:30px"><path d="{{ d.icon }}"></path></svg>
+              <span style="font-weight:800;font-size:15px;color:#16241a">{{ d.name }}</span>
+              <span style="font-size:12px;color:#6a746a">{{ d.desc }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+
+      <sc-if value="{{ showPutting }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-bottom:30px;animation:wtFade .3s ease both">
+          <div style="font-size:13px;font-weight:800;color:#38453b;letter-spacing:.04em;text-transform:uppercase;margin-bottom:12px">Putting green size</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:12px">
+            <sc-for list="{{ puttingSizes }}" as="p" hint-placeholder-count="3">
+              <button onClick="{{ p.onSelect }}" style="{{ p.tileStyle }}">
+                <span style="font-weight:800;font-size:15px;color:#16241a">{{ p.name }}</span>
+                <span style="font-size:12px;color:#6a746a">{{ p.desc }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <div style="margin-bottom:30px">
+        <div style="font-size:13px;font-weight:800;color:#38453b;letter-spacing:.04em;text-transform:uppercase;margin-bottom:12px">Paver style</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,130px),1fr));gap:12px">
+          <sc-for list="{{ paverStyles }}" as="p" hint-placeholder-count="6">
+            <button onClick="{{ p.onSelect }}" style="{{ p.wrapStyle }}">
+              <div style="{{ p.swatchStyle }}"></div>
+              <span style="font-size:13px;font-weight:700;color:#16241a;padding:9px 4px 0;text-align:center">{{ p.name }}</span>
+              <sc-if value="{{ p.isSelected }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;right:8px;top:8px;width:24px;height:24px;border-radius:50%;background:#2e8050;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;box-shadow:0 2px 6px rgba(0,0,0,.3)">✓</div></sc-if>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="margin-bottom:34px">
+        <div style="font-size:13px;font-weight:800;color:#38453b;letter-spacing:.04em;text-transform:uppercase;margin-bottom:12px">Add a photo of your yard <span style="color:#9aa79a;font-weight:600;text-transform:none;letter-spacing:0">— optional, improves the render</span></div>
+        <label style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:130px;border:1.5px dashed #99ad90;border-radius:14px;background:linear-gradient(135deg,rgba(47,115,57,.06),rgba(228,184,61,.1)),#fbfcf8;cursor:pointer;text-align:center;padding:20px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#2f7339" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:30px;height:30px"><path d="M12 5v14M5 12h14"></path></svg>
+          <sc-if value="{{ hasPhoto }}" hint-placeholder-val="{{ false }}"><span style="font-weight:800;color:#20502c;font-size:15px">✓ {{ photoName }}</span></sc-if>
+          <sc-if value="{{ noPhoto }}" hint-placeholder-val="{{ true }}"><span style="font-weight:800;color:#20502c;font-size:15px">Drop a photo or tap to browse</span></sc-if>
+          <span style="color:#8a938a;font-size:13px">JPG or PNG · skippable</span>
+          <input type="file" accept="image/*" onChange="{{ onPhoto }}" style="display:none"/>
+        </label>
+      </div>
+
+      <div style="display:flex;justify-content:center">
+        <button onClick="{{ generate }}" style="border:0;cursor:pointer;background:#e4b83d;color:#172118;font-weight:900;font-size:17px;border-radius:999px;padding:16px 38px;box-shadow:0 14px 30px rgba(228,184,61,.3);transition:transform .16s ease" style-hover="transform:translateY(-2px)">Generate My Design &rarr;</button>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ============ 06 LEAD GATE ============ -->
+  <sc-if value="{{ isGate }}" hint-placeholder-val="{{ true }}">
+  <div style="flex:1;position:relative;min-height:70vh;display:flex;align-items:center;justify-content:center;padding:clamp(20px,4vw,48px) 18px;overflow:hidden">
+    <img src="public/images/studio-after.png" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(22px) brightness(.82);transform:scale(1.15)"/>
+    <div style="position:absolute;inset:0;background:linear-gradient(rgba(8,20,12,.5),rgba(8,20,12,.62))"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.16) 50%,transparent 70%);background-size:500px 100%;animation:wtShimmer 2.1s linear infinite;pointer-events:none"></div>
+    <div style="position:relative;width:100%;max-width:460px;background:#fff;border-radius:20px;box-shadow:0 40px 80px rgba(0,0,0,.4);padding:clamp(24px,4vw,36px);animation:wtRise .4s ease both">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px">
+        <div style="width:38px;height:38px;border:3px solid #e4f0df;border-top-color:#2f7339;border-radius:50%;animation:wtSpin .9s linear infinite;flex:0 0 auto"></div>
+        <div>
+          <div style="font-size:20px;font-weight:900;color:#16241a;line-height:1.1">Your design is rendering…</div>
+          <div style="font-size:13px;color:#6a746a">Unlock it below to see the reveal.</div>
+        </div>
+      </div>
+      <sc-if value="{{ slowRender }}" hint-placeholder-val="{{ false }}">
+        <div style="margin:10px 0 4px;font-size:12.5px;color:#8a6a10;background:#fff7e0;border:1px solid #f1d481;border-radius:9px;padding:9px 12px;line-height:1.4">Still working — a high-res render can take a moment longer than usual. Hang tight.</div>
+      </sc-if>
+      <div style="height:1px;background:#eef2ea;margin:16px 0"></div>
+      <div style="display:inline-flex;align-items:center;gap:8px;background:#fff6df;color:#8a6a10;border:1px solid #f0d789;border-radius:999px;padding:6px 13px;font-size:12.5px;font-weight:800;margin-bottom:16px">✦ {{ discountLabel }} off locks to this design</div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <input value="{{ leadName }}" onInput="{{ onLeadName }}" placeholder="Full name" style="width:100%;border:1.5px solid #c3ccBd;border-radius:11px;padding:13px 14px;font-size:15px;outline:none" style-focus="border-color:#2f7339;box-shadow:0 0 0 3px rgba(47,115,57,.14)"/>
+        <input value="{{ leadEmail }}" onInput="{{ onLeadEmail }}" type="email" placeholder="Email address" style="width:100%;border:1.5px solid #c3ccBd;border-radius:11px;padding:13px 14px;font-size:15px;outline:none" style-focus="border-color:#2f7339;box-shadow:0 0 0 3px rgba(47,115,57,.14)"/>
+        <input value="{{ leadPhone }}" onInput="{{ onLeadPhone }}" type="tel" placeholder="Phone number" style="width:100%;border:1.5px solid #c3ccBd;border-radius:11px;padding:13px 14px;font-size:15px;outline:none" style-focus="border-color:#2f7339;box-shadow:0 0 0 3px rgba(47,115,57,.14)"/>
+      </div>
+      <button onClick="{{ submitLead }}" disabled="{{ cantSubmit }}" style="{{ submitStyle }}">Show My Design + Claim {{ discountLabel }} Off</button>
+      <p style="margin:12px 0 0;font-size:11.5px;color:#8a938a;line-height:1.5;text-align:center">By continuing you agree to be contacted by Waterloo Turf about your project. No spam · unsubscribe anytime.</p>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ============ 07 VISUALIZER ============ -->
+  <sc-if value="{{ isReveal }}" hint-placeholder-val="{{ true }}">
+  <div style="flex:1;padding:clamp(20px,3.5vw,40px) 18px;animation:wtFade .4s ease both">
+    <div style="max-width:1120px;margin:0 auto">
+      <sc-if value="{{ discountClaimed }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:12px;background:#e4f0df;border:1px solid #bdd7b3;border-radius:14px;padding:14px 18px;margin-bottom:20px;animation:wtRise .4s ease both">
+          <span style="width:34px;height:34px;border-radius:50%;background:#2e8050;color:#fff;display:flex;align-items:center;justify-content:center;font-size:17px;flex:0 0 auto">✓</span>
+          <div style="font-size:15px;font-weight:800;color:#16241a;line-height:1.3">You're in, {{ leadFirst }} — {{ discountLabel }} off is locked to this design.</div>
+        </div>
+      </sc-if>
+      <div style="display:flex;flex-wrap:wrap;gap:22px;align-items:stretch">
+        <div style="flex:2 1 400px;min-width:290px">
+          <div ref="{{ setTrack }}" onPointerDown="{{ sliderDown }}" style="position:relative;width:100%;height:clamp(320px,52vh,560px);border-radius:18px;overflow:hidden;box-shadow:0 24px 50px rgba(21,45,25,.2);cursor:ew-resize;user-select:none;touch-action:none;background:#183820">
+            <img src="public/images/studio-after.png" alt="After" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none"/>
+            <img src="public/images/studio-before.png" alt="Before" style="{{ beforeStyle }}"/>
+            <div style="position:absolute;left:14px;top:14px;background:rgba(24,56,32,.8);color:#fff;font-size:12px;font-weight:800;padding:6px 12px;border-radius:999px;pointer-events:none">BEFORE</div>
+            <div style="position:absolute;right:14px;top:14px;background:rgba(46,128,80,.92);color:#fff;font-size:12px;font-weight:800;padding:6px 12px;border-radius:999px;pointer-events:none">AFTER</div>
+            <sc-if value="{{ showHandle }}" hint-placeholder-val="{{ true }}">
+              <div style="{{ handleStyle }}">
+                <div style="width:44px;height:44px;border-radius:50%;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;color:#2f7339;font-size:16px;font-weight:900">↔</div>
+              </div>
+            </sc-if>
+          </div>
+          <div style="display:inline-flex;background:#eef3ea;border-radius:11px;padding:4px;gap:4px;margin-top:14px;flex-wrap:wrap">
+            <button onClick="{{ revealSlider }}" style="{{ vSliderStyle }}">Slider</button>
+            <button onClick="{{ revealCurtain }}" style="{{ vCurtainStyle }}">Curtain reveal</button>
+            <button onClick="{{ openTour }}" style="{{ vTourStyle }}">Cinematic tour</button>
+          </div>
+        </div>
+
+        <div style="flex:1 1 280px;min-width:250px;display:flex;flex-direction:column;gap:16px">
+          <div style="background:#fff;border:1px solid #e4ebdd;border-radius:16px;padding:20px">
+            <div style="font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#8a938a;margin-bottom:6px">Your package</div>
+            <div style="font-size:20px;font-weight:900;color:#16241a;margin-bottom:12px">{{ packageName }}</div>
+            <div style="display:flex;flex-wrap:wrap;gap:7px">
+              <sc-for list="{{ packageChips }}" as="c" hint-placeholder-count="3">
+                <span style="background:#eef3ea;color:#20502c;font-size:12px;font-weight:700;padding:6px 11px;border-radius:999px">{{ c.label }}</span>
+              </sc-for>
+            </div>
+            <div style="margin-top:14px;padding-top:14px;border-top:1px solid #eef2ea;display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:#5a645a">
+              <span><b style="color:#16241a">{{ sqftLabel }}</b> sqft</span>
+              <span><b style="color:#16241a">{{ designStyleName }}</b> style</span>
+              <span><b style="color:#16241a">{{ paverName }}</b> pavers</span>
+            </div>
+          </div>
+
+          <div style="background:#183820;border-radius:16px;padding:22px;color:#fff;box-shadow:0 14px 30px rgba(21,45,25,.18)">
+            <div style="font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.62);margin-bottom:8px">Estimated investment</div>
+            <div style="font-size:clamp(28px,5vw,38px);font-weight:900;line-height:1;letter-spacing:-.01em">{{ investLabel }}</div>
+            <div style="font-size:12.5px;color:rgba(255,255,255,.72);margin-top:12px;line-height:1.5">Final quote after your free on-site measure. {{ discountLabel }} off applied at booking.</div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <button onClick="{{ save }}" style="border:1px solid #cdd6c6;background:#fff;color:#20502c;font-weight:800;border-radius:12px;padding:13px;cursor:pointer">Save</button>
+            <button onClick="{{ email }}" style="border:1px solid #cdd6c6;background:#fff;color:#20502c;font-weight:800;border-radius:12px;padding:13px;cursor:pointer">Email</button>
+            <button onClick="{{ openTour }}" style="border:1px solid #cdd6c6;background:#fff;color:#20502c;font-weight:800;border-radius:12px;padding:13px;cursor:pointer">▶ Tour</button>
+            <button onClick="{{ restart }}" style="border:1px solid #cdd6c6;background:#fff;color:#20502c;font-weight:800;border-radius:12px;padding:13px;cursor:pointer">Start over</button>
+          </div>
+          <button onClick="{{ bookConsult }}" style="border:0;cursor:pointer;background:#2e8050;color:#fff;font-weight:900;font-size:16px;border-radius:12px;padding:16px;box-shadow:0 14px 30px rgba(46,128,80,.28);transition:transform .16s ease" style-hover="transform:translateY(-2px)">Book My Free Consultation</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- tour takeover -->
+  <sc-if value="{{ tourActive }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:60;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden">
+      <img src="public/images/studio-after.png" alt="" style="width:100%;height:100%;object-fit:cover;animation:wtKen 14s ease-in-out infinite alternate"/>
+      <div style="position:absolute;left:0;right:0;bottom:0;padding:40px 28px 30px;background:linear-gradient(transparent,rgba(0,0,0,.7));color:#fff;pointer-events:none">
+        <div style="font-size:clamp(20px,3vw,28px);font-weight:900">{{ packageName }}</div>
+        <div style="opacity:.85;font-size:15px">{{ sqftLabel }} sqft · {{ designStyleName }} · {{ investLabel }}</div>
+      </div>
+      <button onClick="{{ closeTour }}" style="position:absolute;right:20px;top:20px;width:46px;height:46px;border-radius:50%;border:0;background:rgba(255,255,255,.92);color:#183820;font-size:20px;font-weight:900;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.4)">✕</button>
+    </div>
+  </sc-if>
+
+  <!-- toast -->
+  <sc-if value="{{ toastShow }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;left:50%;bottom:26px;z-index:70;transform:translateX(-50%);background:#183820;color:#fff;font-weight:700;font-size:14px;padding:13px 22px;border-radius:999px;box-shadow:0 14px 34px rgba(0,0,0,.34);animation:wtToast .3s ease both">{{ toast }}</div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1120,&quot;height&quot;:760},&quot;aerialSrc&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;public/images/aerial-phoenix.png&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Site trace&quot;,&quot;label&quot;:&quot;Aerial image URL / path&quot;}}">
+class Component extends DCLogic {
+  /* ============================================================
+     TENANT CONFIG — dev will externalize (multi-tenant later).
+     All package / style / pricing / copy content lives here.
+     ============================================================ */
+  cfg = {
+    discount: 500,
+    realArea: 8200, // ft^2 the aerial view represents; area = polygon-fraction * this
+    addressSuggestions: [
+      { line1: '2847 E Camelback Rd', line2: 'Phoenix, AZ 85016' },
+      { line1: '15221 N Clubgate Dr', line2: 'Scottsdale, AZ 85254' },
+      { line1: '908 W Desert Cove Ave', line2: 'Phoenix, AZ 85021' }
+    ],
+    packages: [
+      { id: 'essentials', name: 'Green Essentials', desc: 'Turf install — clean, low-maintenance, done right.', chips: ['Premium turf install'], hasPutting: false, est: [4500, 9500] },
+      { id: 'defined', name: 'Defined Green', desc: 'Turf framed with a paver border and decorative rock.', chips: ['Premium turf', 'Paver border', 'Decorative rock'], hasPutting: false, est: [7500, 14500] },
+      { id: 'balance', name: 'Backyard Balance', desc: 'Turf, paver border, and a custom paver patio.', chips: ['Premium turf', 'Paver border', 'Custom paver patio'], hasPutting: false, est: [9500, 17500] },
+      { id: 'golfer', name: "Golfer's Delight", desc: 'A real putting green with turf, pavers, and rock accents.', chips: ['Putting green', 'Premium turf', 'Pavers', 'Rock accents'], hasPutting: true, est: [11500, 22500] },
+      { id: 'retreat', name: 'Total Backyard Retreat', desc: 'The full build: turf, border, patio, patio cover, and rock.', chips: ['Premium turf', 'Paver border', 'Paver patio', 'Patio cover', 'Decorative rock'], hasPutting: false, est: [16000, 31000] },
+      { id: 'dealer', name: "Dealer's Choice", desc: 'Bespoke premium — lighting, smart irrigation, and extras.', chips: ['Premium turf', 'Paver border', 'Patio', 'Landscape lighting', 'Smart irrigation', 'Premium extras'], hasPutting: true, est: [22000, 46000] }
+    ],
+    designStyles: [
+      { id: 'freeform', name: 'Freeform', desc: 'Organic, natural curves', icon: 'M3 15c3-6 6-6 9 0s6 5 9-2' },
+      { id: 'modern', name: 'Modern', desc: 'Clean geometric lines', icon: 'M4 5h6v6H4zM14 13h6v6h-6z' },
+      { id: 'surprise', name: 'Surprise Me', desc: "Let's get creative", icon: 'M12 3l2.1 5.6L20 11l-5.9 2.4L12 19l-2.1-5.6L4 11l5.9-2.4z' }
+    ],
+    puttingSizes: [
+      { id: 'practice', name: 'Practice', desc: '1–2 holes' },
+      { id: 'club', name: 'Club', desc: '2–3 holes' },
+      { id: 'tour', name: 'Tour', desc: '3–5 holes' }
+    ],
+    paverStyles: [
+      { id: 'slate', name: 'Slate', tone: 'linear-gradient(135deg,#6b7078,#474c54)' },
+      { id: 'townscape', name: 'Townscape Native', tone: 'linear-gradient(135deg,#bcab8f,#8f7a5f)' },
+      { id: 'tierranorte', name: 'Tierranorte', tone: 'linear-gradient(135deg,#c1885b,#96592f)' },
+      { id: 'territorial', name: 'Territorial', tone: 'linear-gradient(135deg,#a86b4a,#78472f)' },
+      { id: 'victorian', name: 'Victorian', tone: 'linear-gradient(135deg,#8b9098,#5c616a)' },
+      { id: 'rio', name: 'Rio', tone: 'linear-gradient(135deg,#caa06a,#9c6738)' }
+    ]
+  };
+
+  state = {
+    step: 'landing',
+    addressQuery: '', selectedAddress: null, addrFocused: false, addrNotFound: false,
+    mode: 'trace', points: [], deducts: [], displaySqft: 0, showTutorial: true,
+    selectedPackage: null,
+    designStyle: 'modern', puttingSize: 'club', paverStyle: 'slate', photoName: null,
+    lead: { name: '', email: '', phone: '' },
+    slowRender: false,
+    revealVariant: 'slider', sliderPos: 50, showHandle: true, tourActive: false, discountClaimed: false,
+    toast: ''
+  };
+
+  componentDidMount() {
+    this._pm = (e) => { if (this._drag) this.setSliderFromEvent(e); };
+    this._pu = () => { this._drag = false; };
+    window.addEventListener('pointermove', this._pm);
+    window.addEventListener('pointerup', this._pu);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('pointermove', this._pm);
+    window.removeEventListener('pointerup', this._pu);
+    cancelAnimationFrame(this._raf); cancelAnimationFrame(this._sraf);
+    clearTimeout(this._slowT); clearTimeout(this._toastT);
+  }
+
+  go = (step) => { window.scrollTo({ top: 0 }); this.setState({ step }); };
+
+  /* ---- geometry ---- */
+  area(pts) { if (pts.length < 3) return 0; let a = 0; for (let i = 0; i < pts.length; i++) { const p = pts[i], q = pts[(i + 1) % pts.length]; a += p.x * q.y - q.x * p.y; } return Math.abs(a) / 2; }
+  recalc() {
+    const net = Math.max(0, this.area(this.state.points) - this.area(this.state.deducts));
+    this.tweenSqft(Math.round(net * this.cfg.realArea));
+  }
+  tweenSqft(target) {
+    cancelAnimationFrame(this._raf);
+    const start = this.state.displaySqft || 0, t0 = performance.now(), dur = 480;
+    const step = (now) => {
+      const p = Math.min(1, (now - t0) / dur);
+      const v = Math.round(start + (target - start) * (1 - Math.pow(1 - p, 3)));
+      this.setState({ displaySqft: v });
+      if (p < 1) this._raf = requestAnimationFrame(step);
+    };
+    this._raf = requestAnimationFrame(step);
+  }
+
+  /* ---- address ---- */
+  onAddrInput = (e) => { this.setState({ addressQuery: e.target.value, addrFocused: true, addrNotFound: false }); };
+  onAddrFocus = () => this.setState({ addrFocused: true });
+  selectAddr = (a) => { this.setState({ selectedAddress: a, addressQuery: a.line1, addrFocused: false, showTutorial: true }); this.go('trace'); };
+  useAnyway = () => { this.setState({ selectedAddress: { line1: this.state.addressQuery, line2: '' }, addrFocused: false, addrNotFound: false, showTutorial: true }); this.go('trace'); };
+
+  /* ---- trace ---- */
+  addPoint = (e) => {
+    if (this.state.showTutorial) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+    if (x < 0 || x > 1 || y < 0 || y > 1) return;
+    const key = this.state.mode === 'trace' ? 'points' : 'deducts';
+    this.setState({ [key]: this.state[key].concat([{ x, y }]) }, () => this.recalc());
+  };
+  setTraceMode = () => this.setState({ mode: 'trace' });
+  setDeductMode = () => this.setState({ mode: 'deduct' });
+  dismissTutorial = () => this.setState({ showTutorial: false });
+  undo = () => { const key = this.state.mode === 'trace' ? 'points' : 'deducts'; this.setState({ [key]: this.state[key].slice(0, -1) }, () => this.recalc()); };
+  clearTrace = () => this.setState({ points: [], deducts: [], displaySqft: 0 });
+
+  /* ---- package / style ---- */
+  selectPackage = (id) => this.setState({ selectedPackage: id });
+  setDesignStyle = (id) => this.setState({ designStyle: id });
+  setPutting = (id) => this.setState({ puttingSize: id });
+  setPaver = (id) => this.setState({ paverStyle: id });
+  onPhoto = (e) => { const f = e.target.files && e.target.files[0]; if (f) this.setState({ photoName: f.name }); };
+
+  /* ---- gate ---- */
+  generate = () => {
+    this.setState({ step: 'gate', slowRender: false });
+    window.scrollTo({ top: 0 });
+    clearTimeout(this._slowT);
+    this._slowT = setTimeout(() => this.setState({ slowRender: true }), 3800);
+  };
+  onLeadName = (e) => this.setState({ lead: { ...this.state.lead, name: e.target.value } });
+  onLeadEmail = (e) => this.setState({ lead: { ...this.state.lead, email: e.target.value } });
+  onLeadPhone = (e) => this.setState({ lead: { ...this.state.lead, phone: e.target.value } });
+  submitLead = () => {
+    const { name, email, phone } = this.state.lead;
+    if (!name || !email || !phone) return;
+    clearTimeout(this._slowT);
+    window.scrollTo({ top: 0 });
+    this.setState({ discountClaimed: true, revealVariant: 'slider', sliderPos: 50, showHandle: true, step: 'reveal' });
+  };
+
+  /* ---- reveal ---- */
+  setTrack = (el) => { this._track = el; };
+  setSliderFromEvent = (e) => {
+    if (!this._track) return;
+    const r = this._track.getBoundingClientRect();
+    let p = ((e.clientX - r.left) / r.width) * 100;
+    p = Math.max(0, Math.min(100, p));
+    this.setState({ sliderPos: p });
+  };
+  sliderDown = (e) => { if (!this.state.showHandle) return; this._drag = true; this.setSliderFromEvent(e); };
+  revealSlider = () => { cancelAnimationFrame(this._sraf); this.setState({ revealVariant: 'slider', sliderPos: 50, showHandle: true }); };
+  revealCurtain = () => {
+    cancelAnimationFrame(this._sraf);
+    this.setState({ revealVariant: 'curtain', showHandle: false, sliderPos: 100 });
+    const t0 = performance.now(), dur = 1600;
+    const step = (now) => {
+      const p = Math.min(1, (now - t0) / dur);
+      const v = 100 - 100 * (1 - Math.pow(1 - p, 3));
+      this.setState({ sliderPos: v });
+      if (p < 1) this._sraf = requestAnimationFrame(step);
+    };
+    this._sraf = requestAnimationFrame(step);
+  };
+  openTour = () => this.setState({ tourActive: true });
+  closeTour = () => this.setState({ tourActive: false });
+  toast = (msg) => { clearTimeout(this._toastT); this.setState({ toast: msg }); this._toastT = setTimeout(() => this.setState({ toast: '' }), 2600); };
+  save = () => this.toast('Saved to your Waterloo projects ✓');
+  email = () => this.toast('Design sent to ' + (this.state.lead.email || 'your inbox') + ' ✓');
+  bookConsult = () => this.toast("Consultation request sent — we'll call you shortly ✓");
+  restart = () => { this.setState({ step: 'landing', points: [], deducts: [], displaySqft: 0, selectedPackage: null, photoName: null, discountClaimed: false, showTutorial: true, lead: { name: '', email: '', phone: '' } }); window.scrollTo({ top: 0 }); };
+
+  designYard = (e) => { if (e) e.preventDefault(); this.go('address'); };
+  goHome = (e) => { if (e) e.preventDefault(); this.go('landing'); };
+  toPackage = () => { if (this.state.points.length >= 3) this.go('package'); };
+  toStyle = () => { if (this.state.selectedPackage) this.go('style'); };
+
+  renderVals() {
+    const s = this.state, cfg = this.cfg;
+    const step = s.step;
+    const aerialSrc = this.props.aerialSrc || 'public/images/aerial-phoenix.png';
+    const hasAerial = !!aerialSrc;
+    const aerialCaption = hasAerial ? 'Satellite imagery' : 'Imagery mock · live Maps wired by dev';
+    const fmt = (n) => n.toLocaleString('en-US');
+    const money = (n) => '$' + n.toLocaleString('en-US');
+    const sel = cfg.packages.find(p => p.id === s.selectedPackage) || null;
+
+    // step number for indicator
+    const stepMap = { address: 1, trace: 2, package: 3, style: 4, gate: 5, reveal: 6 };
+    const stepNum = stepMap[step] || 1;
+
+    // address
+    const q = s.addressQuery.trim().toLowerCase();
+    let matches = cfg.addressSuggestions;
+    if (q) matches = cfg.addressSuggestions.filter(a => (a.line1 + ' ' + a.line2).toLowerCase().includes(q));
+    const suggestions = matches.map(a => ({ line1: a.line1, line2: a.line2, onSelect: () => this.selectAddr(a) }));
+    const showSuggest = s.addrFocused && suggestions.length > 0;
+    const addrNotFound = s.addrFocused && q.length > 3 && suggestions.length === 0;
+
+    // trace polygons
+    const poly = (pts) => pts.map(p => (p.x * 100).toFixed(2) + ',' + (p.y * 100).toFixed(2)).join(' ');
+    const dotStyle = (p, color) => `position:absolute;left:${(p.x * 100).toFixed(2)}%;top:${(p.y * 100).toFixed(2)}%;transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;background:${color};border:2px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.45);pointer-events:none`;
+    const traceDots = s.points.map(p => ({ style: dotStyle(p, '#e4b83d') }));
+    const deductDots = s.deducts.map(p => ({ style: dotStyle(p, '#ff6a4d') }));
+    const needMorePoints = s.points.length < 3;
+
+    const segOn = 'border:0;cursor:pointer;border-radius:9px;padding:9px 15px;font-weight:800;font-size:14px;background:#2e8050;color:#fff;box-shadow:0 3px 10px rgba(46,128,80,.28)';
+    const segOff = 'border:0;cursor:pointer;border-radius:9px;padding:9px 15px;font-weight:800;font-size:14px;background:transparent;color:#5a645a';
+    const bigCta = (on) => on
+      ? 'border:0;cursor:pointer;background:#2e8050;color:#fff;font-weight:900;font-size:16px;border-radius:12px;padding:15px;box-shadow:0 12px 26px rgba(46,128,80,.26)'
+      : 'border:0;cursor:not-allowed;background:#cbd7c5;color:#7a847a;font-weight:900;font-size:16px;border-radius:12px;padding:15px';
+
+    // packages
+    const cardBase = 'position:relative;text-align:left;cursor:pointer;background:#fff;border-radius:16px;padding:20px;display:flex;flex-direction:column;transition:transform .15s ease,box-shadow .15s ease;';
+    const packages = cfg.packages.map(p => {
+      const on = p.id === s.selectedPackage;
+      return {
+        name: p.name, desc: p.desc, countLabel: p.chips.length + (p.chips.length === 1 ? ' item' : ' items'),
+        isSelected: on,
+        chips: p.chips.map(c => ({ label: c })),
+        chipStyle: on ? 'flex:0 0 auto;background:#2e8050;color:#fff;font-size:12px;font-weight:800;padding:5px 11px;border-radius:999px;white-space:nowrap' : 'flex:0 0 auto;background:#eef3ea;color:#20502c;font-size:12px;font-weight:800;padding:5px 11px;border-radius:999px;white-space:nowrap',
+        cardStyle: cardBase + (on ? 'border:2px solid #2e8050;box-shadow:0 16px 34px rgba(46,128,80,.16)' : 'border:2px solid #e4ebdd;box-shadow:0 6px 16px rgba(21,45,25,.05)'),
+        onSelect: () => this.selectPackage(p.id)
+      };
+    });
+
+    // design styles
+    const tileBase = 'position:relative;cursor:pointer;background:#fff;border-radius:14px;padding:18px 14px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;transition:transform .14s ease;';
+    const designStyles = cfg.designStyles.map(d => {
+      const on = d.id === s.designStyle;
+      return { name: d.name, desc: d.desc, icon: d.icon, stroke: on ? '#2e8050' : '#8a938a',
+        tileStyle: tileBase + (on ? 'border:2px solid #2e8050;box-shadow:0 10px 22px rgba(46,128,80,.14)' : 'border:2px solid #e4ebdd'),
+        onSelect: () => this.setDesignStyle(d.id) };
+    });
+    const puttingSizes = cfg.puttingSizes.map(p => {
+      const on = p.id === s.puttingSize;
+      return { name: p.name, desc: p.desc,
+        tileStyle: 'cursor:pointer;background:#fff;border-radius:14px;padding:16px 14px;display:flex;flex-direction:column;align-items:center;gap:5px;text-align:center;' + (on ? 'border:2px solid #2e8050;box-shadow:0 10px 22px rgba(46,128,80,.14)' : 'border:2px solid #e4ebdd'),
+        onSelect: () => this.setPutting(p.id) };
+    });
+    const brick = 'repeating-linear-gradient(90deg,rgba(0,0,0,.14) 0 1px,transparent 1px 18px),repeating-linear-gradient(0deg,rgba(0,0,0,.14) 0 1px,transparent 1px 12px),';
+    const paverStyles = cfg.paverStyles.map(p => {
+      const on = p.id === s.paverStyle;
+      return { name: p.name, isSelected: on,
+        wrapStyle: 'position:relative;cursor:pointer;background:#fff;border-radius:14px;padding:8px 8px 4px;display:flex;flex-direction:column;transition:transform .14s ease;' + (on ? 'border:2px solid #2e8050;box-shadow:0 10px 22px rgba(46,128,80,.16)' : 'border:2px solid #e4ebdd'),
+        swatchStyle: 'height:64px;border-radius:9px;background:' + brick + p.tone,
+        onSelect: () => this.setPaver(p.id) };
+    });
+
+    // reveal
+    const beforeStyle = `position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;clip-path:inset(0 ${(100 - s.sliderPos).toFixed(2)}% 0 0)`;
+    const handleStyle = `position:absolute;top:0;bottom:0;left:${s.sliderPos.toFixed(2)}%;width:3px;background:#fff;transform:translateX(-50%);display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px rgba(0,0,0,.3);pointer-events:none`;
+    const vSeg = (id) => s.revealVariant === id ? segOn : segOff;
+
+    const invest = sel ? (money(sel.est[0]) + ' – ' + money(sel.est[1])) : money(9500) + ' – ' + money(18500);
+    const styleName = (cfg.designStyles.find(d => d.id === s.designStyle) || {}).name || 'Modern';
+    const paverName = (cfg.paverStyles.find(p => p.id === s.paverStyle) || {}).name || 'Slate';
+
+    return {
+      goHome: this.goHome, showStepper: step !== 'landing', stepNum,
+      discountLabel: money(cfg.discount),
+      isLanding: step === 'landing', isAddress: step === 'address', isTrace: step === 'trace',
+      isPackage: step === 'package', isStyle: step === 'style', isGate: step === 'gate', isReveal: step === 'reveal',
+      designYard: this.designYard,
+
+      // address
+      addressQuery: s.addressQuery, onAddrInput: this.onAddrInput, onAddrFocus: this.onAddrFocus,
+      suggestions, showSuggest, addrNotFound, useAnyway: this.useAnyway,
+
+      // trace
+      addPoint: this.addPoint, tracePoly: poly(s.points), deductPoly: poly(s.deducts),
+      aerialSrc, hasAerial, aerialCaption,
+      traceDots, deductDots, sqftLabel: fmt(s.displaySqft),
+      setTraceMode: this.setTraceMode, setDeductMode: this.setDeductMode,
+      traceBtnStyle: s.mode === 'trace' ? segOn : segOff, deductBtnStyle: s.mode === 'deduct' ? segOn : segOff,
+      undo: this.undo, clearTrace: this.clearTrace, showTutorial: s.showTutorial, dismissTutorial: this.dismissTutorial,
+      needMorePoints, toPackage: this.toPackage, toPackageStyle: bigCta(!needMorePoints),
+
+      // package
+      packages, noPackage: !sel, toStyle: this.toStyle, toStyleStyle: bigCta(!!sel),
+
+      // style
+      designStyles, showPutting: !!(sel && sel.hasPutting), puttingSizes, paverStyles,
+      hasPhoto: !!s.photoName, noPhoto: !s.photoName, photoName: s.photoName || '', onPhoto: this.onPhoto,
+      generate: this.generate,
+
+      // gate
+      leadName: s.lead.name, leadEmail: s.lead.email, leadPhone: s.lead.phone,
+      onLeadName: this.onLeadName, onLeadEmail: this.onLeadEmail, onLeadPhone: this.onLeadPhone,
+      cantSubmit: !(s.lead.name && s.lead.email && s.lead.phone),
+      submitLead: this.submitLead,
+      submitStyle: (s.lead.name && s.lead.email && s.lead.phone)
+        ? 'width:100%;margin-top:16px;border:0;cursor:pointer;background:#e4b83d;color:#172118;font-weight:900;font-size:16px;border-radius:12px;padding:16px;box-shadow:0 12px 26px rgba(228,184,61,.3)'
+        : 'width:100%;margin-top:16px;border:0;cursor:not-allowed;background:#e7dcb4;color:#9a8f6a;font-weight:900;font-size:16px;border-radius:12px;padding:16px',
+      slowRender: s.slowRender,
+
+      // reveal
+      discountClaimed: s.discountClaimed, leadFirst: (s.lead.name || '').split(' ')[0] || 'friend',
+      setTrack: this.setTrack, sliderDown: this.sliderDown, beforeStyle, handleStyle, showHandle: s.showHandle,
+      revealSlider: this.revealSlider, revealCurtain: this.revealCurtain, openTour: this.openTour,
+      vSliderStyle: vSeg('slider'), vCurtainStyle: vSeg('curtain'), vTourStyle: vSeg('tour'),
+      packageName: sel ? sel.name : 'Your design', packageChips: sel ? sel.chips.map(c => ({ label: c })) : [],
+      designStyleName: styleName, paverName, investLabel: invest,
+      save: this.save, email: this.email, bookConsult: this.bookConsult, restart: this.restart,
+      tourActive: s.tourActive, closeTour: this.closeTour,
+      toast: s.toast, toastShow: !!s.toast
+    };
+  }
+}
+</script>
+</body>
+</html>

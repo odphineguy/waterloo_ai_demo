@@ -56,6 +56,13 @@ The app requires a server-side Vercel function with:
 OPENAI_API_KEY=
 VITE_AI_PREVIEW_ENDPOINT=/api/generate-yard-preview
 OPENAI_IMAGE_MODEL=gpt-image-1.5
+
+# Design Studio (/<slug>/studio)
+VITE_GOOGLE_MAPS_KEY=      # referrer-locked browser key: Maps JS, Places, Places New, Aerial View
+SUPABASE_URL=              # server-side only — studio lead persistence
+SUPABASE_SERVICE_KEY=      # server-side only
+RESEND_API_KEY=            # server-side only — studio lead email delivery
+STUDIO_FROM_EMAIL=         # optional From address for lead emails
 ```
 
 For production, keep image generation behind a server-side Vercel function so API keys are never exposed to the browser. The current `generateYardPreview` service is intentionally structured so a real OpenAI Images API endpoint can be plugged in later.

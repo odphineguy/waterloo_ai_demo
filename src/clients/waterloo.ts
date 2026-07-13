@@ -55,6 +55,109 @@ export const waterlooClient: ClientConfig = {
     accent: "#e4b83d",
     accentDark: "#b88c16",
   },
+  studio: {
+    enabled: true,
+    incentive: { label: "$500", amount: 500 },
+    packages: [
+      {
+        id: "essentials",
+        name: "Green Essentials",
+        description: "Turf install — clean, low-maintenance, done right.",
+        items: ["Premium turf install"],
+        promptDirectives:
+          "Install premium artificial turf across the traced lawn area with crisp professional edges and a uniform, freshly groomed surface. No hardscape additions — turf only.",
+        hasPuttingGreen: false,
+      },
+      {
+        id: "defined",
+        name: "Defined Green",
+        description: "Turf framed with a paver border and decorative rock.",
+        items: ["Premium turf", "Paver border", "Decorative rock"],
+        promptDirectives:
+          "Install premium artificial turf framed by a clean paver border, with decorative rock beds along the edges for a defined, low-maintenance look.",
+        hasPuttingGreen: false,
+      },
+      {
+        id: "balance",
+        name: "Backyard Balance",
+        description: "Turf, paver border, and a custom paver patio.",
+        items: ["Premium turf", "Paver border", "Custom paver patio"],
+        promptDirectives:
+          "Install premium artificial turf with a paver border and a custom paver patio sized for outdoor seating, balancing soft turf areas with usable hardscape.",
+        hasPuttingGreen: false,
+      },
+      {
+        id: "golfer",
+        name: "Golfer's Delight",
+        description: "A real putting green with turf, pavers, and rock accents.",
+        items: ["Putting green", "Premium turf", "Pavers", "Rock accents"],
+        promptDirectives:
+          "Feature a realistic backyard putting green with a flag pin, surrounded by premium artificial turf, paver accents, and decorative rock borders.",
+        hasPuttingGreen: true,
+      },
+      {
+        id: "retreat",
+        name: "Total Backyard Retreat",
+        description: "The full build: turf, border, patio, patio cover, and rock.",
+        items: [
+          "Premium turf",
+          "Paver border",
+          "Paver patio",
+          "Patio cover",
+          "Decorative rock",
+        ],
+        promptDirectives:
+          "Create a complete backyard retreat: premium artificial turf, paver border, a generous paver patio with a covered patio structure for shade, and decorative rock accents.",
+        hasPuttingGreen: false,
+      },
+      {
+        id: "dealer",
+        name: "Dealer's Choice",
+        description: "Bespoke premium — lighting, smart irrigation, and extras.",
+        items: [
+          "Premium turf",
+          "Paver border",
+          "Patio",
+          "Landscape lighting",
+          "Smart irrigation",
+          "Premium extras",
+        ],
+        promptDirectives:
+          "Design a bespoke premium backyard: artificial turf, paver border and patio, travertine accents, warm landscape lighting, discreet smart irrigation for planting beds, and an optional putting green — tasteful and high-end.",
+        hasPuttingGreen: true,
+      },
+    ],
+    designStyles: ["freeform", "modern", "surprise"],
+    puttingGreenSizes: [
+      { id: "practice", label: "Practice", holes: "1–2 holes", sqftHint: "~100–200 sqft" },
+      { id: "club", label: "Club", holes: "2–3 holes", sqftHint: "~200–400 sqft" },
+      { id: "tour", label: "Tour", holes: "3–5 holes", sqftHint: "~400–800 sqft" },
+    ],
+    paverStyles: [
+      { id: "slate", label: "Slate", swatchPath: "/images/studio-pavers/slate.svg" },
+      { id: "townscape", label: "Townscape Native", swatchPath: "/images/studio-pavers/townscape.svg" },
+      { id: "tierranorte", label: "Tierranorte", swatchPath: "/images/studio-pavers/tierranorte.svg" },
+      { id: "territorial", label: "Territorial", swatchPath: "/images/studio-pavers/territorial.svg" },
+      { id: "victorian", label: "Victorian", swatchPath: "/images/studio-pavers/victorian.svg" },
+      { id: "rio", label: "Rio", swatchPath: "/images/studio-pavers/rio.svg" },
+    ],
+    // PLACEHOLDER — Bob to confirm real per-sqft rates before launch.
+    ratesPerSqft: {
+      essentials: [6, 9],
+      defined: [9, 14],
+      balance: [12, 18],
+      golfer: [14, 22],
+      retreat: [16, 26],
+      dealer: [18, 30],
+    },
+    minInvestment: 4500, // PLACEHOLDER — Bob to confirm
+    disclaimer: "Final quote after your free on-site measure.",
+    leadEmail: "info@waterlooturf.com",
+    heroImagePath: "/images/studio-after.png",
+    bookingUrl: "https://cal.com/abe-p-698781/walkthrough",
+    imagerySource: "google",
+    flyoverEnabled: true,
+  },
   copy: {
     pageTitle: "Fill Out The Form Below To Schedule Your Free Onsite Estimate",
     contactPrompt: "Where should Waterloo Turf prepare this preview?",

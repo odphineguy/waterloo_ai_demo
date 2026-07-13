@@ -1,4 +1,9 @@
-import type { ClientConfig, YardPreviewRequest, YardPreviewResult } from "../types";
+import type {
+  ClientConfig,
+  UploadedImage,
+  YardPreviewRequest,
+  YardPreviewResult,
+} from "../types";
 import { buildYardPreviewPrompt } from "../utils/promptBuilder";
 
 type ApiPreviewResponse = {
@@ -81,6 +86,37 @@ async function callPreviewEndpoint(
   }
 
   return imageUrls;
+}
+
+// Design Studio render — same endpoint and photo-compression path as the
+// funnel, but with a prebuilt studio prompt (utils/promptBuilder.ts). With
+// photos the server runs the edits flow (per-photo before/after); without
+// photos it runs the generations flow and the studio uses the traced
+// satellite snapshot as the "before" side.
+export async function generateStudioRender({
+  prompt,
+  uploadedImages,
+}: {
+  prompt: string;
+  uploadedImages: UploadedImage[];
+}): Promise<YardPreviewResult> {
+  const previewEndpoint =
+    import.meta.env.VITE_AI_PREVIEW_ENDPOINT || "/api/generate-yard-preview";
+  const request: YardPreviewRequest = {
+    projectOptions: [],
+    notes: "",
+    uploadedImages,
+  };
+
+  const imageUrls = await callPreviewEndpoint(previewEndpoint, request, prompt);
+
+  return {
+    id: crypto.randomUUID(),
+    imageUrls,
+    prompt,
+    status: "generated",
+    createdAt: new Date().toISOString(),
+  };
 }
 
 export async function generateYardPreview({
