@@ -134,12 +134,13 @@
   z-index: 2;
 }
 
-/* Landing: the header floats transparent over the hero so there is exactly
-   one image on screen — a scrim keeps the logo and phone pill readable. */
-.studio-shell--landing {
+/* Front door (address step): the header floats transparent over the hero so
+   there is exactly one image on screen — a scrim keeps the logo, phone pill,
+   and stepper readable. */
+.studio-shell--hero {
   position: relative;
 }
-.studio-shell--landing .studio-header {
+.studio-shell--hero .studio-header {
   position: absolute;
   top: 0;
   left: 0;
@@ -147,14 +148,18 @@
   background: linear-gradient(
     180deg,
     rgba(9, 23, 16, 0.78) 0%,
-    rgba(9, 23, 16, 0.38) 62%,
+    rgba(9, 23, 16, 0.45) 70%,
     rgba(9, 23, 16, 0) 100%
   );
   border-bottom: 0;
   box-shadow: none;
   z-index: 5;
 }
-.studio-shell--landing .studio-landing-screen {
+.studio-shell--hero .studio-stepper-strip {
+  background: transparent;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+.studio-shell--hero .studio-address-screen {
   min-height: 100dvh;
 }
 
@@ -418,78 +423,8 @@
   letter-spacing: 0;
 }
 
-/* --------------------------------------------------------------------------
-   01 Landing — full-bleed cinematic hero
-   -------------------------------------------------------------------------- */
-.studio-landing-screen {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100dvh - 78px);
-  overflow: hidden;
-}
-
-/* The hero image fills the entire screen as a background texture */
-.studio-landing-bg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 40%;
-  pointer-events: none;
-}
-
-/* Dark green gradient overlay */
-.studio-landing-gradient {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(9, 23, 16, 0.88) 0%,
-    rgba(9, 23, 16, 0.70) 55%,
-    rgba(9, 23, 16, 0.45) 100%
-  );
-}
-
-/* Content layer — positioned over the bg */
-.studio-landing-content {
-  position: relative;
-  z-index: 1;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: clamp(48px, 7vw, 96px) clamp(24px, 6vw, 120px);
-  max-width: 720px;
-}
-
-.studio-landing-content .studio-incentive-pill {
-  margin-bottom: 22px;
-  align-self: flex-start;
-}
 .studio-incentive-pill .studio-incentive-star {
   font-size: 15px;
-}
-
-.studio-landing-h1 {
-  font-size: clamp(36px, 5.8vw, 62px);
-  line-height: 1.04;
-  letter-spacing: -0.02em;
-  margin: 0 0 18px;
-  font-weight: 900;
-  color: #fff;
-}
-.studio-landing-h1 span {
-  color: var(--st-accent);
-}
-
-.studio-landing-sub {
-  font-size: clamp(16px, 2vw, 20px);
-  line-height: 1.55;
-  color: rgba(255,255,255,0.70);
-  margin: 0 0 30px;
-  max-width: 520px;
 }
 
 .studio-trust-line {
@@ -505,53 +440,6 @@
   color: var(--st-bright);
 }
 
-/* Feature strip — uppercase labels with pipe separators */
-.studio-feature-strip {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0;
-  margin-top: 26px;
-  align-self: flex-start;
-}
-.studio-feature-strip span {
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.52);
-  padding: 4px 16px;
-  border-right: 1px solid rgba(255,255,255,0.18);
-}
-.studio-feature-strip span:first-child { padding-left: 0; }
-.studio-feature-strip span:last-child  { border-right: none; }
-
-/* Dark footer at the bottom of the hero */
-.studio-landing-footer {
-  position: relative;
-  z-index: 1;
-  border-top: 1px solid rgba(255,255,255,0.10);
-  background: rgba(0,0,0,0.30);
-  backdrop-filter: blur(4px);
-}
-.studio-landing-footer-inner {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 18px 18px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 14px;
-  align-items: center;
-  justify-content: center;
-  color: rgba(255,255,255,0.40);
-  font-size: 13px;
-  font-weight: 600;
-}
-.studio-landing-footer-inner a { color: rgba(255,255,255,0.40); }
-.studio-landing-footer-inner a:hover { color: rgba(255,255,255,0.65); }
-.studio-landing-footer-inner .studio-footer-sep {
-  opacity: 0.4;
-}
-
 /* --------------------------------------------------------------------------
    02 Address
    -------------------------------------------------------------------------- */
@@ -561,7 +449,7 @@
   align-items: center;
   justify-content: center;
   min-height: calc(100dvh - 140px);
-  padding: clamp(28px, 5vw, 64px) 18px;
+  padding: 150px 18px 48px;
   overflow: hidden;
 }
 
@@ -593,6 +481,12 @@
   width: 100%;
   max-width: 760px;
   text-align: center;
+}
+.studio-address-col .studio-incentive-pill {
+  margin-bottom: 20px;
+}
+.studio-address-col .studio-trust-line {
+  justify-content: center;
 }
 
 .studio-address-h2 {

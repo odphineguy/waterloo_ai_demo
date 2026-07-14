@@ -6,7 +6,6 @@ import type { UploadedImage } from "../types";
 // ---------------------------------------------------------------------------
 
 export type StudioStepId =
-  | "landing"
   | "address"
   | "trace"
   | "package"
@@ -15,7 +14,6 @@ export type StudioStepId =
   | "reveal";
 
 export const STUDIO_STEP_NUMBER: Record<StudioStepId, number> = {
-  landing: 0,
   address: 1,
   trace: 2,
   package: 3,
@@ -70,7 +68,7 @@ export function createInitialStudioState(defaults: {
   paverStyle: string;
 }): StudioState {
   return {
-    step: "landing",
+    step: "address",
     address: null,
     mapsFailed: false,
     trace: [],

@@ -226,11 +226,10 @@ function StudioFlowInner({
 
   const stepNumber = STUDIO_STEP_NUMBER[state.step];
   const phoneDigits = client.phone.replace(/\D/g, "");
-  const websiteHost = client.website.replace(/^https?:\/\//, "").replace(/\/$/, "");
 
   return (
     <div
-      className={`studio-shell${state.step === "landing" ? " studio-shell--landing" : ""}`}
+      className={`studio-shell${state.step === "address" ? " studio-shell--hero" : ""}`}
       style={
         {
           "--st-primary": client.colors.primary,
@@ -246,7 +245,7 @@ function StudioFlowInner({
           <button
             type="button"
             className="studio-header-logo"
-            onClick={() => dispatch({ type: "GO", step: "landing" })}
+            onClick={() => dispatch({ type: "GO", step: "address" })}
           >
             <img src={client.logoPath} alt={client.companyName} />
           </button>
@@ -255,73 +254,15 @@ function StudioFlowInner({
             {client.phone}
           </a>
         </div>
-        {state.step !== "landing" && (
-          <div className="studio-stepper-strip">
-            <StepIndicator current={stepNumber} />
-          </div>
-        )}
-      </header>
-
-      {state.step === "landing" && (
-        <div className="studio-screen studio-landing-screen">
-          {studio.heroImagePath && (
-            <img
-              className="studio-landing-bg"
-              src={studio.heroImagePath}
-              alt=""
-              aria-hidden="true"
-            />
-          )}
-          <div className="studio-landing-gradient" />
-          <div className="studio-landing-content">
-            <div className="studio-incentive-pill">
-              <span className="studio-incentive-star">✦</span>
-              {studio.incentive.label} off unlocked at the end
-            </div>
-            <h1 className="studio-landing-h1">
-              See your yard{" "}
-              <em className="studio-serif">transformed</em>
-              <span> — before we ever visit.</span>
-            </h1>
-            <p className="studio-landing-sub">
-              Trace your yard, pick your style, and get an instant AI preview
-              with a real budget range.
-            </p>
-            <button
-              type="button"
-              className="studio-cta"
-              onClick={() => dispatch({ type: "GO", step: "address" })}
-            >
-              Design My Yard →
-            </button>
-            <div className="studio-trust-line">
-              <span className="studio-check">✓</span> Free · about 2 minutes ·
-              no obligation
-            </div>
-            <div className="studio-feature-strip">
-              <span>Satellite Measure</span>
-              <span>AI Render</span>
-              <span>Real Budget</span>
-              <span>2 Minutes</span>
-            </div>
-          </div>
-          <div className="studio-landing-footer">
-            <div className="studio-landing-footer-inner">
-              <span>{client.legalName}</span>
-              <span className="studio-footer-sep">|</span>
-              <span>{client.copy.specialistLabel}</span>
-              <span className="studio-footer-sep">|</span>
-              <a href={client.website} target="_blank" rel="noopener noreferrer">
-                {websiteHost}
-              </a>
-            </div>
-          </div>
+        <div className="studio-stepper-strip">
+          <StepIndicator current={stepNumber} />
         </div>
-      )}
+      </header>
 
       {state.step === "address" && (
         <AddressStep
           heroImagePath={studio.heroImagePath}
+          incentiveLabel={studio.incentive.label}
           locationBias={studio.locationBias}
           onSelect={(address) => {
             dispatch({ type: "SELECT_ADDRESS", address });

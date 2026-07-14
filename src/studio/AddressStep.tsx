@@ -12,6 +12,8 @@ type Suggestion = {
 type AddressStepProps = {
   /** Hero background from tenant config (studio.heroImagePath). */
   heroImagePath?: string;
+  /** Incentive label from tenant config (studio.incentive.label), e.g. "$500". */
+  incentiveLabel?: string;
   /** Optional bias circle from tenant config (studio.locationBias). */
   locationBias?: { lat: number; lng: number; radiusMeters: number };
   onSelect: (address: StudioAddress) => void;
@@ -23,6 +25,7 @@ type AddressStepProps = {
 // the separate Geocoding API is NOT enabled on this key and must not be used.
 export function AddressStep({
   heroImagePath,
+  incentiveLabel,
   locationBias,
   onSelect,
   onMapsFailed,
@@ -158,12 +161,19 @@ export function AddressStep({
       )}
       <div className="studio-address-gradient" />
       <div className="studio-address-col">
-        <h2 className="studio-h2 studio-address-h2">
-          Where&rsquo;s <em className="studio-serif">your yard</em>?
-        </h2>
+        {incentiveLabel && (
+          <div className="studio-incentive-pill">
+            <span className="studio-incentive-star">✦</span>
+            {incentiveLabel} off unlocked at the end
+          </div>
+        )}
+        <h1 className="studio-h2 studio-address-h2">
+          See your yard <em className="studio-serif">transformed</em>
+          <span> — before we ever visit.</span>
+        </h1>
         <p className="studio-h2-helper">
-          Enter your address and we&rsquo;ll pull up a satellite view of your
-          property — measured in about 60 seconds.
+          Enter your address — we&rsquo;ll measure your yard from satellite and
+          render an instant AI preview with a real budget range.
         </p>
         <div className="studio-address-panel">
           <div className="studio-address-input-wrap">
@@ -248,6 +258,10 @@ export function AddressStep({
               </div>
             </div>
           </div>
+        </div>
+        <div className="studio-trust-line">
+          <span className="studio-check">✓</span> Free · about 2 minutes · no
+          obligation
         </div>
       </div>
     </div>
