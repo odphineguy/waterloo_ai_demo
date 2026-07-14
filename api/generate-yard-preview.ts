@@ -6,7 +6,37 @@
 type RequestImage = {
   dataUrl: string;
   filename: string;
+  width?: number;
+  height?: number;
 };
+
+type OutputSize = "1024x1024" | "1536x1024" | "1024x1536";
+
+// Pick the supported OpenAI output size whose aspect ratio is closest to the
+// source photo's, so before/after pairs align 1:1 in the studio's fixed-ratio
+// (object-fit: cover) comparison views. Clients that don't send dimensions
+// keep the original landscape default.
+function pickOutputSize(image: RequestImage): OutputSize {
+  if (!image.width || !image.height) {
+    return "1536x1024";
+  }
+  const sourceRatio = image.width / image.height;
+  const candidates: { size: OutputSize; ratio: number }[] = [
+    { size: "1536x1024", ratio: 1536 / 1024 },
+    { size: "1024x1024", ratio: 1 },
+    { size: "1024x1536", ratio: 1024 / 1536 },
+  ];
+  let best = candidates[0];
+  for (const candidate of candidates) {
+    if (
+      Math.abs(Math.log(sourceRatio / candidate.ratio)) <
+      Math.abs(Math.log(sourceRatio / best.ratio))
+    ) {
+      best = candidate;
+    }
+  }
+  return best.size;
+}
 
 type PreviewRequestBody = {
   prompt?: string;
@@ -157,7 +187,7 @@ async function createEditedImage(
     model: OPENAI_IMAGE_MODEL,
     prompt,
     images: images.map((image) => ({ image_url: image.dataUrl })),
-    size: "1536x1024",
+    size: pickOutputSize(images[0]),
     quality: "low",
     ...(supportsInputFidelity ? { input_fidelity: "high" } : {}),
   };

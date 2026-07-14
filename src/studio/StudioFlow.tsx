@@ -324,6 +324,7 @@ function StudioFlowInner({
 
       {state.step === "address" && (
         <AddressStep
+          locationBias={studio.locationBias}
           onSelect={(address) => {
             dispatch({ type: "SELECT_ADDRESS", address });
             dispatch({ type: "GO", step: "trace" });

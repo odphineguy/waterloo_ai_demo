@@ -48,15 +48,26 @@ async function fileToCompressedDataUrl(file: File) {
 
   context.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-  return canvas.toDataURL("image/jpeg", 0.82);
+  return {
+    dataUrl: canvas.toDataURL("image/jpeg", 0.82),
+    width: canvas.width,
+    height: canvas.height,
+  };
 }
 
 async function buildApiImages(uploadedImages: YardPreviewRequest["uploadedImages"]) {
   return Promise.all(
-    uploadedImages.slice(0, 4).map(async (image, index) => ({
-      dataUrl: await fileToCompressedDataUrl(image.file),
-      filename: image.file.name || `yard-photo-${index + 1}.jpg`,
-    })),
+    uploadedImages.slice(0, 4).map(async (image, index) => {
+      const compressed = await fileToCompressedDataUrl(image.file);
+      return {
+        dataUrl: compressed.dataUrl,
+        filename: image.file.name || `yard-photo-${index + 1}.jpg`,
+        // Source dimensions let the API pick the OpenAI output size closest to
+        // this photo's aspect ratio, so before/after pairs align under cover.
+        width: compressed.width,
+        height: compressed.height,
+      };
+    }),
   );
 }
 

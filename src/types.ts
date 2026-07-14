@@ -83,6 +83,8 @@ export type StudioConfig = {
   leadEmail: string;
   /** After-image used on the landing hero and blurred lead-gate backdrop. */
   heroImagePath?: string;
+  /** Optional Places-autocomplete bias circle — the tenant's service metro. */
+  locationBias?: { lat: number; lng: number; radiusMeters: number };
   /** Cal.com booking link for "Book My Free Consultation"; button hidden if absent. */
   bookingUrl?: string;
   /** Aerial imagery provider seam (EagleView is a Phase 2 stub). */

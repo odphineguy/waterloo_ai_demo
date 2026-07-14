@@ -10,6 +10,8 @@ type Suggestion = {
 };
 
 type AddressStepProps = {
+  /** Optional bias circle from tenant config (studio.locationBias). */
+  locationBias?: { lat: number; lng: number; radiusMeters: number };
   onSelect: (address: StudioAddress) => void;
   onMapsFailed: () => void;
 };
@@ -17,7 +19,7 @@ type AddressStepProps = {
 // Places Autocomplete (New) on a single input, biased to the US. On selection
 // we read geometry straight from the Places result (fetchFields location) —
 // the separate Geocoding API is NOT enabled on this key and must not be used.
-export function AddressStep({ onSelect, onMapsFailed }: AddressStepProps) {
+export function AddressStep({ locationBias, onSelect, onMapsFailed }: AddressStepProps) {
   const [query, setQuery] = useState("");
   const [focused, setFocused] = useState(false);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
@@ -71,6 +73,14 @@ export function AddressStep({ onSelect, onMapsFailed }: AddressStepProps) {
             input: trimmed,
             sessionToken: sessionTokenRef.current ?? undefined,
             includedRegionCodes: ["us"],
+            ...(locationBias
+              ? {
+                  locationBias: {
+                    center: { lat: locationBias.lat, lng: locationBias.lng },
+                    radius: locationBias.radiusMeters,
+                  },
+                }
+              : {}),
           });
         if (seq !== requestSeq.current) return;
         setSuggestions(
@@ -90,7 +100,7 @@ export function AddressStep({ onSelect, onMapsFailed }: AddressStepProps) {
     }, 220);
 
     return () => clearTimeout(debounceRef.current);
-  }, [query, placesReady]);
+  }, [query, placesReady, locationBias]);
 
   async function selectSuggestion(suggestion: Suggestion) {
     setFocused(false);

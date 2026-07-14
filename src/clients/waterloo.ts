@@ -154,7 +154,9 @@ export const waterlooClient: ClientConfig = {
     disclaimer: "Final quote after your free on-site measure.",
     leadEmail: "info@waterlooturf.com",
     heroImagePath: "/images/studio-after.png",
-    bookingUrl: "https://cal.com/abe-p-698781/walkthrough",
+    // bookingUrl intentionally unset — the consultation button only renders
+    // once the tenant's real Cal.com link is added here.
+    locationBias: { lat: 33.4484, lng: -112.074, radiusMeters: 50_000 }, // Phoenix metro
     imagerySource: "google",
     flyoverEnabled: true,
   },

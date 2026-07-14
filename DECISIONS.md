@@ -2,6 +2,23 @@
 
 Newest on top. Settled questions — don't relitigate without new information.
 
+## 2026-07-13 — Studio fix round 1 (alignment, location bias, Cal link)
+
+- **Before/after alignment:** `.studio-compare` is now a fixed 3:2 container and both
+  images use `object-fit: cover` (was `contain`), so pairs align 1:1 through the wipe in
+  Slider/Curtain (Cinematic tour already used cover). The client sends each compressed
+  photo's width/height and `api/generate-yard-preview.ts` picks the OpenAI output size
+  (1536×1024 / 1024×1024 / 1024×1536) with the closest aspect ratio per image — verified
+  in-browser: a 1212×1024 upload produced a 1024×1024 render, both boxes identical.
+  Clients that send no dimensions keep the old 1536×1024 default (funnel unaffected).
+- **`studio.locationBias`** (lat/lng/radiusMeters) biases Places autocomplete; Waterloo
+  set to Phoenix metro (33.4484, −112.074, 50 km) — Phoenix results now rank first.
+- **Consultation button** renders only when a tenant's real Cal.com link is explicitly
+  set in `studio.bookingUrl`; Waterloo's placeholder (Abe's personal link) removed.
+- **Resend key (user-added) is test-mode:** it can only deliver to the account owner's
+  own address until a domain is verified at resend.com/domains and `STUDIO_FROM_EMAIL`
+  uses that domain; sends to `studio.leadEmail` fail until then.
+
 ## 2026-07-13 — Design Studio Phase 1 (DESIGN_STUDIO_SPEC.md)
 
 **Decision:** Built the full studio funnel per spec + design handoff; all screens recreated
