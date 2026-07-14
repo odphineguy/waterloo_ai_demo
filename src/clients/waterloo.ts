@@ -152,7 +152,10 @@ export const waterlooClient: ClientConfig = {
     },
     minInvestment: 4500, // PLACEHOLDER — Bob to confirm
     disclaimer: "Final quote after your free on-site measure.",
-    leadEmail: "info@waterlooturf.com",
+    // Demo phase: leads go to Abe (also required by Resend test mode, which only
+    // delivers to the account owner). Switch to the tenant's real inbox once
+    // they're a client AND a domain is verified at resend.com/domains.
+    leadEmail: "odphineguy@yahoo.com",
     heroImagePath: "/images/studio-after.png",
     // bookingUrl intentionally unset — the consultation button only renders
     // once the tenant's real Cal.com link is added here.
