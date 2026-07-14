@@ -132,7 +132,7 @@ export function TraceMap({
     });
     traceRef.current.forEach((position) => {
       markersRef.current.push(
-        new google.maps.Marker({ map, position, icon: dot("#e4b83d"), clickable: false }),
+        new google.maps.Marker({ map, position, icon: dot("#3CC870"), clickable: false }),
       );
     });
     closedDeductsRef.current.flat().forEach((position) => {
@@ -368,7 +368,7 @@ export function TraceMap({
                         cx={cx}
                         cy={cy}
                         r="5"
-                        fill="#e4b83d"
+                        fill="#3CC870"
                         stroke="#fff"
                         strokeWidth="2"
                       />
@@ -414,10 +414,12 @@ export function TraceMap({
 
           <div className="studio-area-card">
             <div className="studio-area-label">Area measured</div>
-            <div className="studio-area-value">
-              {mapDown ? "—" : displaySqft.toLocaleString("en-US")}
+            <div className="studio-area-readout">
+              <span className="studio-area-value">
+                {mapDown ? "—" : displaySqft.toLocaleString("en-US")}
+              </span>
+              <span className="studio-area-unit">sq ft</span>
             </div>
-            <div className="studio-area-unit">square feet</div>
           </div>
 
           <div className="studio-trace-tools">

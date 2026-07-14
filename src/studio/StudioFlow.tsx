@@ -235,8 +235,6 @@ function StudioFlowInner({
           "--st-primary": client.colors.primary,
           "--st-deep": client.colors.primaryDark,
           "--st-soft": client.colors.primarySoft,
-          "--st-accent": client.colors.accent,
-          "--st-accent-dark": client.colors.accentDark,
         } as CSSProperties
       }
     >
@@ -249,13 +247,15 @@ function StudioFlowInner({
           >
             <img src={client.logoPath} alt={client.companyName} />
           </button>
+          {state.step !== "address" && (
+            <div className="studio-stepper-strip">
+              <StepIndicator current={stepNumber} />
+            </div>
+          )}
           <a className="studio-header-phone" href={`tel:${phoneDigits}`}>
             <span className="studio-header-phone-dot" />
             {client.phone}
           </a>
-        </div>
-        <div className="studio-stepper-strip">
-          <StepIndicator current={stepNumber} />
         </div>
       </header>
 

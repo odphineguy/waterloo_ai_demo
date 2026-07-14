@@ -12,8 +12,8 @@
   --st-primary: #2e8050;
   --st-deep: #183820;
   --st-soft: #e4f0df;
-  --st-accent: #e4b83d;
-  --st-accent-dark: #b88c16;
+  --st-accent: #3CC870;
+  --st-accent-dark: #2e8050;
 
   /* Dark canvas tokens */
   --st-page:       #091710;
@@ -42,13 +42,13 @@
   --st-chip-bg:  rgba(255,255,255,0.09);
   --st-chip-ink: #7DE8A0;
 
-  /* Amber (incentive / warning) */
-  --st-amber-bg:      rgba(245,196,58,0.12);
-  --st-amber-bg-2:    rgba(245,196,58,0.10);
-  --st-amber-border:  rgba(245,196,58,0.35);
-  --st-amber-border-2:rgba(245,196,58,0.30);
-  --st-amber-ink:     #F5C83A;
-  --st-amber-ink-2:   #F5C83A;
+  /* Incentive / hint accents (green — no yellow in Waterloo branding) */
+  --st-amber-bg:      rgba(60,200,112,0.12);
+  --st-amber-bg-2:    rgba(60,200,112,0.10);
+  --st-amber-border:  rgba(60,200,112,0.35);
+  --st-amber-border-2:rgba(60,200,112,0.30);
+  --st-amber-ink:     #7DE8A0;
+  --st-amber-ink-2:   #7DE8A0;
 
   /* Serif accent face */
   --st-serif: 'Fraunces', Georgia, serif;
@@ -127,7 +127,7 @@
    Header + step indicator
    -------------------------------------------------------------------------- */
 .studio-header {
-  background: linear-gradient(180deg, #0e2a1b 0%, #0b2115 100%);
+  background: #0b2115;
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
   position: relative;
@@ -183,7 +183,7 @@
 }
 
 .studio-header-logo img {
-  height: 60px;
+  height: 92px;
   width: auto;
   object-fit: contain;
   filter: drop-shadow(0 2px 7px rgba(0, 0, 0, 0.55));
@@ -216,8 +216,11 @@
 
 /* Dark stepper strip */
 .studio-stepper-strip {
-  background: rgba(0, 0, 0, 0.28);
-  border-top: 1px solid rgba(255,255,255,0.08);
+  background: transparent;
+  border-top: 0;
+  flex: 1;
+  display: flex;
+  justify-content: center;
 }
 
 .studio-stepper {
@@ -449,7 +452,7 @@
   align-items: center;
   justify-content: center;
   min-height: calc(100dvh - 140px);
-  padding: 150px 18px 48px;
+  padding: 96px 18px 48px;
   overflow: hidden;
 }
 
@@ -485,9 +488,9 @@
   justify-content: center;
 }
 
-.studio-address-h2 {
-  font-size: clamp(40px, 5.8vw, 72px);
-  line-height: 1.05;
+.studio-address-screen .studio-address-h2 {
+  font-size: clamp(42px, 6vw, 80px);
+  line-height: 1.04;
   letter-spacing: -0.02em;
   color: #fff;
 }
@@ -905,33 +908,37 @@
 /* Sqft counter — with glow */
 .studio-area-card {
   background: var(--st-deep);
-  border-radius: 16px;
-  padding: 22px;
+  border-radius: 14px;
+  padding: 18px 20px;
   color: #fff;
   box-shadow:
-    0 14px 30px rgba(0, 0, 0, 0.30),
-    0 0 0 1px color-mix(in srgb, var(--st-bright) 40%, transparent),
-    0 0 22px color-mix(in srgb, var(--st-bright) 12%, transparent);
+    0 10px 24px rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 .studio-area-label {
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.10em;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.55);
-  margin-bottom: 6px;
+  color: rgba(255, 255, 255, 0.50);
+  margin-bottom: 10px;
+}
+.studio-area-readout {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
 }
 .studio-area-value {
-  font-size: clamp(42px, 8vw, 58px);
-  font-weight: 900;
+  font-size: 34px;
+  font-weight: 800;
   line-height: 1;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
 }
 .studio-area-unit {
-  font-size: 14px;
-  font-weight: 700;
-  color: #9fd3ac;
-  margin-top: 4px;
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
 }
 
 .studio-trace-tools {
