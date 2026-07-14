@@ -262,7 +262,6 @@ function StudioFlowInner({
       {state.step === "address" && (
         <AddressStep
           heroImagePath={studio.heroImagePath}
-          incentiveLabel={studio.incentive.label}
           locationBias={studio.locationBias}
           onSelect={(address) => {
             dispatch({ type: "SELECT_ADDRESS", address });

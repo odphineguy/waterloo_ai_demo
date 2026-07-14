@@ -482,15 +482,12 @@
   max-width: 760px;
   text-align: center;
 }
-.studio-address-col .studio-incentive-pill {
-  margin-bottom: 20px;
-}
 .studio-address-col .studio-trust-line {
   justify-content: center;
 }
 
 .studio-address-h2 {
-  font-size: clamp(34px, 4.8vw, 58px);
+  font-size: clamp(40px, 5.8vw, 72px);
   line-height: 1.05;
   letter-spacing: -0.02em;
   color: #fff;
