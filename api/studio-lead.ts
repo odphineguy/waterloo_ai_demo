@@ -150,6 +150,7 @@ async function persistLead(lead: StudioLeadBody): Promise<{ ok: boolean; detail:
     package_id: lead.packageId ?? null,
     package_name: lead.packageName ?? null,
     selections: {
+      source: "design-studio",
       ...(lead.selections ?? {}),
       investmentLabel: lead.investmentLabel ?? null,
       renderImageCount: lead.renderImageCount ?? 0,
