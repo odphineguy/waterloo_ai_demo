@@ -264,49 +264,47 @@ function StudioFlowInner({
       </header>
 
       {state.step === "landing" && (
-        <div className="studio-screen">
-          <div className="studio-landing-hero">
-            <div className="studio-landing-copy">
-              <div className="studio-incentive-pill">
-                <span className="studio-incentive-star">✦</span>
-                {studio.incentive.label} off unlocked at the end
-              </div>
-              <h1 className="studio-landing-h1">
-                See your yard transformed{" "}
-                <span>— before we ever visit.</span>
-              </h1>
-              <p className="studio-landing-sub">
-                Trace your yard, pick your style, and get an instant AI preview
-                with a real budget range.
-              </p>
-              <button
-                type="button"
-                className="studio-cta"
-                onClick={() => dispatch({ type: "GO", step: "address" })}
-              >
-                Design My Yard →
-              </button>
-              <div className="studio-trust-line">
-                <span className="studio-check">✓</span> Free · about 2 minutes ·
-                no obligation
-              </div>
+        <div className="studio-screen studio-landing-screen">
+          {studio.heroImagePath && (
+            <img
+              className="studio-landing-bg"
+              src={studio.heroImagePath}
+              alt=""
+              aria-hidden="true"
+            />
+          )}
+          <div className="studio-landing-gradient" />
+          <div className="studio-landing-content">
+            <div className="studio-incentive-pill">
+              <span className="studio-incentive-star">✦</span>
+              {studio.incentive.label} off unlocked at the end
             </div>
-            {studio.heroImagePath && (
-              <div className="studio-hero-card-wrap">
-                <div className="studio-hero-card">
-                  <img src={studio.heroImagePath} alt="Turf transformation" />
-                  <span className="studio-hero-chip">AI Preview</span>
-                  <div className="studio-hero-caption">
-                    <div className="studio-hero-caption-title">
-                      Modern desert retreat
-                    </div>
-                    <div className="studio-hero-caption-sub">
-                      Rendered in seconds from a satellite trace
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
+            <h1 className="studio-landing-h1">
+              See your yard{" "}
+              <em className="studio-serif">transformed</em>
+              <span> — before we ever visit.</span>
+            </h1>
+            <p className="studio-landing-sub">
+              Trace your yard, pick your style, and get an instant AI preview
+              with a real budget range.
+            </p>
+            <button
+              type="button"
+              className="studio-cta"
+              onClick={() => dispatch({ type: "GO", step: "address" })}
+            >
+              Design My Yard →
+            </button>
+            <div className="studio-trust-line">
+              <span className="studio-check">✓</span> Free · about 2 minutes ·
+              no obligation
+            </div>
+            <div className="studio-feature-strip">
+              <span>Satellite Measure</span>
+              <span>AI Render</span>
+              <span>Real Budget</span>
+              <span>2 Minutes</span>
+            </div>
           </div>
           <div className="studio-landing-footer">
             <div className="studio-landing-footer-inner">

@@ -10,7 +10,7 @@ export const waterlooClient: ClientConfig = {
   website: "https://waterlooturf.com/",
   logoPath: "/images/logo.png",
   footerImagePath: "/images/footer-turf-premium.png",
-  phone: "(512) 607-9335",
+  phone: "(480) 847-1847",
   email: "info@waterlooturf.com",
   navLinks: ["About Us", "Services", "Gallery", "Blog", "Merch", "Own a Franchise"],
   quickLinks: [

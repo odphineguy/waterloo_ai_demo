@@ -46,6 +46,7 @@ export function Visualizer({
   const [showHandle, setShowHandle] = useState(true);
   const [tourActive, setTourActive] = useState(false);
   const [pairIndex, setPairIndex] = useState(0);
+  const [containerW, setContainerW] = useState<number | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
   const dragRef = useRef(false);
   const rafRef = useRef(0);
@@ -84,6 +85,23 @@ export function Visualizer({
   const activePair = pairs[Math.min(pairIndex, pairs.length - 1)];
   const hasCompare = !!(activePair.before && activePair.after);
   const hasRender = !!activePair.after;
+
+  // Track the compare container width so the "before" image can be given the
+  // same rendered width as the "after" image — eliminating the object-fit:cover
+  // differential cropping that causes static features to drift across the slider.
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver((entries) => {
+      const entry = entries[0];
+      if (entry) {
+        const w = entry.contentRect.width;
+        if (w > 0) setContainerW(Math.round(w));
+      }
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   useEffect(() => {
     const move = (event: PointerEvent) => {
@@ -186,23 +204,29 @@ export function Visualizer({
                 <video src={flyover.videoUri} controls autoPlay muted playsInline loop />
               ) : hasRender ? (
                 <>
+                  {/* After image: fills container naturally */}
                   <img src={activePair.after ?? undefined} alt="After" />
                   {hasCompare && (
-                    <img
-                      src={activePair.before ?? undefined}
-                      alt="Before"
-                      style={{
-                        clipPath: `inset(0 ${(100 - sliderPos).toFixed(2)}% 0 0)`,
-                      }}
-                    />
-                  )}
-                  {hasCompare && (
                     <>
+                      {/* Before image: wrapped in a div whose width = sliderPos% of the
+                          container. The img inside is sized to the container's full pixel
+                          width, so both images use an identical rendered size → identical
+                          object-fit:cover crop → static features align across the slider. */}
+                      <div
+                        className="studio-compare-before-wrap"
+                        style={{ width: `${sliderPos.toFixed(2)}%` }}
+                      >
+                        <img
+                          src={activePair.before ?? undefined}
+                          alt="Before"
+                          style={{ width: containerW ? `${containerW}px` : "100vw" }}
+                        />
+                      </div>
                       <div className="studio-compare-label studio-compare-label--before">
-                        BEFORE
+                        Before
                       </div>
                       <div className="studio-compare-label studio-compare-label--after">
-                        AFTER
+                        After
                       </div>
                     </>
                   )}
