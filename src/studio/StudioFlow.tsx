@@ -230,7 +230,7 @@ function StudioFlowInner({
 
   return (
     <div
-      className="studio-shell"
+      className={`studio-shell${state.step === "landing" ? " studio-shell--landing" : ""}`}
       style={
         {
           "--st-primary": client.colors.primary,
@@ -238,7 +238,6 @@ function StudioFlowInner({
           "--st-soft": client.colors.primarySoft,
           "--st-accent": client.colors.accent,
           "--st-accent-dark": client.colors.accentDark,
-          "--st-header-image": `url("${client.footerImagePath}")`,
         } as CSSProperties
       }
     >

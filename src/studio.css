@@ -127,12 +127,35 @@
    Header + step indicator
    -------------------------------------------------------------------------- */
 .studio-header {
-  background:
-    linear-gradient(rgba(8, 47, 29, 0.82), rgba(8, 47, 29, 0.90)),
-    var(--st-header-image, none) center / cover;
+  background: linear-gradient(180deg, #0e2a1b 0%, #0b2115 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
   position: relative;
   z-index: 2;
+}
+
+/* Landing: the header floats transparent over the hero so there is exactly
+   one image on screen — a scrim keeps the logo and phone pill readable. */
+.studio-shell--landing {
+  position: relative;
+}
+.studio-shell--landing .studio-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(9, 23, 16, 0.78) 0%,
+    rgba(9, 23, 16, 0.38) 62%,
+    rgba(9, 23, 16, 0) 100%
+  );
+  border-bottom: 0;
+  box-shadow: none;
+  z-index: 5;
+}
+.studio-shell--landing .studio-landing-screen {
+  min-height: 100dvh;
 }
 
 .studio-header-inner {
