@@ -10,6 +10,8 @@ type Suggestion = {
 };
 
 type AddressStepProps = {
+  /** Hero background from tenant config (studio.heroImagePath). */
+  heroImagePath?: string;
   /** Optional bias circle from tenant config (studio.locationBias). */
   locationBias?: { lat: number; lng: number; radiusMeters: number };
   onSelect: (address: StudioAddress) => void;
@@ -19,7 +21,12 @@ type AddressStepProps = {
 // Places Autocomplete (New) on a single input, biased to the US. On selection
 // we read geometry straight from the Places result (fetchFields location) —
 // the separate Geocoding API is NOT enabled on this key and must not be used.
-export function AddressStep({ locationBias, onSelect, onMapsFailed }: AddressStepProps) {
+export function AddressStep({
+  heroImagePath,
+  locationBias,
+  onSelect,
+  onMapsFailed,
+}: AddressStepProps) {
   const [query, setQuery] = useState("");
   const [focused, setFocused] = useState(false);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
@@ -141,12 +148,25 @@ export function AddressStep({ locationBias, onSelect, onMapsFailed }: AddressSte
 
   return (
     <div className="studio-screen studio-address-screen">
+      {heroImagePath && (
+        <img
+          className="studio-address-bg"
+          src={heroImagePath}
+          alt=""
+          aria-hidden="true"
+        />
+      )}
+      <div className="studio-address-gradient" />
       <div className="studio-address-col">
-        <h2 className="studio-h2">Where&rsquo;s your yard?</h2>
+        <h2 className="studio-h2 studio-address-h2">
+          Where&rsquo;s <em className="studio-serif">your yard</em>?
+        </h2>
         <p className="studio-h2-helper">
-          We&rsquo;ll pull up a satellite view of your property.
+          Enter your address and we&rsquo;ll pull up a satellite view of your
+          property — measured in about 60 seconds.
         </p>
-        <div className="studio-address-input-wrap">
+        <div className="studio-address-panel">
+          <div className="studio-address-input-wrap">
           <div style={{ position: "relative" }}>
             <span className="studio-address-glyph">◉</span>
             <input
@@ -197,10 +217,37 @@ export function AddressStep({ locationBias, onSelect, onMapsFailed }: AddressSte
               </button>
             </div>
           )}
-        </div>
-        <div className="studio-address-hint">
-          <span className="studio-hint-glyph">◉</span> Start typing and pick your
-          address from the list.
+          </div>
+          <div className="studio-address-features">
+            <div className="studio-af">
+              <div className="studio-af-label">Instant</div>
+              <div className="studio-af-title">Satellite area calc</div>
+              <div className="studio-af-sub">
+                60-second yard measurement from above
+              </div>
+            </div>
+            <div className="studio-af">
+              <div className="studio-af-label">Reality</div>
+              <div className="studio-af-title">Pro AI render</div>
+              <div className="studio-af-sub">
+                Your yard transformed — not a stock photo
+              </div>
+            </div>
+            <div className="studio-af">
+              <div className="studio-af-label">Custom</div>
+              <div className="studio-af-title">Design packages</div>
+              <div className="studio-af-sub">
+                Pick a package, see your design
+              </div>
+            </div>
+            <div className="studio-af">
+              <div className="studio-af-label">Real</div>
+              <div className="studio-af-title">Budget range</div>
+              <div className="studio-af-sub">
+                Honest numbers before we ever visit
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
