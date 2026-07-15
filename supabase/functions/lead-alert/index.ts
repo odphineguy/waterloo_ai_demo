@@ -137,10 +137,16 @@ function buildHtml(record: LeadRecord): string {
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
     <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%">
       <tr>
-        <td style="background:${BRAND.green};border-radius:16px 16px 0 0;padding:22px 28px">
-          <img src="${LOGO_URL}" alt="Waterloo Turf" width="64" height="55" style="display:block;width:64px;height:55px;margin-bottom:12px" />
-          <div style="font-size:20px;font-weight:800;color:#ffffff;line-height:1.2">New Design Studio Lead</div>
-          <div style="font-size:13px;color:${BRAND.gold};margin-top:4px;font-weight:600">A customer just finished the AI Design Studio</div>
+        <td style="background:${BRAND.green};border-radius:16px 16px 0 0;padding:20px 24px">
+          <table role="presentation" cellpadding="0" cellspacing="0"><tr>
+            <td style="vertical-align:middle;padding-right:18px">
+              <img src="${LOGO_URL}" alt="Waterloo Turf" width="96" height="83" style="display:block;width:96px;height:83px" />
+            </td>
+            <td style="vertical-align:middle">
+              <div style="font-size:21px;font-weight:800;color:#ffffff;line-height:1.2">New Design Studio Lead</div>
+              <div style="font-size:13px;color:${BRAND.gold};margin-top:5px;font-weight:600">A customer just finished the AI Design Studio</div>
+            </td>
+          </tr></table>
         </td>
       </tr>
       <tr>
