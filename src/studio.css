@@ -937,15 +937,16 @@
   line-height: 1.5;
 }
 
-/* Sqft counter — with glow */
+/* Sqft counter — glass card, the number is the hero */
 .studio-area-card {
-  background: var(--st-deep);
+  background: rgba(23, 46, 30, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 14px;
   padding: 18px 20px;
   color: #fff;
-  box-shadow:
-    0 10px 24px rgba(0, 0, 0, 0.28),
-    0 0 0 1px rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
 }
 .studio-area-label {
   font-size: 10.5px;
@@ -966,6 +967,21 @@
   line-height: 1;
   letter-spacing: -0.01em;
   font-variant-numeric: tabular-nums;
+  color: var(--st-bright);
+  animation: stNumPulse 2.6s ease-in-out infinite;
+}
+@keyframes stNumPulse {
+  0%, 100% {
+    text-shadow: 0 0 12px color-mix(in srgb, var(--st-bright) 30%, transparent);
+  }
+  50% {
+    text-shadow:
+      0 0 18px color-mix(in srgb, var(--st-bright) 55%, transparent),
+      0 0 34px color-mix(in srgb, var(--st-bright) 25%, transparent);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .studio-area-value { animation: none; }
 }
 .studio-area-unit {
   font-size: 15px;
@@ -998,11 +1014,11 @@
   line-height: 1.45;
 }
 
-/* Over the turf background every card reads as ONE solid dark-green tone
-   (--st-deep) so the palette stays cohesive — the only accent is the active
-   Trace/Deduct pill. Shared classes stay glassy on the other dark screens. */
+/* Over the turf background the control cards read as ONE solid dark-green
+   tone (--st-deep) so the palette stays cohesive — the accents are the active
+   Trace/Deduct pill and the glass sqft card. Shared classes stay glassy on
+   the other dark screens. */
 .studio-trace-panel .studio-seg,
-.studio-trace-panel .studio-area-card,
 .studio-trace-panel .studio-tool-btn,
 .studio-trace-panel .studio-big-cta:disabled,
 .studio-trace-panel .studio-amber-hint {
