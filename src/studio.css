@@ -1037,6 +1037,13 @@
 .studio-trace-panel .studio-tool-btn:hover {
   background: #1f4529;
 }
+/* Trace/Deduct split the rail width evenly — no dead space to the right. */
+.studio-trace-panel .studio-seg {
+  display: flex;
+}
+.studio-trace-panel .studio-seg-btn {
+  flex: 1;
+}
 .studio-trace-panel .studio-big-cta:disabled {
   color: rgba(255, 255, 255, 0.30);
 }
