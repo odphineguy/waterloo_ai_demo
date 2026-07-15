@@ -2,6 +2,39 @@
 
 Newest on top. Settled questions — don't relitigate without new information.
 
+## 2026-07-15 — Studio lead email alert (edge function + DB trigger)
+
+- **`supabase/functions/lead-alert`** (first edge function in the project): on every
+  `studio_leads` INSERT, a pg_net trigger POSTs the standard webhook payload to the
+  function, which emails a Waterloo-branded lead card to Abe via Resend REST (no SDK).
+  Fully downstream of the insert — pg_net queues the HTTP call after commit and the
+  trigger body is wrapped in an exception guard, so a broken alert can never block or
+  fail lead capture (spec's hard constraint). Covers BOTH lead sources (web studio +
+  ChatGPT MCP app) since it fires at the table, not the endpoint.
+- **Auth = shared secret, not JWT:** function deployed `--no-verify-jwt`; it rejects
+  any POST whose `x-lead-alert-secret` header doesn't match the `LEAD_ALERT_SECRET`
+  function secret (verified 401). The DB side reads the same secret from **Vault**
+  (`lead_alert_secret`) at trigger time, so no secret is committed in the migration
+  file. Rejected: `verify_jwt` + anon key in the trigger (anyone holding the public
+  anon key could spam alerts); service-role key in the trigger definition (broader
+  credential than the job needs).
+- **Hand-rolled pg_net trigger instead of a dashboard "Database Webhook":** identical
+  mechanism (the dashboard generates the same kind of trigger), but ours lives in a
+  repo migration (`20260715120000_lead_alert_webhook.sql`), reads the secret from
+  Vault, and survives as review-able history.
+- **CLI account mismatch (No Silent Substitutions stop):** the machine's Supabase CLI
+  was logged into a different account that couldn't see `sypqfpfkymproolyebon`; per
+  the spec's named-tool rule Abe was asked and chose to `supabase login` with the
+  right account, so deploy + `supabase secrets set` ran per spec (no MCP substitute).
+- **Non-INSERT / malformed payloads return 200** ("skipped") so webhook retries never
+  loop on garbage; Resend failure returns 502 purely for log visibility (pg_net does
+  not retry, and by then the insert is long committed).
+- **Verified:** 401 without secret; 200-skip on UPDATE + non-JSON; real send via curl
+  landed in odphineguy@gmail.com inbox with correct subject
+  (`🌱 New Studio Lead — {name}, {sqft} sqft, {package}`, null segments omitted) and
+  no "undefined" in the body. Trigger-path e2e = Abe's live studio test submission
+  (test rows are normal data per spec — not deleted).
+
 ## 2026-07-14 — Studio editor consolidation (dark header / glass sqft / merged step)
 
 - **One dark header across the whole studio flow** — deleted the white app-bar override
