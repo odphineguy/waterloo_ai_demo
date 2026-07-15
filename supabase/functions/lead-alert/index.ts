@@ -45,7 +45,12 @@ const BRAND = {
   bg: "#f6f8f3",
 };
 
-const LOGO_URL = "https://preview.abemedia.online/images/logo.png";
+// Logo with a white chip baked into the PNG: Gmail dark mode inverts CSS
+// colors but never image pixels, so this stays legible on the dark header
+// (light mode) AND the inverted mint header (mobile dark mode). Served from
+// Supabase Storage so email assets don't depend on a Vercel deploy.
+const LOGO_URL =
+  "https://sypqfpfkymproolyebon.supabase.co/storage/v1/object/public/email-assets/waterloo-logo-email.png";
 const DEFAULT_ALERT_EMAIL = "odphineguy@gmail.com";
 
 function escapeHtml(value: string): string {
@@ -133,7 +138,7 @@ function buildHtml(record: LeadRecord): string {
     <table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%">
       <tr>
         <td style="background:${BRAND.green};border-radius:16px 16px 0 0;padding:22px 28px">
-          <img src="${LOGO_URL}" alt="Waterloo Turf" height="34" style="display:block;height:34px;margin-bottom:12px" />
+          <img src="${LOGO_URL}" alt="Waterloo Turf" width="64" height="55" style="display:block;width:64px;height:55px;margin-bottom:12px" />
           <div style="font-size:20px;font-weight:800;color:#ffffff;line-height:1.2">New Design Studio Lead</div>
           <div style="font-size:13px;color:${BRAND.gold};margin-top:4px;font-weight:600">A customer just finished the AI Design Studio</div>
         </td>

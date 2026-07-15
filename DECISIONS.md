@@ -29,6 +29,13 @@ Newest on top. Settled questions — don't relitigate without new information.
 - **Non-INSERT / malformed payloads return 200** ("skipped") so webhook retries never
   loop on garbage; Resend failure returns 502 purely for log visibility (pg_net does
   not retry, and by then the insert is long committed).
+- **Header logo = white-chip PNG** (`public/images/logo-email.png`, also served from
+  Supabase Storage `email-assets/waterloo-logo-email.png` so email assets don't ride
+  the Vercel deploy): the green line-art logo vanished on the dark header in desktop
+  Gmail. Gmail dark mode inverts CSS colors but never image pixels, so baking the
+  white plate into the PNG is the only variant legible in BOTH light mode (dark
+  header) and mobile dark mode (header inverted to mint). Rejected: CSS white chip
+  around the img (inverts to dark on mobile → invisible again).
 - **Verified:** 401 without secret; 200-skip on UPDATE + non-JSON; real send via curl
   landed in odphineguy@gmail.com inbox with correct subject
   (`🌱 New Studio Lead — {name}, {sqft} sqft, {package}`, null segments omitted) and
