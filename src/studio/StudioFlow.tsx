@@ -291,11 +291,13 @@ function StudioFlowInner({
                 packageId={state.packageId}
                 designStyle={state.designStyle}
                 paverStyle={state.paverStyle}
+                photos={state.photos}
                 onSelectPackage={(packageId) =>
                   dispatch({ type: "SELECT_PACKAGE", packageId })
                 }
                 onDesignStyle={(id) => dispatch({ type: "SET_DESIGN_STYLE", id })}
                 onPaverStyle={(id) => dispatch({ type: "SET_PAVER_STYLE", id })}
+                onPhotos={(photos) => dispatch({ type: "SET_PHOTOS", photos })}
                 onContinue={() => dispatch({ type: "GO", step: "gate" })}
               />
             ) : undefined

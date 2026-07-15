@@ -21,10 +21,11 @@ Newest on top. Settled questions — don't relitigate without new information.
   showed only its top slice (looked like a remounted/panned map). Viewport-bounding the
   shell makes rails scroll internally. Latent on the old trace step too.
 - **Retired with the merge (per the spec's exact rail contents):** the putting-green
-  size picker (prompt now always uses the config default size for putting packages) and
-  the yard-photo upload on the style step (`state.photos` stays `[]`; studio renders use
-  the traced snapshot as "before"). State fields remain so downstream code is untouched;
-  easy to re-add to EditorRail if wanted.
+  size picker (prompt now always uses the config default size for putting packages).
+  The yard-photo upload was retired too, but Abe flagged the aerial-before vs
+  ground-level-after mismatch same night — restored as a compact drop row at the bottom
+  of EditorRail (same MAX_PHOTOS=4 / SET_PHOTOS behavior as the old StyleStep, placed
+  before the Details gate so photos exist when the render starts on gate mount).
 - **Rejected:** using the html2canvas snapshot as a static editor background (spec
   explicitly required the same live map instance); remount-per-step (loses map state);
   per-card "Requires on-site measure" labels when sqft is unknown (noise — the sqft

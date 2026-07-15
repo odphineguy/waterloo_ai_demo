@@ -1,5 +1,11 @@
-import { useRef, useState, type CSSProperties, type PointerEvent } from "react";
-import type { StudioConfig } from "../types";
+import {
+  useRef,
+  useState,
+  type ChangeEvent,
+  type CSSProperties,
+  type PointerEvent,
+} from "react";
+import type { StudioConfig, UploadedImage } from "../types";
 import { calculateStudioInvestment } from "../utils/studioEstimate";
 
 // Inline SVG icon paths per design style (from the design handoff's cfg).
@@ -16,6 +22,7 @@ const STYLE_META: Record<string, { name: string; desc: string; icon: string }> =
 const SHEET_MIN_PCT = 30;
 const SHEET_MAX_PCT = 88;
 const SHEET_PEEK_PCT = 45;
+const MAX_PHOTOS = 4;
 
 type EditorRailProps = {
   studio: StudioConfig;
@@ -25,9 +32,11 @@ type EditorRailProps = {
   packageId: string | null;
   designStyle: string;
   paverStyle: string;
+  photos: UploadedImage[];
   onSelectPackage: (packageId: string) => void;
   onDesignStyle: (id: string) => void;
   onPaverStyle: (id: string) => void;
+  onPhotos: (photos: UploadedImage[]) => void;
   onContinue: () => void;
 };
 
@@ -41,9 +50,11 @@ export function EditorRail({
   packageId,
   designStyle,
   paverStyle,
+  photos,
   onSelectPackage,
   onDesignStyle,
   onPaverStyle,
+  onPhotos,
   onContinue,
 }: EditorRailProps) {
   // Mobile bottom sheet height (% of the canvas), dragged via the grip. The
@@ -65,6 +76,24 @@ export function EditorRail({
   }
   function onGripUp() {
     dragRef.current = null;
+  }
+
+  // Same behavior as the retired StyleStep: photos feed the render as edit
+  // inputs, so each upload becomes a true before/after pair on the reveal.
+  function handleFiles(event: ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(event.target.files ?? []);
+    if (files.length === 0) return;
+    const next = [...photos];
+    for (const file of files) {
+      if (next.length >= MAX_PHOTOS) break;
+      next.push({
+        id: crypto.randomUUID(),
+        file,
+        previewUrl: URL.createObjectURL(file),
+      });
+    }
+    onPhotos(next);
+    event.target.value = "";
   }
 
   const hasSqft = netSqft != null && netSqft > 0;
@@ -187,6 +216,25 @@ export function EditorRail({
               );
             })}
           </div>
+        </div>
+        <div>
+          <div className="studio-section-label">
+            Yard photo{" "}
+            <span className="studio-section-label-note">
+              — optional, improves the render
+            </span>
+          </div>
+          <label className="studio-ed-photo">
+            <span className="studio-ed-photo-plus">+</span>
+            <span className="studio-ed-photo-label">
+              {photos.length === 0
+                ? "Add a photo of your yard"
+                : photos.length === 1
+                  ? `✓ ${photos[0].file.name}`
+                  : `✓ ${photos.length} photos added`}
+            </span>
+            <input type="file" accept="image/*" multiple onChange={handleFiles} />
+          </label>
         </div>
       </div>
 
