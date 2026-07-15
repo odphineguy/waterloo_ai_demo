@@ -102,9 +102,18 @@
 @keyframes stSpin {
   to { transform: rotate(360deg); }
 }
+/* Cinematic tour choreography (modeled on the competitor's virtual tour):
+   wide establishing shot → push in with the camera drifting RIGHT over the
+   first ~4s (image moves left) → slow sway back left → settle in closer.
+   Multi-waypoint so there is always perceptible motion; alternate reverses
+   the path naturally on each cycle. Translate happens before scale, and max
+   effective shift (~2.9%) stays inside the scale overflow (7%+), so edges
+   never show. */
 @keyframes stKen {
-  0% { transform: scale(1.02) translate(0, 0); }
-  100% { transform: scale(1.2) translate(-3%, -2%); }
+  0%   { transform: scale(1.02) translate(0, 0); }
+  30%  { transform: scale(1.14) translate(-2.5%, -1%); }
+  65%  { transform: scale(1.09) translate(2%, -0.5%); }
+  100% { transform: scale(1.16) translate(-1.5%, 0.5%); }
 }
 @keyframes stFade {
   from { opacity: 0; transform: translateY(10px); }
@@ -1996,7 +2005,13 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  animation: stKen 14s ease-in-out infinite alternate;
+  animation: stKen 12s ease-in-out infinite alternate;
+}
+@media (prefers-reduced-motion: reduce) {
+  .studio-tour-takeover img {
+    animation: none;
+    transform: scale(1.08);
+  }
 }
 .studio-tour-caption {
   position: absolute;
