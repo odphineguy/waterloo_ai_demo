@@ -1331,6 +1331,36 @@
   display: none;
 }
 
+/* No photo yet → breathing glow (same treatment as the landing address input)
+   so the row catches the eye; adding a photo calms it to a steady green. */
+.studio-ed-photo--empty {
+  border-color: color-mix(in srgb, var(--st-bright) 45%, transparent);
+  animation: stPhotoPulse 2.6s ease-in-out infinite;
+}
+@keyframes stPhotoPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--st-bright) 25%, transparent);
+    border-color: color-mix(in srgb, var(--st-bright) 40%, transparent);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px color-mix(in srgb, var(--st-bright) 35%, transparent),
+      0 0 18px 3px color-mix(in srgb, var(--st-bright) 22%, transparent);
+    border-color: color-mix(in srgb, var(--st-bright) 70%, transparent);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .studio-ed-photo--empty {
+    animation: none;
+    box-shadow: 0 0 14px color-mix(in srgb, var(--st-bright) 22%, transparent);
+  }
+}
+.studio-ed-photo--filled {
+  border-style: solid;
+  border-color: var(--st-bright);
+  background: rgba(60, 200, 112, 0.08);
+}
+
 /* Sticky rail footer — running estimate + Continue */
 .studio-editor-foot {
   flex: 0 0 auto;

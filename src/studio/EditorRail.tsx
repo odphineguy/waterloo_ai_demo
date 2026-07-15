@@ -224,7 +224,9 @@ export function EditorRail({
               — optional, improves the render
             </span>
           </div>
-          <label className="studio-ed-photo">
+          <label
+            className={`studio-ed-photo${photos.length === 0 ? " studio-ed-photo--empty" : " studio-ed-photo--filled"}`}
+          >
             <span className="studio-ed-photo-plus">+</span>
             <span className="studio-ed-photo-label">
               {photos.length === 0
