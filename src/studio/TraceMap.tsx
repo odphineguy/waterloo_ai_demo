@@ -51,9 +51,10 @@ export function TraceMap({
   const mapsLibRef = useRef<google.maps.MapsLibrary | null>(null);
 
   const traceRef = useRef<google.maps.LatLng[]>([]);
+  const closedTracesRef = useRef<google.maps.LatLng[][]>([]);
   const activeDeductRef = useRef<google.maps.LatLng[]>([]);
   const closedDeductsRef = useRef<google.maps.LatLng[][]>([]);
-  const tracePolyRef = useRef<google.maps.Polygon | null>(null);
+  const tracePolysRef = useRef<google.maps.Polygon[]>([]);
   const deductPolysRef = useRef<google.maps.Polygon[]>([]);
   const markersRef = useRef<google.maps.Marker[]>([]);
 
@@ -70,6 +71,7 @@ export function TraceMap({
   const [displaySqft, setDisplaySqft] = useState(0);
   const [measuredSqft, setMeasuredSqft] = useState(0);
   const [tracePointCount, setTracePointCount] = useState(0);
+  const [traceRegionCount, setTraceRegionCount] = useState(0);
   const [scaleLabel, setScaleLabel] = useState("20 ft");
   const [applying, setApplying] = useState(false);
 
@@ -80,10 +82,13 @@ export function TraceMap({
     if (!geometry) return 0;
     const area = (path: google.maps.LatLng[]) =>
       path.length >= 3 ? geometry.spherical.computeArea(path) : 0;
+    const traced =
+      closedTracesRef.current.reduce((sum, path) => sum + area(path), 0) +
+      area(traceRef.current);
     const deductions =
       closedDeductsRef.current.reduce((sum, path) => sum + area(path), 0) +
       area(activeDeductRef.current);
-    const net = (area(traceRef.current) - deductions) * SQFT_PER_SQ_METER;
+    const net = (traced - deductions) * SQFT_PER_SQ_METER;
     return Math.max(0, Math.round(net));
   }
 
@@ -108,10 +113,12 @@ export function TraceMap({
     const mapsLib = mapsLibRef.current;
     if (!map || !mapsLib) return;
 
-    if (!tracePolyRef.current) {
-      tracePolyRef.current = new mapsLib.Polygon({ ...TRACE_STYLE, map });
-    }
-    tracePolyRef.current.setPath(traceRef.current);
+    const tracePaths = [...closedTracesRef.current];
+    if (traceRef.current.length > 0) tracePaths.push(traceRef.current);
+    tracePolysRef.current.forEach((poly) => poly.setMap(null));
+    tracePolysRef.current = tracePaths.map(
+      (path) => new mapsLib.Polygon({ ...TRACE_STYLE, map, paths: path }),
+    );
 
     const deductPaths = [...closedDeductsRef.current];
     if (activeDeductRef.current.length > 0) deductPaths.push(activeDeductRef.current);
@@ -130,7 +137,7 @@ export function TraceMap({
       strokeColor: "#ffffff",
       strokeWeight: 2,
     });
-    traceRef.current.forEach((position) => {
+    [...closedTracesRef.current, traceRef.current].flat().forEach((position) => {
       markersRef.current.push(
         new google.maps.Marker({ map, position, icon: dot("#3CC870"), clickable: false }),
       );
@@ -161,6 +168,7 @@ export function TraceMap({
     });
 
     setTracePointCount(traceRef.current.length);
+    setTraceRegionCount(closedTracesRef.current.length);
     const sqft = netSqft();
     setMeasuredSqft(sqft);
     tweenSqft(sqft);
@@ -192,6 +200,16 @@ export function TraceMap({
           draggableCursor: "crosshair",
         });
         mapRef.current = map;
+
+        // Drop a locating pin on the geocoded house so the customer instantly
+        // sees which property we found (matches the competitor's marker).
+        new google.maps.Marker({
+          map,
+          position: view.center,
+          clickable: false,
+          zIndex: 1,
+          title: address.formatted,
+        });
 
         map.addListener("click", (event: google.maps.MapMouseEvent) => {
           if (!event.latLng) return;
@@ -238,9 +256,24 @@ export function TraceMap({
     setMode(next);
   }
 
+  // Finalize the current traced area so a second one (e.g. back yard) can be
+  // started. Only meaningful with a closed shape (≥3 points).
+  function applyRegion() {
+    if (traceRef.current.length < 3) return;
+    closedTracesRef.current = [...closedTracesRef.current, traceRef.current];
+    traceRef.current = [];
+    switchMode("trace");
+    syncOverlays();
+  }
+
   function undo() {
     if (modeRef.current === "trace") {
-      traceRef.current = traceRef.current.slice(0, -1);
+      if (traceRef.current.length > 0) {
+        traceRef.current = traceRef.current.slice(0, -1);
+      } else if (closedTracesRef.current.length > 0) {
+        // Reopen the most recently applied area so undo keeps walking back.
+        traceRef.current = (closedTracesRef.current.pop() ?? []).slice(0, -1);
+      }
     } else if (activeDeductRef.current.length > 0) {
       activeDeductRef.current = activeDeductRef.current.slice(0, -1);
     } else if (closedDeductsRef.current.length > 0) {
@@ -253,6 +286,7 @@ export function TraceMap({
 
   function clearAll() {
     traceRef.current = [];
+    closedTracesRef.current = [];
     activeDeductRef.current = [];
     closedDeductsRef.current = [];
     syncOverlays();
@@ -297,11 +331,13 @@ export function TraceMap({
       }
       const map = mapRef.current;
       const center = map?.getCenter();
+      const traces = [...closedTracesRef.current];
+      if (traceRef.current.length >= 3) traces.push(traceRef.current);
       const deducts = [...closedDeductsRef.current];
       if (activeDeductRef.current.length >= 3) deducts.push(activeDeductRef.current);
       const snapshot = await captureSnapshot();
       onApply({
-        trace: toPoints(traceRef.current),
+        trace: traces.map(toPoints),
         deducts: deducts.map(toPoints),
         netSqft: netSqft(),
         mapCenter: center ? { lat: center.lat(), lng: center.lng() } : null,
@@ -313,7 +349,12 @@ export function TraceMap({
     }
   }
 
-  const needMorePoints = tracePointCount < 3;
+  // A yard is measurable once at least one area is complete — either an
+  // applied region or the active shape reaching 3 points.
+  const hasCompletedArea = traceRegionCount > 0 || tracePointCount >= 3;
+  const needMorePoints = !hasCompletedArea;
+  const canApplyRegion = mode === "trace" && tracePointCount >= 3;
+  const areaCount = traceRegionCount + (tracePointCount >= 3 ? 1 : 0);
   const sizeWarning =
     !needMorePoints && measuredSqft > 0 && measuredSqft < MIN_WARN_SQFT
       ? "That looks small — you can adjust your outline or continue."
@@ -413,7 +454,12 @@ export function TraceMap({
           </div>
 
           <div className="studio-area-card">
-            <div className="studio-area-label">Area measured</div>
+            <div className="studio-area-label">
+              Area measured
+              {areaCount > 1 && (
+                <span className="studio-area-count"> · {areaCount} areas</span>
+              )}
+            </div>
             <div className="studio-area-readout">
               <span className="studio-area-value">
                 {mapDown ? "—" : displaySqft.toLocaleString("en-US")}
@@ -421,6 +467,16 @@ export function TraceMap({
               <span className="studio-area-unit">sq ft</span>
             </div>
           </div>
+
+          {canApplyRegion && !mapDown && (
+            <button
+              type="button"
+              className="studio-apply-area"
+              onClick={applyRegion}
+            >
+              ✓ Apply area — trace another
+            </button>
+          )}
 
           <div className="studio-trace-tools">
             <button type="button" className="studio-tool-btn" onClick={undo}>
@@ -434,6 +490,11 @@ export function TraceMap({
           {needMorePoints && !mapDown && (
             <div className="studio-amber-hint">
               Add at least 3 points to close your yard outline.
+            </div>
+          )}
+          {!needMorePoints && !canApplyRegion && !mapDown && traceRegionCount > 0 && (
+            <div className="studio-amber-hint">
+              Tap corners to add another area (e.g. back yard), or continue.
             </div>
           )}
           {sizeWarning && <div className="studio-amber-hint">{sizeWarning}</div>}

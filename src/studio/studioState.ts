@@ -32,7 +32,8 @@ export type StudioAddress = {
 
 /** Summary the trace step hands back when the user continues to packages. */
 export type TraceResult = {
-  trace: LatLngPoint[];
+  /** One or more traced areas (e.g. front + back yard). */
+  trace: LatLngPoint[][];
   deducts: LatLngPoint[][];
   netSqft: number | null;
   mapCenter: LatLngPoint | null;
@@ -47,7 +48,7 @@ export type StudioState = {
   address: StudioAddress | null;
   /** Maps key missing or loader failed — trace degrades, sqft stays unknown. */
   mapsFailed: boolean;
-  trace: LatLngPoint[];
+  trace: LatLngPoint[][];
   deducts: LatLngPoint[][];
   netSqft: number | null;
   mapCenter: LatLngPoint | null;
@@ -154,7 +155,7 @@ export type StudioLeadPacket = {
     puttingSize: string | null;
     paverStyle: string | null;
     photoCount: number;
-    tracePath: LatLngPoint[];
+    tracePath: LatLngPoint[][];
     deductPaths: LatLngPoint[][];
     mapCenter: LatLngPoint | null;
     mapZoom: number | null;
