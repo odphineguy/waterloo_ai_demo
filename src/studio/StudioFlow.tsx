@@ -21,8 +21,7 @@ import {
 import { StepIndicator } from "./StepIndicator";
 import { AddressStep } from "./AddressStep";
 import { TraceMap } from "./TraceMap";
-import { PackageStep } from "./PackageStep";
-import { StyleStep } from "./StyleStep";
+import { EditorRail } from "./EditorRail";
 import { LeadGate } from "./LeadGate";
 import { Visualizer } from "./Visualizer";
 import "../studio.css";
@@ -226,10 +225,13 @@ function StudioFlowInner({
 
   const stepNumber = STUDIO_STEP_NUMBER[state.step];
   const phoneDigits = client.phone.replace(/\D/g, "");
+  // Map-canvas steps pin the shell to the viewport so tall rail content
+  // scrolls internally instead of stretching the map below the fold.
+  const isCanvasStep = state.step === "trace" || state.step === "package";
 
   return (
     <div
-      className={`studio-shell${state.step === "address" ? " studio-shell--hero" : ""}`}
+      className={`studio-shell${state.step === "address" ? " studio-shell--hero" : ""}${isCanvasStep ? " studio-shell--canvas" : ""}`}
       style={
         {
           "--st-primary": client.colors.primary,
@@ -271,42 +273,38 @@ function StudioFlowInner({
         />
       )}
 
-      {state.step === "trace" && (
+      {/* TraceMap stays mounted through the merged editor step so the SAME
+          live map instance (polygons and all) sits behind the editor rail —
+          just dimmed and read-only. */}
+      {(state.step === "trace" || state.step === "package") && (
         <TraceMap
           studio={studio}
           address={state.address}
           mapsFailed={state.mapsFailed}
+          readOnly={state.step === "package"}
+          railContent={
+            state.step === "package" ? (
+              <EditorRail
+                studio={studio}
+                netSqft={state.netSqft}
+                areaCount={state.trace.length}
+                packageId={state.packageId}
+                designStyle={state.designStyle}
+                paverStyle={state.paverStyle}
+                onSelectPackage={(packageId) =>
+                  dispatch({ type: "SELECT_PACKAGE", packageId })
+                }
+                onDesignStyle={(id) => dispatch({ type: "SET_DESIGN_STYLE", id })}
+                onPaverStyle={(id) => dispatch({ type: "SET_PAVER_STYLE", id })}
+                onContinue={() => dispatch({ type: "GO", step: "gate" })}
+              />
+            ) : undefined
+          }
           onMapsFailed={() => dispatch({ type: "MAPS_FAILED" })}
           onApply={(result) => {
             dispatch({ type: "APPLY_TRACE", result });
             dispatch({ type: "GO", step: "package" });
           }}
-        />
-      )}
-
-      {state.step === "package" && (
-        <PackageStep
-          studio={studio}
-          netSqft={state.netSqft}
-          selectedId={state.packageId}
-          onSelect={(packageId) => dispatch({ type: "SELECT_PACKAGE", packageId })}
-          onContinue={() => dispatch({ type: "GO", step: "style" })}
-        />
-      )}
-
-      {state.step === "style" && (
-        <StyleStep
-          studio={studio}
-          packageId={state.packageId}
-          designStyle={state.designStyle}
-          puttingSize={state.puttingSize}
-          paverStyle={state.paverStyle}
-          photos={state.photos}
-          onDesignStyle={(id) => dispatch({ type: "SET_DESIGN_STYLE", id })}
-          onPuttingSize={(id) => dispatch({ type: "SET_PUTTING_SIZE", id })}
-          onPaverStyle={(id) => dispatch({ type: "SET_PAVER_STYLE", id })}
-          onPhotos={(photos) => dispatch({ type: "SET_PHOTOS", photos })}
-          onGenerate={() => dispatch({ type: "GO", step: "gate" })}
         />
       )}
 

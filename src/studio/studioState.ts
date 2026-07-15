@@ -9,17 +9,17 @@ export type StudioStepId =
   | "address"
   | "trace"
   | "package"
-  | "style"
   | "gate"
   | "reveal";
 
+// "package" is the merged editor step (packages + styles over the live traced
+// map). Selections still write the same state fields the two old pages wrote.
 export const STUDIO_STEP_NUMBER: Record<StudioStepId, number> = {
   address: 1,
   trace: 2,
   package: 3,
-  style: 4,
-  gate: 5,
-  reveal: 6,
+  gate: 4,
+  reveal: 5,
 };
 
 export type LatLngPoint = { lat: number; lng: number };

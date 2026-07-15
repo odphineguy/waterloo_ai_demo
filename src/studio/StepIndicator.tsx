@@ -1,13 +1,13 @@
-// Slim 01–06 step indicator (recreated from StepIndicator.dc.html).
-// Past steps = filled green with ✓; current = gold with ring; future = muted.
+// Slim 01–05 step indicator (recreated from StepIndicator.dc.html).
+// Past steps = filled green with ✓; current = bright green glow; future = muted.
+// Package + Style merged into one editor step, so the flow is 5 steps.
 
 const STEPS: [string, string][] = [
   ["01", "Address"],
   ["02", "Measure"],
   ["03", "Package"],
-  ["04", "Style"],
-  ["05", "Details"],
-  ["06", "Design"],
+  ["04", "Details"],
+  ["05", "Design"],
 ];
 
 export function StepIndicator({ current }: { current: number }) {

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { getMapsApiKey, loadMapsLibraries } from "../services/googleMaps";
 import { getAerialView } from "../services/imagerySource";
 import type { StudioConfig } from "../types";
@@ -29,6 +29,10 @@ type TraceMapProps = {
   studio: StudioConfig;
   address: StudioAddress | null;
   mapsFailed: boolean;
+  /** Merged editor step: same live map instance, dimmed and read-only. */
+  readOnly?: boolean;
+  /** Replaces the trace controls rail (the editor rail on the merged step). */
+  railContent?: ReactNode;
   onMapsFailed: () => void;
   onApply: (result: TraceResult) => void;
 };
@@ -41,6 +45,8 @@ export function TraceMap({
   studio,
   address,
   mapsFailed,
+  readOnly = false,
+  railContent,
   onMapsFailed,
   onApply,
 }: TraceMapProps) {
@@ -59,6 +65,7 @@ export function TraceMap({
   const markersRef = useRef<google.maps.Marker[]>([]);
 
   const modeRef = useRef<Mode>("trace");
+  const readOnlyRef = useRef(readOnly);
   const tutorialRef = useRef(true);
   const rafRef = useRef(0);
 
@@ -76,6 +83,12 @@ export function TraceMap({
   const [applying, setApplying] = useState(false);
 
   const displayRef = useRef(0);
+
+  // The map click listener is registered once; it reads readOnly via ref so
+  // the editor step (same live map instance) can't add or move points.
+  useEffect(() => {
+    readOnlyRef.current = readOnly;
+  }, [readOnly]);
 
   function netSqft() {
     const geometry = geometryRef.current;
@@ -212,7 +225,7 @@ export function TraceMap({
         });
 
         map.addListener("click", (event: google.maps.MapMouseEvent) => {
-          if (!event.latLng) return;
+          if (!event.latLng || readOnlyRef.current) return;
           if (tutorialRef.current) {
             tutorialRef.current = false;
             setShowTutorial(false);
@@ -364,7 +377,9 @@ export function TraceMap({
 
   return (
     <div className="studio-screen studio-trace-screen">
-      <div className="studio-trace-layout">
+      <div
+        className={`studio-trace-layout${railContent ? " studio-trace-layout--editor" : ""}`}
+      >
         <div className="studio-trace-map-col">
           <div className="studio-trace-surface" ref={surfaceRef}>
             <div className="studio-trace-map" ref={mapElRef} />
@@ -387,7 +402,7 @@ export function TraceMap({
               <span className="studio-map-scale-label">{scaleLabel}</span>
             </div>
             <div className="studio-map-caption">Satellite imagery</div>
-            {showTutorial && !mapDown && (
+            {showTutorial && !mapDown && !readOnly && (
               <div className="studio-tutorial-overlay">
                 <div className="studio-tutorial-card">
                   <svg viewBox="0 0 120 90">
@@ -433,8 +448,10 @@ export function TraceMap({
               </div>
             )}
           </div>
+          {readOnly && <div className="studio-map-dim" />}
         </div>
 
+        {railContent ?? (
         <div className="studio-trace-panel">
           <div className="studio-seg">
             <button
@@ -511,6 +528,7 @@ export function TraceMap({
             Deduct mode removes pools, patios &amp; structures from your total.
           </div>
         </div>
+        )}
       </div>
     </div>
   );

@@ -59,7 +59,7 @@ export type StudioPackage = {
   items: string[];
   /** Appended to the render prompt — must mention only this tenant's products. */
   promptDirectives: string;
-  /** Gates the putting-green size picker on the style step. */
+  /** Putting-green packages fold the default green size into the render prompt. */
   hasPuttingGreen: boolean;
 };
 

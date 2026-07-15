@@ -181,6 +181,14 @@
    door — one header across the whole flow, no white-to-dark snap. The deep
    green base blends the logo and dark phone pill from the base rules above. */
 
+/* Map-canvas steps (Measure + merged editor): the shell is viewport-bound so
+   the rail scrolls internally — otherwise tall rail content stretches the
+   flex layout and the live map grows below the fold. */
+.studio-shell--canvas {
+  height: 100dvh;
+  overflow: hidden;
+}
+
 .studio-header-inner {
   max-width: 1120px;
   margin: 0 auto;
@@ -1082,309 +1090,284 @@
 }
 
 /* --------------------------------------------------------------------------
-   04 Package
+   04 Merged editor step ("Design your package") — the live traced map stays
+   full-bleed beside the rail (TraceMap kept mounted, dimmed + read-only);
+   packages + style pickers live in one dark scrollable rail.
    -------------------------------------------------------------------------- */
-.studio-package-screen {
-  padding: clamp(24px, 4vw, 48px) 18px;
-}
-.studio-package-inner {
-  max-width: 1120px;
-  margin: 0 auto;
-}
-.studio-package-header {
-  text-align: center;
-  margin-bottom: 30px;
-}
-.studio-sqft-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(255,255,255,0.09);
-  color: var(--st-chip-ink);
-  border-radius: 999px;
-  padding: 7px 16px;
-  font-size: 14px;
-  font-weight: 800;
-  margin-bottom: 14px;
-}
-.studio-sqft-badge b {
-  font-size: 16px;
-}
-.studio-package-h2 {
-  font-size: clamp(26px, 3.6vw, 36px);
-  letter-spacing: -0.01em;
-  margin: 0;
-  font-weight: 900;
-  color: var(--st-ink);
+
+/* Read-only veil over the live map — dims it and swallows all interaction. */
+.studio-map-dim {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  background: rgba(9, 23, 16, 0.35);
+  cursor: default;
 }
 
-.studio-package-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+.studio-editor-rail {
+  order: -1;
+  flex: 0 0 320px;
+  width: 320px;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(9, 23, 16, 0.90) 0%,
+      rgba(9, 23, 16, 0.94) 100%
+    ),
+    url("/images/turf-background.webp") center / cover no-repeat fixed;
+  border-right: 1px solid var(--st-line);
+}
+
+/* Bottom-sheet drag grip — mobile only */
+.studio-editor-grip {
+  display: none;
+}
+
+.studio-editor-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
   gap: 16px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.12) transparent;
 }
 
-.studio-package-card {
-  position: relative;
+.studio-editor-nosqft {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--st-chip-ink);
+  line-height: 1.35;
+}
+
+/* Compact package cards */
+.studio-editor-packages {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.studio-ed-pkg {
   text-align: left;
   cursor: pointer;
   background: var(--st-surface);
-  border-radius: 16px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
   border: 2px solid var(--st-line);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.20);
+  border-radius: 13px;
+  padding: 12px 14px;
+  transition: background 0.14s, border-color 0.14s, box-shadow 0.14s;
 }
-.studio-package-card:hover {
-  transform: translateY(-1px);
+.studio-ed-pkg:hover {
   background: var(--st-surface-2);
 }
-.studio-package-card--selected {
+.studio-ed-pkg--selected {
   border-color: var(--st-bright);
   background: rgba(60,200,112,0.08);
-  box-shadow: 0 16px 34px rgba(0,0,0,0.25), 0 0 0 1px color-mix(in srgb, var(--st-bright) 40%, transparent);
+  box-shadow:
+    0 10px 22px rgba(0,0,0,0.25),
+    0 0 14px color-mix(in srgb, var(--st-bright) 25%, transparent);
 }
-
-.studio-package-card-head {
+.studio-ed-pkg-head {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  width: 100%;
+  gap: 8px;
 }
-.studio-package-name {
-  font-size: 19px;
+.studio-ed-pkg-name {
+  font-size: 14.5px;
   font-weight: 900;
   color: var(--st-ink);
-  text-align: left;
 }
-.studio-package-count {
+.studio-ed-pkg-count {
   flex: 0 0 auto;
   background: var(--st-chip-bg);
   color: var(--st-chip-ink);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
-  padding: 5px 11px;
+  padding: 3px 9px;
   border-radius: 999px;
   white-space: nowrap;
 }
-.studio-package-card--selected .studio-package-count {
+.studio-ed-pkg--selected .studio-ed-pkg-count {
   background: var(--st-bright);
   color: #0A1C11;
 }
-.studio-package-desc {
-  margin: 8px 0 0;
+.studio-ed-pkg-desc {
+  margin: 5px 0 0;
   color: var(--st-sub-2);
-  font-size: 14px;
-  line-height: 1.45;
-  text-align: left;
+  font-size: 12.5px;
+  line-height: 1.4;
 }
-.studio-package-chips {
-  margin-top: 14px;
-  padding-top: 14px;
-  border-top: 1px dashed var(--st-line-2);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  animation: stFade 0.25s ease both;
-}
-.studio-package-selected-line {
-  margin-top: 12px;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  color: var(--st-bright);
-  font-weight: 800;
+.studio-ed-pkg-range {
+  margin-top: 7px;
   font-size: 13px;
-}
-
-.studio-package-cta-row {
-  display: flex;
-  justify-content: center;
-  margin-top: 32px;
-}
-.studio-package-cta-row .studio-big-cta {
-  min-width: 240px;
-}
-
-/* --------------------------------------------------------------------------
-   05 Style
-   -------------------------------------------------------------------------- */
-.studio-style-screen {
-  padding: clamp(24px, 4vw, 48px) 18px;
-}
-.studio-style-inner {
-  max-width: 860px;
-  margin: 0 auto;
-}
-.studio-style-h2 {
-  font-size: clamp(26px, 3.6vw, 36px);
-  letter-spacing: -0.01em;
-  margin: 0 0 6px;
-  font-weight: 900;
-  color: var(--st-ink);
-  text-align: center;
-}
-.studio-style-helper {
-  color: var(--st-sub-2);
-  font-size: 16px;
-  margin: 0 0 32px;
-  text-align: center;
-}
-
-.studio-style-section {
-  margin-bottom: 30px;
-}
-.studio-style-section--reveal {
-  animation: stFade 0.3s ease both;
-}
-
-.studio-tile-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
-  gap: 12px;
-}
-
-.studio-style-tile {
-  position: relative;
-  cursor: pointer;
-  background: var(--st-surface);
-  border-radius: 14px;
-  padding: 18px 14px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  text-align: center;
-  transition: transform 0.14s ease, background 0.14s;
-  border: 2px solid var(--st-line);
-}
-.studio-style-tile:hover { background: var(--st-surface-2); }
-.studio-style-tile--selected {
-  border-color: var(--st-bright);
-  box-shadow: 0 10px 22px rgba(0,0,0,0.25), 0 0 0 1px color-mix(in srgb, var(--st-bright) 35%, transparent);
-  background: rgba(60,200,112,0.07);
-}
-.studio-style-tile svg {
-  width: 30px;
-  height: 30px;
-}
-.studio-style-tile-name {
   font-weight: 800;
-  font-size: 15px;
-  color: var(--st-ink);
+  color: var(--st-chip-ink);
+  font-variant-numeric: tabular-nums;
 }
-.studio-style-tile-desc {
-  font-size: 12px;
-  color: var(--st-muted);
+.studio-ed-pkg--selected .studio-ed-pkg-range {
+  color: var(--st-bright);
 }
 
-.studio-putting-tile {
+/* Turf design style — compact segmented cards */
+.studio-editor-styles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.studio-ed-style {
   cursor: pointer;
   background: var(--st-surface);
-  border-radius: 14px;
-  padding: 16px 14px;
+  border: 2px solid var(--st-line);
+  border-radius: 12px;
+  padding: 11px 6px 9px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 5px;
-  text-align: center;
-  border: 2px solid var(--st-line);
-  transition: background 0.14s;
+  transition: background 0.14s, border-color 0.14s;
 }
-.studio-putting-tile:hover { background: var(--st-surface-2); }
-.studio-putting-tile--selected {
+.studio-ed-style:hover { background: var(--st-surface-2); }
+.studio-ed-style--selected {
   border-color: var(--st-bright);
-  box-shadow: 0 10px 22px rgba(0,0,0,0.25), 0 0 0 1px color-mix(in srgb, var(--st-bright) 35%, transparent);
+  background: rgba(60,200,112,0.07);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--st-bright) 20%, transparent);
+}
+.studio-ed-style svg {
+  width: 22px;
+  height: 22px;
+}
+.studio-ed-style span {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--st-ink);
+  white-space: nowrap;
 }
 
-.studio-paver-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 130px), 1fr));
-  gap: 12px;
+/* Paver swatches — horizontal row */
+.studio-editor-pavers {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.12) transparent;
 }
-
-.studio-paver-tile {
-  position: relative;
+.studio-ed-paver {
+  flex: 0 0 auto;
   cursor: pointer;
   background: var(--st-surface);
-  border-radius: 14px;
-  padding: 8px 8px 4px;
+  border: 2px solid var(--st-line);
+  border-radius: 11px;
+  padding: 5px 5px 3px;
+  width: 82px;
   display: flex;
   flex-direction: column;
-  transition: transform 0.14s ease;
-  border: 2px solid var(--st-line);
+  transition: border-color 0.14s;
 }
-.studio-paver-tile--selected {
+.studio-ed-paver--selected {
   border-color: var(--st-bright);
-  box-shadow: 0 10px 22px rgba(0,0,0,0.25), 0 0 0 1px color-mix(in srgb, var(--st-bright) 35%, transparent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--st-bright) 22%, transparent);
 }
-.studio-paver-swatch {
-  height: 64px;
-  border-radius: 9px;
+.studio-ed-paver-swatch {
+  height: 44px;
+  border-radius: 7px;
   background-size: cover;
   background-position: center;
 }
-.studio-paver-name {
-  font-size: 13px;
+.studio-ed-paver-name {
+  font-size: 10.5px;
   font-weight: 700;
   color: var(--st-ink);
-  padding: 9px 4px 0;
+  padding: 5px 2px 2px;
   text-align: center;
-}
-.studio-paver-check {
-  position: absolute;
-  right: 8px;
-  top: 8px;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: var(--st-bright);
-  color: #0A1C11;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 900;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.studio-photo-drop {
+/* Sticky rail footer — running estimate + Continue */
+.studio-editor-foot {
+  flex: 0 0 auto;
+  padding: 12px 16px calc(14px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--st-line-2);
+  background: rgba(9, 23, 16, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: 130px;
-  border: 1.5px dashed rgba(255,255,255,0.18);
-  border-radius: 14px;
-  background: rgba(255,255,255,0.04);
-  cursor: pointer;
-  text-align: center;
-  padding: 20px;
-  transition: background 0.14s;
+  gap: 10px;
 }
-.studio-photo-drop:hover {
-  background: rgba(255,255,255,0.07);
+.studio-editor-estimate {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
 }
-.studio-photo-drop-label {
+.studio-editor-estimate-label {
+  font-size: 10.5px;
   font-weight: 800;
-  color: var(--st-chip-ink);
-  font-size: 15px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.50);
 }
-.studio-photo-drop-note {
-  color: var(--st-muted-2);
+.studio-editor-estimate-value {
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--st-bright);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.studio-editor-estimate-value--measure {
   font-size: 13px;
-}
-.studio-photo-drop input {
-  display: none;
+  color: var(--st-chip-ink);
+  white-space: normal;
+  text-align: right;
 }
 
-.studio-style-cta-row {
-  display: flex;
-  justify-content: center;
+/* Mobile: canvas full-screen, rail becomes a draggable bottom sheet */
+@media (max-width: 768px) {
+  .studio-trace-layout--editor {
+    position: relative;
+  }
+  .studio-trace-layout--editor .studio-trace-map-col {
+    flex: 1;
+    min-height: 0;
+  }
+  .studio-editor-rail {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 6;
+    order: 0;
+    width: 100%;
+    height: var(--sheet-h, 45%);
+    border-right: 0;
+    border-top: 1px solid var(--st-line-2);
+    border-radius: 18px 18px 0 0;
+    overflow: hidden;
+    box-shadow: 0 -18px 40px rgba(0, 0, 0, 0.45);
+  }
+  .studio-editor-grip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    padding: 10px 0 6px;
+    cursor: grab;
+    touch-action: none;
+  }
+  .studio-editor-grip span {
+    width: 44px;
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.28);
+  }
 }
 
 /* --------------------------------------------------------------------------

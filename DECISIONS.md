@@ -2,6 +2,37 @@
 
 Newest on top. Settled questions — don't relitigate without new information.
 
+## 2026-07-14 — Studio editor consolidation (dark header / glass sqft / merged step)
+
+- **One dark header across the whole studio flow** — deleted the white app-bar override
+  for working steps; stepper restyled for dark (active = bright green glow, upcoming =
+  muted gray-green). No white-to-dark snap anywhere.
+- **Package + Style merged into one editor step** over the LIVE traced map: TraceMap now
+  stays mounted through the merged step with `readOnly` + `railContent` props; the map
+  keeps its instance/polygons and is dimmed by a click-swallowing `.studio-map-dim` veil.
+  `EditorRail.tsx` holds the packages/style/paver pickers + sticky estimate footer and
+  dispatches the SAME reducer actions the two deleted pages (PackageStep, StyleStep)
+  dispatched — `StudioState` shape and the lead packet are unchanged (verified: live
+  e2e produced a correct `studio_leads` row with 2 trace areas; test row deleted after).
+  `StudioStepId` dropped `"style"`; indicator is now 5 steps.
+- **`.studio-shell--canvas` (height: 100dvh, overflow hidden) on trace + package steps.**
+  Root-cause fix found during browser verification: rail content taller than the viewport
+  stretched the flex layout, growing the live map to ~1200px so the visible viewport
+  showed only its top slice (looked like a remounted/panned map). Viewport-bounding the
+  shell makes rails scroll internally. Latent on the old trace step too.
+- **Retired with the merge (per the spec's exact rail contents):** the putting-green
+  size picker (prompt now always uses the config default size for putting packages) and
+  the yard-photo upload on the style step (`state.photos` stays `[]`; studio renders use
+  the traced snapshot as "before"). State fields remain so downstream code is untouched;
+  easy to re-add to EditorRail if wanted.
+- **Rejected:** using the html2canvas snapshot as a static editor background (spec
+  explicitly required the same live map instance); remount-per-step (loses map state);
+  per-card "Requires on-site measure" labels when sqft is unknown (noise — the sqft
+  chip and footer already say it once).
+- **Mobile merged step** = full-screen dimmed canvas + draggable bottom sheet
+  (peek 45%, drag range 30–88%, pointer-capture on the grip), Continue pinned in the
+  sheet's sticky footer. Verified at 390×844.
+
 ## 2026-07-13 — Studio fix round 1 (alignment, location bias, Cal link)
 
 - **Before/after alignment:** `.studio-compare` is now a fixed 3:2 container and both
