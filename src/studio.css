@@ -177,34 +177,9 @@
   min-height: 100dvh;
 }
 
-/* Working steps (Measure → Design): solid white app bar with dark-readable
-   stepper. Scoped to non-hero so the front-door hero header stays transparent. */
-.studio-shell:not(.studio-shell--hero) .studio-header {
-  background: #fff;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.10);
-}
-.studio-shell:not(.studio-shell--hero) .studio-header-phone {
-  background: var(--st-deep);
-  border-color: rgba(0, 0, 0, 0.14);
-}
-.studio-shell:not(.studio-shell--hero) .studio-stepper-strip {
-  border-top: 0;
-}
-.studio-shell:not(.studio-shell--hero) .studio-step--future .studio-step-dot {
-  background: rgba(24, 56, 32, 0.06);
-  color: rgba(24, 56, 32, 0.42);
-  border-color: rgba(24, 56, 32, 0.14);
-}
-.studio-shell:not(.studio-shell--hero) .studio-step--future .studio-step-label {
-  color: rgba(24, 56, 32, 0.42);
-}
-.studio-shell:not(.studio-shell--hero) .studio-step--current .studio-step-label {
-  color: var(--st-deep);
-}
-.studio-shell:not(.studio-shell--hero) .studio-step--done .studio-step-label {
-  color: var(--st-primary);
-}
+/* Working steps (Measure → Design) share the same dark treatment as the front
+   door — one header across the whole flow, no white-to-dark snap. The deep
+   green base blends the logo and dark phone pill from the base rules above. */
 
 .studio-header-inner {
   max-width: 1120px;
@@ -304,15 +279,17 @@
   border: 1px solid var(--st-primary);
 }
 .studio-step--current .studio-step-dot {
-  background: var(--st-accent);
+  background: var(--st-bright);
   color: var(--st-deep);
   border: 1px solid var(--st-accent-dark);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--st-accent) 22%, transparent);
+  box-shadow:
+    0 0 0 4px color-mix(in srgb, var(--st-bright) 20%, transparent),
+    0 0 14px color-mix(in srgb, var(--st-bright) 45%, transparent);
 }
 .studio-step--future .studio-step-dot {
-  background: rgba(255,255,255,0.09);
-  color: rgba(255,255,255,0.28);
-  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(163, 186, 168, 0.10);
+  color: rgba(163, 186, 168, 0.55);
+  border: 1px solid rgba(163, 186, 168, 0.20);
 }
 
 .studio-step-label {
@@ -322,7 +299,7 @@
 }
 .studio-step--done .studio-step-label    { color: var(--st-accent); font-weight: 700; }
 .studio-step--current .studio-step-label { color: #fff; font-weight: 800; }
-.studio-step--future .studio-step-label  { color: rgba(255,255,255,0.28); font-weight: 600; }
+.studio-step--future .studio-step-label  { color: rgba(163, 186, 168, 0.55); font-weight: 600; }
 
 /* --------------------------------------------------------------------------
    Shared: screens, CTAs, segmented controls, amber hints
