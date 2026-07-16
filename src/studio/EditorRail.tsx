@@ -6,6 +6,7 @@ import {
   type PointerEvent,
 } from "react";
 import type { StudioConfig, UploadedImage } from "../types";
+import { fileToCroppedDataUrl } from "../services/imageGeneration";
 import { calculateStudioInvestment } from "../utils/studioEstimate";
 
 // Inline SVG icon paths per design style (from the design handoff's cfg).
@@ -80,20 +81,30 @@ export function EditorRail({
 
   // Same behavior as the retired StyleStep: photos feed the render as edit
   // inputs, so each upload becomes a true before/after pair on the reveal.
-  function handleFiles(event: ChangeEvent<HTMLInputElement>) {
+  // croppedPreviewUrl is the same center-cropped image the edits API receives,
+  // so the reveal's "before" side matches the render framing exactly.
+  async function handleFiles(event: ChangeEvent<HTMLInputElement>) {
     const files = Array.from(event.target.files ?? []);
+    event.target.value = "";
     if (files.length === 0) return;
     const next = [...photos];
     for (const file of files) {
       if (next.length >= MAX_PHOTOS) break;
+      let croppedPreviewUrl: string | undefined;
+      try {
+        croppedPreviewUrl = (await fileToCroppedDataUrl(file)).dataUrl;
+      } catch {
+        // Unreadable as an image here — fall back to the original preview;
+        // the render request will surface any real failure.
+      }
       next.push({
         id: crypto.randomUUID(),
         file,
         previewUrl: URL.createObjectURL(file),
+        croppedPreviewUrl,
       });
     }
     onPhotos(next);
-    event.target.value = "";
   }
 
   const hasSqft = netSqft != null && netSqft > 0;

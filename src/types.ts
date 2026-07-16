@@ -146,6 +146,10 @@ export type UploadedImage = {
   id: string;
   file: File;
   previewUrl: string;
+  // Data URL of the photo center-cropped to the AI render's output aspect
+  // ratio — the exact image sent to the edits API. Comparison views use it as
+  // the "before" so both sides share identical framing.
+  croppedPreviewUrl?: string;
 };
 
 export type PreviewStatus = "idle" | "generating" | "ready";

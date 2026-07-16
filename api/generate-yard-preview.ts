@@ -130,7 +130,7 @@ async function callOpenAiImageApi(body: PreviewRequestBody) {
     images.map(async (image, index) => {
       const response = await createEditedImage(
         apiKey,
-        `${prompt}\n\nRender this submitted yard photo as preview ${index + 1} of ${images.length}. Use only this photo's camera angle and fixed property details as the visual reference.`,
+        `${prompt}\n\nRender this submitted yard photo as preview ${index + 1} of ${images.length}. Use only this photo's camera angle and fixed property details as the visual reference. Keep the exact framing, zoom level, and field of view of the source photo. Do not zoom in, crop, or reframe. Every fixed element visible in the source must remain visible in the same position.`,
         [image],
       );
       return readImageResponse(response);

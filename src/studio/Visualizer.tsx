@@ -71,7 +71,9 @@ export function Visualizer({
   const pairs =
     state.photos.length > 0
       ? state.photos.map((photo, index) => ({
-          before: photo.previewUrl as string | null,
+          // The cropped data URL is the exact image the edits API rendered
+          // from, so before/after framing matches by construction.
+          before: (photo.croppedPreviewUrl ?? photo.previewUrl) as string | null,
           after: afterImages[index] ?? afterImages[0] ?? null,
           label: `Photo ${index + 1}`,
         }))

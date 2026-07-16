@@ -30,23 +30,68 @@ function loadImage(file: File) {
   });
 }
 
-async function fileToCompressedDataUrl(file: File) {
+// Aspect ratios of the OpenAI output sizes the server can request. Must stay
+// identical to pickOutputSize() in api/generate-yard-preview.ts (1536x1024 /
+// 1024x1024 / 1024x1536, closest by log-ratio) so client crop and server size
+// selection always agree.
+const OUTPUT_RATIOS = [1536 / 1024, 1, 1024 / 1536];
+
+function pickTargetRatio(width: number, height: number) {
+  const sourceRatio = width / height;
+  let best = OUTPUT_RATIOS[0];
+  for (const ratio of OUTPUT_RATIOS) {
+    if (
+      Math.abs(Math.log(sourceRatio / ratio)) <
+      Math.abs(Math.log(sourceRatio / best))
+    ) {
+      best = ratio;
+    }
+  }
+  return best;
+}
+
+// Center-crop the photo to the exact aspect ratio the API will render at,
+// then downscale. The model edit can't reframe what it never received extra
+// of, and the same cropped image doubles as the "before" side of comparisons,
+// so both sides share identical framing by construction. When the source
+// already matches the target ratio the crop is a no-op.
+export async function fileToCroppedDataUrl(file: File) {
   const image = await loadImage(file);
+  const targetRatio = pickTargetRatio(image.naturalWidth, image.naturalHeight);
+  const sourceRatio = image.naturalWidth / image.naturalHeight;
+
+  let cropWidth = image.naturalWidth;
+  let cropHeight = image.naturalHeight;
+  if (sourceRatio > targetRatio) {
+    cropWidth = image.naturalHeight * targetRatio;
+  } else if (sourceRatio < targetRatio) {
+    cropHeight = image.naturalWidth / targetRatio;
+  }
+  const cropX = (image.naturalWidth - cropWidth) / 2;
+  const cropY = (image.naturalHeight - cropHeight) / 2;
+
   const maxDimension = 1024;
-  const scale = Math.min(
-    1,
-    maxDimension / Math.max(image.naturalWidth, image.naturalHeight),
-  );
+  const scale = Math.min(1, maxDimension / Math.max(cropWidth, cropHeight));
   const canvas = document.createElement("canvas");
-  canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
-  canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+  canvas.width = Math.max(1, Math.round(cropWidth * scale));
+  canvas.height = Math.max(1, Math.round(cropHeight * scale));
 
   const context = canvas.getContext("2d");
   if (!context) {
     throw new Error("Unable to prepare image for upload.");
   }
 
-  context.drawImage(image, 0, 0, canvas.width, canvas.height);
+  context.drawImage(
+    image,
+    cropX,
+    cropY,
+    cropWidth,
+    cropHeight,
+    0,
+    0,
+    canvas.width,
+    canvas.height,
+  );
 
   return {
     dataUrl: canvas.toDataURL("image/jpeg", 0.82),
@@ -58,14 +103,14 @@ async function fileToCompressedDataUrl(file: File) {
 async function buildApiImages(uploadedImages: YardPreviewRequest["uploadedImages"]) {
   return Promise.all(
     uploadedImages.slice(0, 4).map(async (image, index) => {
-      const compressed = await fileToCompressedDataUrl(image.file);
+      const cropped = await fileToCroppedDataUrl(image.file);
       return {
-        dataUrl: compressed.dataUrl,
+        dataUrl: cropped.dataUrl,
         filename: image.file.name || `yard-photo-${index + 1}.jpg`,
-        // Source dimensions let the API pick the OpenAI output size closest to
-        // this photo's aspect ratio, so before/after pairs align under cover.
-        width: compressed.width,
-        height: compressed.height,
+        // Dimensions already match one of the API output ratios exactly, so
+        // the server's pickOutputSize lands on the same size the crop targeted.
+        width: cropped.width,
+        height: cropped.height,
       };
     }),
   );
