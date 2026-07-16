@@ -66,7 +66,7 @@ function getEnvValue(name: string, fallback: string) {
   return value && value !== "undefined" ? value : fallback;
 }
 
-const OPENAI_IMAGE_MODEL = getEnvValue("OPENAI_IMAGE_MODEL", "gpt-image-1.5");
+const OPENAI_IMAGE_MODEL = getEnvValue("OPENAI_IMAGE_MODEL", "gpt-image-2");
 const supportsInputFidelity = OPENAI_IMAGE_MODEL !== "gpt-image-2";
 
 function parseJsonBody(req: VercelRequest): Promise<PreviewRequestBody> {
@@ -178,27 +178,44 @@ async function createGeneratedImage(apiKey: string, prompt: string) {
   });
 }
 
+// Convert a base64 data URL into a Blob for multipart upload.
+function dataUrlToBlob(dataUrl: string): Blob {
+  const [meta, base64] = dataUrl.split(",");
+  const mime = /data:(.*?);base64/.exec(meta)?.[1] ?? "image/jpeg";
+  return new Blob([Buffer.from(base64, "base64")], { type: mime });
+}
+
 async function createEditedImage(
   apiKey: string,
   prompt: string,
   images: RequestImage[],
 ) {
-  const requestBody = {
-    model: OPENAI_IMAGE_MODEL,
-    prompt,
-    images: images.map((image) => ({ image_url: image.dataUrl })),
-    size: pickOutputSize(images[0]),
-    quality: "low",
-    ...(supportsInputFidelity ? { input_fidelity: "high" } : {}),
-  };
+  // OpenAI's /v1/images/edits requires multipart form data with `image[]`
+  // file fields. The previous JSON `images: [{image_url}]` payload never
+  // delivered the photo, so the model generated from the prompt alone —
+  // producing a different house instead of editing the customer's photo.
+  const form = new FormData();
+  form.append("model", OPENAI_IMAGE_MODEL);
+  form.append("prompt", prompt);
+  form.append("size", pickOutputSize(images[0]));
+  // Medium quality: high input fidelity degrades noticeably at "low".
+  form.append("quality", "medium");
+  if (supportsInputFidelity) {
+    form.append("input_fidelity", "high");
+  }
+  images.forEach((image, index) => {
+    form.append(
+      "image[]",
+      dataUrlToBlob(image.dataUrl),
+      image.filename || `yard-photo-${index + 1}.jpg`,
+    );
+  });
 
+  // No Content-Type header — fetch sets the multipart boundary itself.
   return fetch("https://api.openai.com/v1/images/edits", {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(requestBody),
+    headers: { Authorization: `Bearer ${apiKey}` },
+    body: form,
   });
 }
 
