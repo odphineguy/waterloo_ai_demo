@@ -89,8 +89,6 @@ export type StudioConfig = {
   bookingUrl?: string;
   /** Aerial imagery provider seam (EagleView is a Phase 2 stub). */
   imagerySource?: "google" | "eagleview";
-  /** Google Aerial View property flyover tab (default true). */
-  flyoverEnabled?: boolean;
 };
 
 export type TourCrmStage = "New" | "Contacted" | "Quoted" | "Won";

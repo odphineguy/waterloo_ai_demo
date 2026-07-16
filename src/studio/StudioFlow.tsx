@@ -10,8 +10,6 @@ import type { ClientConfig, StudioConfig, YardPreviewResult } from "../types";
 import { buildStudioPrompt } from "../utils/promptBuilder";
 import { calculateStudioInvestment } from "../utils/studioEstimate";
 import { generateStudioRender } from "../services/imageGeneration";
-import { getMapsApiKey } from "../services/googleMaps";
-import { startFlyoverLookup, type FlyoverVideo } from "../services/aerialFlyover";
 import {
   createInitialStudioState,
   studioReducer,
@@ -61,7 +59,6 @@ function StudioFlowInner({
   const [state, dispatch] = useReducer(studioReducer, initialState);
   const [render, setRender] = useState<YardPreviewResult | null>(null);
   const [finishing, setFinishing] = useState(false);
-  const [flyover, setFlyover] = useState<FlyoverVideo | null>(null);
   const [toast, setToast] = useState("");
   const renderPromiseRef = useRef<Promise<YardPreviewResult> | null>(null);
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -74,15 +71,6 @@ function StudioFlowInner({
   useEffect(() => {
     window.scrollTo({ top: 0 });
   }, [state.step]);
-
-  // Property Flyover: kick off the Aerial View lookup as soon as the address
-  // is confirmed. Config flag off or no key → zero Aerial View API calls.
-  const addressFormatted = state.address?.formatted ?? null;
-  useEffect(() => {
-    const key = getMapsApiKey();
-    if (studio.flyoverEnabled === false || !key || !addressFormatted) return;
-    return startFlyoverLookup(addressFormatted, key, setFlyover);
-  }, [addressFormatted, studio.flyoverEnabled]);
 
   // Start the render the moment the lead gate mounts, so the reveal feels
   // instant when the visitor submits their contact info.
@@ -218,7 +206,6 @@ function StudioFlowInner({
     state.photos.forEach((photo) => URL.revokeObjectURL(photo.previewUrl));
     renderPromiseRef.current = null;
     setRender(null);
-    setFlyover(null);
     setFinishing(false);
     dispatch({ type: "RESTART", initial: initialState });
   }
@@ -327,7 +314,6 @@ function StudioFlowInner({
           studio={studio}
           state={state}
           render={render}
-          flyover={flyover}
           investment={investment}
           onEmail={handleEmail}
           onRestart={handleRestart}

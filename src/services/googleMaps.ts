@@ -4,8 +4,8 @@
 // degrades gracefully: address entry falls back to free-typing and the trace
 // step is skipped with sqft unknown ("Requires on-site measure").
 //
-// Enabled on the key: Maps JavaScript API, Places API (New), Places API,
-// Aerial View API. Geocoding / Static Maps / Distance Matrix are NOT enabled —
+// Enabled on the key: Maps JavaScript API, Places API (New), Places API.
+// Geocoding / Static Maps / Distance Matrix are NOT enabled —
 // use Places result geometry and the html2canvas snapshot instead.
 
 import { importLibrary, setOptions } from "@googlemaps/js-api-loader";

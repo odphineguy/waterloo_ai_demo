@@ -3,7 +3,6 @@ import { getCalApi } from "@calcom/embed-react";
 import type { ClientConfig, StudioConfig, YardPreviewResult } from "../types";
 import type { StudioInvestment } from "../utils/studioEstimate";
 import type { StudioState } from "./studioState";
-import type { FlyoverVideo } from "../services/aerialFlyover";
 import { CinematicTour } from "./CinematicTour";
 
 const CAL_NAMESPACE = "studio";
@@ -18,14 +17,13 @@ function getCalLink(bookingUrl: string): string | null {
   }
 }
 
-type ViewMode = "slider" | "curtain" | "flyover";
+type ViewMode = "slider" | "curtain";
 
 type VisualizerProps = {
   client: ClientConfig;
   studio: StudioConfig;
   state: StudioState;
   render: YardPreviewResult | null;
-  flyover: FlyoverVideo | null;
   investment: StudioInvestment;
   onEmail: () => void;
   onRestart: () => void;
@@ -36,7 +34,6 @@ export function Visualizer({
   studio,
   state,
   render,
-  flyover,
   investment,
   onEmail,
   onRestart,
@@ -202,9 +199,7 @@ export function Visualizer({
               className={`studio-compare${viewMode === "slider" && hasCompare ? "" : " studio-compare--static"}`}
               onPointerDown={pointerDown}
             >
-              {viewMode === "flyover" && flyover ? (
-                <video src={flyover.videoUri} controls autoPlay muted playsInline loop />
-              ) : hasRender ? (
+              {hasRender ? (
                 <>
                   {/* After image: fills container naturally */}
                   <img src={activePair.after ?? undefined} alt="After" />
@@ -283,15 +278,6 @@ export function Visualizer({
                   onClick={() => setTourActive(true)}
                 >
                   Cinematic tour
-                </button>
-              )}
-              {flyover && (
-                <button
-                  type="button"
-                  className={`studio-seg-btn${viewMode === "flyover" ? " studio-seg-btn--on" : ""}`}
-                  onClick={() => setViewMode("flyover")}
-                >
-                  Property Flyover
                 </button>
               )}
             </div>

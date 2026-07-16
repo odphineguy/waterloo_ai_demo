@@ -1,8 +1,6 @@
 // Fullscreen "Cinematic tour" takeover — a Ken Burns pan/zoom over the after
 // image (stKen, 12s multi-waypoint: push in + camera-right, then sway; see
 // the keyframes in studio.css for the choreography rationale).
-// This IS the "Tour" experience; the Property Flyover (Aerial View API) is a
-// separate, feature-flagged view mode.
 
 type CinematicTourProps = {
   afterImage: string;

@@ -161,7 +161,6 @@ export const waterlooClient: ClientConfig = {
     // once the tenant's real Cal.com link is added here.
     locationBias: { lat: 33.4484, lng: -112.074, radiusMeters: 50_000 }, // Phoenix metro
     imagerySource: "google",
-    flyoverEnabled: true,
   },
   copy: {
     pageTitle: "Fill Out The Form Below To Schedule Your Free Onsite Estimate",
